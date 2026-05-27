@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#06384f" />
+  <title>Saint Vincent Trip 2026 Hub</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="hero" id="top">
+    <nav class="topbar" aria-label="Primary">
+      <a class="brand" href="#top" aria-label="Saint Vincent Trip 2026 home">
+        <span class="brand-mark">⛵</span>
+        <span><strong>Saint Vincent Trip 2026</strong><small>Inconceivable • June 4–15</small></span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="navLinks">Menu</button>
+      <div class="nav-links" id="navLinks">
+        <a href="#today">Today</a>
+        <a href="#route">Route</a>
+        <a href="#captain">Captain Update</a>
+        <a href="#checklists">Checklists</a>
+        <a href="#emergency">Emergency</a>
+      </div>
+    </nav>
+
+    <section class="hero-inner">
+      <p class="eyebrow">Crew command center</p>
+      <h1>Saint Vincent &amp; The Grenadines Trip Hub</h1>
+      <p class="hero-copy">A mobile-friendly dashboard for the crew of <strong>Inconceivable</strong>: today’s plan, route notes, checklists, meal planning, ports of call, captain broadcasts, weather resources, and trip files.</p>
+      <div class="hero-actions">
+        <a class="button primary" href="#today">Open Today’s Dashboard</a>
+        <a class="button secondary" href="#captain">Make Noon Update</a>
+      </div>
+    </section>
+  </header>
+
+  <main>
+    <section class="dashboard-grid quick-cards" aria-label="Quick access cards">
+      <a class="quick-card" href="#official"><span>📋</span><strong>Official Float Plan</strong><small>Clean version for Barefoot</small></a>
+      <a class="quick-card" href="#enhanced"><span>🌴</span><strong>Enhanced Crew Plan</strong><small>Dinners activities fun details</small></a>
+      <a class="quick-card" href="#route"><span>🧭</span><strong>Route &amp; Navigation</strong><small>Legs anchorages waypoints</small></a>
+      <a class="quick-card" href="#meals"><span>🍍</span><strong>Meals &amp; Grocery</strong><small>Provisioning wish lists</small></a>
+      <a class="quick-card" href="#ports"><span>🏝️</span><strong>Ports of Call</strong><small>Local notes and activities</small></a>
+      <a class="quick-card" href="#media"><span>🎙️</span><strong>Music &amp; Announcements</strong><small>Playlists and AI voice</small></a>
+    </section>
+
+    <section class="panel today-panel" id="today">
+      <div class="section-heading">
+        <p class="eyebrow">Daily dashboard</p>
+        <h2>Today aboard <em>Inconceivable</em></h2>
+        <p>This is the page everyone should check from phone or iPad each morning and at noon.</p>
+      </div>
+
+      <div class="today-layout">
+        <form class="today-form" id="todayForm">
+          <label>Date <input name="date" type="text" placeholder="June 8 2026" /></label>
+          <label>Current location <input name="location" type="text" placeholder="Tobago Cays mooring field" /></label>
+          <label>Today’s route <input name="route" type="text" placeholder="Mayreau → Tobago Cays" /></label>
+          <label>Tonight’s anchorage <input name="tonight" type="text" placeholder="Tobago Cays" /></label>
+          <label>Tomorrow’s planned port <input name="tomorrow" type="text" placeholder="Union Island or Canouan" /></label>
+          <label>Weather summary <input name="weather" type="text" placeholder="Easterly breeze 14–18 kt scattered clouds" /></label>
+          <label>Wind / sea state <input name="wind" type="text" placeholder="E 15 kt gusts 20 light chop outside reef" /></label>
+          <label>Dinner plan <input name="dinner" type="text" placeholder="Chicken tacos rice fruit rum punch" /></label>
+          <label>Activity plan <textarea name="activities" rows="3" placeholder="Snorkel turtle area dinghy ride sunset photos"></textarea></label>
+          <label>Safety note <textarea name="safety" rows="3" placeholder="Hydrate reef early no solo swimming watch dinghy painter"></textarea></label>
+          <label>Funny crew note <textarea name="fun" rows="2" placeholder="Grayson officially appointed Minister of Fishing"></textarea></label>
+          <div class="form-actions">
+            <button class="button primary" type="submit">Save Today</button>
+            <button class="button secondary" type="button" id="resetToday">Clear</button>
+          </div>
+        </form>
+
+        <aside class="status-card" aria-live="polite">
+          <h3>Current trip status</h3>
+          <dl id="statusSummary">
+            <div><dt>Location</dt><dd>Not set yet</dd></div>
+            <div><dt>Tonight</dt><dd>Not set yet</dd></div>
+            <div><dt>Tomorrow</dt><dd>Not set yet</dd></div>
+            <div><dt>Weather</dt><dd>Not set yet</dd></div>
+            <div><dt>Dinner</dt><dd>Not set yet</dd></div>
+          </dl>
+          <div class="weather-box">
+            <h4>Weather quick links</h4>
+            <a href="https://www.windy.com/?13.156,-61.228,9" target="_blank" rel="noreferrer">Windy SVG area</a>
+            <a href="https://www.wunderground.com/weather/vc/kingstown" target="_blank" rel="noreferrer">Kingstown weather</a>
+            <a href="https://www.passageweather.com/" target="_blank" rel="noreferrer">PassageWeather</a>
+            <a href="https://www.windfinder.com/" target="_blank" rel="noreferrer">Windfinder</a>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="panel" id="captain">
+      <div class="section-heading">
+        <p class="eyebrow">Noon broadcast</p>
+        <h2>Carnival-style Captain’s Update</h2>
+        <p>Generate a script for the entertainment laptop or AI voice service. Style target: English with Italian-accent cruise director energy. Useful first funny second.</p>
+      </div>
+      <div class="broadcast-layout">
+        <div class="broadcast-card">
+          <h3>Script builder</h3>
+          <p>Uses the Today fields above. Save Today first then generate the broadcast.</p>
+          <button class="button primary" id="generateBroadcast" type="button">Generate Captain’s Noon Update</button>
+          <button class="button secondary" id="copyBroadcast" type="button">Copy Script</button>
+          <p class="tiny">Paste the script into your preferred AI voice generator and play the MP3 over the boat audio/intercom.</p>
+        </div>
+        <article class="script-output" id="broadcastOutput">
+          <h3>Captain’s Noon Update</h3>
+          <p class="muted">Your generated script will appear here.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel two-column" id="official">
+      <div>
+        <p class="eyebrow">Serious document</p>
+        <h2>Official Barefoot Float Plan</h2>
+        <p>This is the clean version for the charter company. Keep it simple: vessel info crew list emergency contact planned route overnight stops and return date. No jokes dinner menus or extra vacation details.</p>
+        <ul class="check-list">
+          <li>Vessel: Inconceivable 50’ Leopard sailing catamaran</li>
+          <li>Base: Blue Lagoon St. Vincent</li>
+          <li>Dates: June 4–15 2026</li>
+          <li>Cruising area: St. Vincent &amp; The Grenadines</li>
+          <li>Plan: remain within SVG waters unless formally changed</li>
+        </ul>
+      </div>
+      <div class="link-card">
+        <h3>Linked documents</h3>
+        <p>Add the Google Doc link here after the final Barefoot version is ready.</p>
+        <a class="button secondary" href="https://docs.google.com/document/d/1U7uFfIAwEP8gvI1fS9NVlWsUPhJc2xnuEoc9IkSddBg/edit" target="_blank" rel="noreferrer">Open current float plan draft</a>
+      </div>
+    </section>
+
+    <section class="panel" id="enhanced">
+      <div class="section-heading">
+        <p class="eyebrow">Crew version</p>
+        <h2>Enhanced Crew Trip Plan</h2>
+        <p>This is the living vacation plan with meals activities ports captain notes backup plans and crew duties.</p>
+      </div>
+      <div class="cards three">
+        <article><h3>Daily story</h3><p>Route dinner plan special activities shore runs snorkeling fishing and evening plan.</p></article>
+        <article><h3>Backup thinking</h3><p>Weather alternatives bailout anchorages rest days and “do not push it” choices.</p></article>
+        <article><h3>Fun layer</h3><p>Song of the day drink of the day photo challenge quote of the day and crew awards.</p></article>
+      </div>
+    </section>
+
+    <section class="panel" id="route">
+      <div class="section-heading">
+        <p class="eyebrow">Navigation overview</p>
+        <h2>Working route &amp; ports</h2>
+        <p>Planning framework only. Final route depends on weather sea state charter briefing park rules and crew comfort.</p>
+      </div>
+      <div class="timeline">
+        <article><span>Jun 4</span><h3>Blue Lagoon → Bequia</h3><p>Board briefing provisioning checkout safety review and short first leg if timing allows.</p></article>
+        <article><span>Jun 5</span><h3>Bequia</h3><p>Systems practice explore ashore anchoring/mooring routine and crew settling-in day.</p></article>
+        <article><span>Jun 6</span><h3>Bequia → Mustique / Canouan area</h3><p>Southbound progress based on weather and sea state. Avoid pushing tired crew.</p></article>
+        <article><span>Jun 7–8</span><h3>Tobago Cays</h3><p>Snorkeling turtle sanctuary reef awareness dinghy safety and mooring/park rules.</p></article>
+        <article><span>Jun 9</span><h3>Mayreau</h3><p>Short repositioning day. Possible Salt Whistle or other protected anchorage.</p></article>
+        <article><span>Jun 10–11</span><h3>Union / Canouan / northbound start</h3><p>Explore while keeping a conservative return window.</p></article>
+        <article><span>Jun 12–13</span><h3>Bequia area</h3><p>Northbound buffer days for weather rest maintenance or final sightseeing.</p></article>
+        <article><span>Jun 14–15</span><h3>Return Blue Lagoon</h3><p>Return near base refuel organize gear checkout and final dock by 1200 June 15.</p></article>
+      </div>
+    </section>
+
+    <section class="panel" id="ports">
+      <div class="section-heading">
+        <p class="eyebrow">Port cards</p>
+        <h2>Ports of call &amp; activity ideas</h2>
+      </div>
+      <div class="cards four">
+        <article><h3>Blue Lagoon</h3><p>Charter base provisioning final briefing boat checkout and return logistics.</p></article>
+        <article><h3>Bequia</h3><p>First island rhythm restaurants beaches water taxis and an easy crew shakedown stop.</p></article>
+        <article><h3>Mustique</h3><p>Upscale stop if conditions and itinerary fit. Confirm mooring and local rules.</p></article>
+        <article><h3>Canouan</h3><p>Useful mid-chain stop and weather-routing option.</p></article>
+        <article><h3>Tobago Cays</h3><p>Snorkeling reef turtle sanctuary dinghy exploration and careful exposure checks.</p></article>
+        <article><h3>Mayreau</h3><p>Short hops beach time and classic Grenadines anchorage feel.</p></article>
+        <article><h3>Union Island</h3><p>Southern SVG hub provisioning fuel/local info if needed.</p></article>
+        <article><h3>Rainy day ideas</h3><p>Cards music captain trivia trip photos meal prep and movie night if gear allows.</p></article>
+      </div>
+    </section>
+
+    <section class="panel" id="checklists">
+      <div class="section-heading">
+        <p class="eyebrow">Operational rhythm</p>
+        <h2>Daily checklists</h2>
+        <p>Quick onboard checklist preview. Detailed assignable checklists should live in a Google Sheet.</p>
+      </div>
+      <div class="checklist-board">
+        <article>
+          <h3>Morning pre-sail</h3>
+          <label><input type="checkbox" data-check="weather" /> Weather wind squalls sea state checked</label>
+          <label><input type="checkbox" data-check="route" /> Route hazards and backup anchorage reviewed</label>
+          <label><input type="checkbox" data-check="water" /> Fuel water battery status checked</label>
+          <label><input type="checkbox" data-check="deck" /> Deck galley cabins secured</label>
+          <label><input type="checkbox" data-check="crew" /> Crew duties and safety briefing complete</label>
+        </article>
+        <article>
+          <h3>Evening secure boat</h3>
+          <label><input type="checkbox" data-check="anchor" /> Anchor/mooring set and alarm active</label>
+          <label><input type="checkbox" data-check="light" /> Anchor light on and visible</label>
+          <label><input type="checkbox" data-check="dinghy" /> Dinghy secured</label>
+          <label><input type="checkbox" data-check="galley" /> Galley trash and food secured</label>
+          <label><input type="checkbox" data-check="tomorrow" /> Tomorrow’s plan briefed</label>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel" id="meals">
+      <div class="section-heading">
+        <p class="eyebrow">Galley command</p>
+        <h2>Meals groceries &amp; wish lists</h2>
+      </div>
+      <div class="cards three">
+        <article><h3>Meal plan</h3><p>Breakfast lunch dinner snacks and one backup easy meal for each day.</p></article>
+        <article><h3>Grocery list</h3><p>Grouped by produce dry goods cold items drinks condiments paper goods and boat supplies.</p></article>
+        <article><h3>Crew wish list</h3><p>Let everyone request snacks drinks sunscreen candy fishing bait playlists and comfort items.</p></article>
+      </div>
+    </section>
+
+    <section class="panel" id="fishing">
+      <div class="section-heading">
+        <p class="eyebrow">Lines in the water</p>
+        <h2>Fishing notes</h2>
+        <p>Keep this conservative and local-rule aware. Confirm charter company and SVG rules before fishing.</p>
+      </div>
+      <ul class="check-list">
+        <li>Confirm fishing permission licensing and marine park restrictions.</li>
+        <li>Keep gear organized and away from bare feet and cockpit traffic.</li>
+        <li>Designate a fish-cleaning plan before catching anything.</li>
+        <li>Track “Grayson fishing report” in the noon update.</li>
+      </ul>
+    </section>
+
+    <section class="panel" id="media">
+      <div class="section-heading">
+        <p class="eyebrow">Entertainment laptop</p>
+        <h2>Music announcements &amp; shipboard fun</h2>
+      </div>
+      <div class="cards three">
+        <article><h3>AI voice broadcasts</h3><p>Generate captain updates as text then create MP3s with an AI voice service.</p></article>
+        <article><h3>Playlists</h3><p>Caribbean sailing dinner chill sunset snorkel and “captain is feeling dramatic” playlists.</p></article>
+        <article><h3>Trip archive</h3><p>Save scripts audio photos GoPro clips quotes of the day and crew awards.</p></article>
+      </div>
+    </section>
+
+    <section class="panel" id="emergency">
+      <div class="section-heading">
+        <p class="eyebrow">Reference</p>
+        <h2>Emergency &amp; important info</h2>
+        <p>Because this repo is public keep sensitive details in private Docs. This page should link to private emergency contacts and charter documents.</p>
+      </div>
+      <div class="cards three">
+        <article><h3>Charter contacts</h3><p>Barefoot Yacht Charters base contacts maintenance support checkout instructions and after-hours procedures.</p></article>
+        <article><h3>Medical &amp; emergency</h3><p>Private crew emergency contacts medical notes first aid location and VHF procedure.</p></article>
+        <article><h3>Boat documents</h3><p>Charter agreement boat papers park permits and insurance/emergency assistance notes.</p></article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Saint Vincent Trip 2026 Hub • Built for the crew of <em>Inconceivable</em></p>
+    <a href="#top">Back to top ↑</a>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
