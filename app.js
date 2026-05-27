@@ -58,6 +58,34 @@ function formToData(form) {
   return Object.fromEntries(new FormData(form).entries());
 }
 
+async function loadSharedTripData() {
+  try {
+    const response = await fetch("trip-data.json", { cache: "no-store" });
+    if (!response.ok) throw new Error("trip-data.json not found");
+    return await response.json();
+  } catch (error) {
+    console.warn("Could not load trip-data.json", error);
+    return null;
+  }
+}
+
+function sharedToTodayData(data) {
+  if (!data) return {};
+  return {
+    date: data.date || "",
+    location: data.locationName || "",
+    tonight: data.tonight || "",
+    tomorrow: data.tomorrow || "",
+    weather: data.weather || "",
+    dinner: data.dinner || "",
+    activities: data.activities || "",
+    fun: data.funnyNote || "",
+    route: data.route || "",
+    wind: data.wind || "",
+    safety: data.safety || ""
+  };
+}
+
 function getTodayData() {
   try {
     return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
@@ -74,7 +102,7 @@ function fillForm(data) {
   if (!todayForm) return;
   for (const [key, value] of Object.entries(data)) {
     const field = todayForm.elements[key];
-    if (field) field.value = value;
+    if (field && !field.value) field.value = value;
   }
 }
 
@@ -100,6 +128,49 @@ function escapeHtml(value) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
+}
+
+function addDashboardMap(data) {
+  const main = document.querySelector("main");
+  const todayPanel = document.getElementById("today");
+  if (!main || !todayPanel || document.getElementById("live-map")) return;
+
+  const lat = typeof data?.latitude === "number" ? data.latitude : 13.16;
+  const lon = typeof data?.longitude === "number" ? data.longitude : -61.2248;
+  const zoom = data?.mapZoom || 8;
+  const delta = zoom >= 11 ? 0.08 : 0.35;
+  const left = lon - delta;
+  const right = lon + delta;
+  const top = lat + delta;
+  const bottom = lat - delta;
+  const mapUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${left}%2C${bottom}%2C${right}%2C${top}&layer=mapnik&marker=${lat}%2C${lon}`;
+
+  const section = document.createElement("section");
+  section.className = "panel tracker-panel";
+  section.id = "live-map";
+  section.innerHTML = `
+    <div class="section-heading">
+      <p class="eyebrow">Live trip snapshot</p>
+      <h2>Map and current status</h2>
+      <p>${escapeHtml(data?.lastUpdated || "Manual pre-trip placeholder until AIS automation is connected.")}</p>
+    </div>
+    <div class="tracker-layout">
+      <article class="tracker-card">
+        <h3>${escapeHtml(data?.locationName || "St. Vincent and the Grenadines")}</h3>
+        <p><strong>Vessel:</strong> ${escapeHtml(data?.ais?.vesselName || "Inconceivable")}</p>
+        <p><strong>MMSI:</strong> ${escapeHtml(data?.ais?.mmsi || "368392220")}</p>
+        <p><strong>Weather:</strong> ${escapeHtml(data?.weather || "Waiting on live weather connection.")}</p>
+        <p><strong>Tonight:</strong> ${escapeHtml(data?.tonight || "Not set yet")}</p>
+        <p><strong>Tomorrow:</strong> ${escapeHtml(data?.tomorrow || "Not set yet")}</p>
+        <p><strong>Dinner:</strong> ${escapeHtml(data?.dinner || "Not set yet")}</p>
+        <p class="tracker-note"><strong>Automation note:</strong> This map is fed by trip-data.json now. Next step is scheduled AIS + weather updates.</p>
+      </article>
+      <div class="tracker-card map-card">
+        <iframe title="Inconceivable current map" src="${mapUrl}" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+  `;
+  main.insertBefore(section, todayPanel);
 }
 
 function generateCaptainScript(data) {
@@ -128,10 +199,39 @@ And now, for official crew morale: ${fun}.
 This has been your Captain’s Noon Update. Stay salty, stay hydrated, respect the reef, secure the dinghy, and remember: aboard Inconceivable, we do not merely vacation. We conduct elegant maritime operations with snacks.`;
 }
 
+function addSpeakButton() {
+  if (!copyBroadcast || document.getElementById("speakBroadcast")) return;
+  const button = document.createElement("button");
+  button.className = "button secondary";
+  button.id = "speakBroadcast";
+  button.type = "button";
+  button.textContent = "Play Announcement";
+  copyBroadcast.insertAdjacentElement("afterend", button);
+  button.addEventListener("click", () => {
+    const text = broadcastOutput?.innerText?.trim() || "";
+    if (!text || text.includes("Your generated script will appear here")) return;
+    if (!("speechSynthesis" in window)) {
+      flashButton(button, "Speech not supported");
+      return;
+    }
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 0.92;
+    utterance.pitch = 0.95;
+    window.speechSynthesis.speak(utterance);
+    flashButton(button, "Playing");
+  });
+}
+
 if (todayForm) {
   const saved = getTodayData();
-  fillForm(saved);
-  updateSummary(saved);
+  loadSharedTripData().then((shared) => {
+    const sharedToday = sharedToTodayData(shared);
+    const startingData = Object.keys(saved).length ? saved : sharedToday;
+    fillForm(startingData);
+    updateSummary(startingData);
+    addDashboardMap(shared);
+  });
 
   todayForm.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -144,6 +244,8 @@ if (todayForm) {
   todayForm.addEventListener("input", () => {
     updateSummary(formToData(todayForm));
   });
+} else {
+  loadSharedTripData().then(addDashboardMap);
 }
 
 if (resetToday && todayForm) {
@@ -179,6 +281,7 @@ if (copyBroadcast && broadcastOutput) {
     }
   });
 }
+addSpeakButton();
 
 function flashButton(button, text) {
   if (!button) return;
