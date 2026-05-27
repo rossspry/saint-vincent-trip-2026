@@ -1,12 +1,11 @@
 const STORAGE_KEY = "svgTripTodayV1";
 const CHECK_KEY = "svgTripChecksV1";
 const PHOTO_BOX_URL = "https://drive.google.com/drive/folders/1KYD_44wOEdmn48rLzYyVFDK9enNutFYU";
+const AI_VOICE_ENDPOINT = ""; // Paste your deployed Cloudflare Worker URL here after setup.
 
 const navToggle = document.querySelector(".nav-toggle");
 const navLinks = document.querySelector(".nav-links");
 
-// Dashboard-first card layout. This replaces the older longer card list without
-// touching index.html or the embedded image block.
 const quickCards = document.querySelector(".quick-cards");
 if (quickCards) {
   quickCards.innerHTML = `
@@ -16,11 +15,10 @@ if (quickCards) {
     <a class="quick-card" href="#tracker"><span>📍</span><strong>AIS Tracker</strong><small>MarineTraffic MMSI 368392220</small></a>
     <a class="quick-card" href="#route"><span>🗺️</span><strong>Route</strong><small>Planned legs ports and navigation overview</small></a>
     <a class="quick-card" href="#checklists"><span>✅</span><strong>Checklists</strong><small>Morning underway anchoring evening dinghy snorkel</small></a>
-    <a class="quick-card" href="#captain"><span>🎙️</span><strong>Captain Update</strong><small>Generate and play the noon announcement</small></a>
+    <a class="quick-card" href="#captain"><span>🎙️</span><strong>Captain Update</strong><small>Generate an AI captain MP3</small></a>
   `;
 }
 
-// Navigation cleanup to match the dashboard-first card set.
 if (navLinks) {
   navLinks.innerHTML = `
     <a href="#today">Today</a>
@@ -239,7 +237,7 @@ function addDashboardMap(data) {
         <p><strong>Tonight:</strong> ${escapeHtml(data?.tonight || "Not set yet")}</p>
         <p><strong>Tomorrow:</strong> ${escapeHtml(data?.tomorrow || "Not set yet")}</p>
         <p><strong>Dinner:</strong> ${escapeHtml(data?.dinner || "Not set yet")}</p>
-        <p class="tracker-note"><strong>Automation note:</strong> This map is fed by trip-data.json now. Next step is scheduled AIS + weather updates.</p>
+        <p class="tracker-note"><strong>Automation note:</strong> This map is fed by trip-data.json now. AIS will update automatically only when an accessible provider sees the vessel.</p>
       </article>
       <div class="tracker-card map-card">
         <iframe title="Inconceivable current map" src="${mapUrl}" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
@@ -262,7 +260,7 @@ function generateCaptainScript(data) {
   const safety = textOrFallback(data.safety, "hydrate stay clipped into common sense and nobody becomes a dinghy rescue story");
   const fun = textOrFallback(data.fun, "morale remains high and the captain has declared all snacks tax deductible under maritime law");
 
-  return `Buongiorno crew of Inconceivable. This is your Captain’s Noon Update for ${date}.
+  return `Crew of Inconceivable, this is your Captain’s Noon Update for ${date}.
 
 We are currently at ${location}. Today’s working plan is ${route}. The weather picture is ${weather}, with wind and sea state reported as ${wind}.
 
@@ -287,51 +285,80 @@ function currentAnnouncementText() {
   return broadcastOutput.innerText.trim();
 }
 
-function pickVoice() {
-  const voices = window.speechSynthesis?.getVoices?.() || [];
-  return voices.find((voice) => /Daniel|Samantha|Google UK English Male|Google US English|Microsoft.*Guy|Microsoft.*David/i.test(voice.name)) || voices[0] || null;
+async function generateAiAudio(text, button, note) {
+  if (!AI_VOICE_ENDPOINT) {
+    note.textContent = "AI voice endpoint is not connected yet. Deploy the Cloudflare Worker in voice-worker then paste its URL into AI_VOICE_ENDPOINT in app.js.";
+    flashButton(button, "Worker needed");
+    return;
+  }
+
+  button.disabled = true;
+  button.textContent = "Generating MP3…";
+  note.textContent = "Sending the Captain’s Update to the AI voice worker.";
+
+  try {
+    const response = await fetch(AI_VOICE_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        text,
+        voice: "cedar",
+        instructions: "Speak like a warm confident sailing captain making a fun but clear shipboard announcement. Calm Caribbean vacation energy. Natural pacing. No fake accent."
+      })
+    });
+
+    if (!response.ok) {
+      let message = "AI voice worker failed.";
+      try {
+        const error = await response.json();
+        message = error.error || message;
+      } catch {}
+      throw new Error(message);
+    }
+
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+    const audio = new Audio(url);
+    audio.controls = true;
+    audio.autoplay = true;
+    audio.className = "captain-audio-player";
+
+    const oldPlayer = document.querySelector(".captain-audio-player");
+    if (oldPlayer) oldPlayer.remove();
+    note.insertAdjacentElement("afterend", audio);
+    note.textContent = "AI voice MP3 generated. Playing now.";
+    audio.addEventListener("ended", () => {
+      button.textContent = "Generate AI Voice MP3";
+      button.disabled = false;
+    });
+  } catch (error) {
+    note.textContent = `AI voice failed: ${error.message}`;
+    button.textContent = "Generate AI Voice MP3";
+    button.disabled = false;
+  }
 }
 
-function addSpeakButton() {
-  if (!copyBroadcast || document.getElementById("speakBroadcast")) return;
+function addAiVoiceButton() {
+  if (!copyBroadcast || document.getElementById("aiVoiceBroadcast")) return;
   const button = document.createElement("button");
-  button.className = "button secondary";
-  button.id = "speakBroadcast";
+  button.className = "button primary";
+  button.id = "aiVoiceBroadcast";
   button.type = "button";
-  button.textContent = "Generate + Play Audio";
+  button.textContent = "Generate AI Voice MP3";
   copyBroadcast.insertAdjacentElement("afterend", button);
 
   const note = document.createElement("p");
   note.className = "tiny";
   note.id = "voiceStatus";
-  note.textContent = "Browser voice preview only. True AI MP3 voice needs a secure backend/API so the key is not exposed on GitHub Pages.";
+  note.textContent = AI_VOICE_ENDPOINT
+    ? "Ready to generate a real AI voice MP3."
+    : "AI voice Worker not connected yet. Browser robot voice has been removed from this button path.";
   button.insertAdjacentElement("afterend", note);
 
-  button.addEventListener("click", () => {
+  button.addEventListener("click", async () => {
     const text = currentAnnouncementText();
     if (!text) return;
-    if (!("speechSynthesis" in window)) {
-      flashButton(button, "Speech not supported");
-      note.textContent = "This browser does not support speech synthesis.";
-      return;
-    }
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    const voice = pickVoice();
-    if (voice) utterance.voice = voice;
-    utterance.rate = 0.9;
-    utterance.pitch = 0.92;
-    utterance.onend = () => {
-      button.textContent = "Generate + Play Audio";
-      note.textContent = "Playback finished. For the real AI captain voice, we need to add a small backend/worker that generates MP3 files.";
-    };
-    utterance.onerror = () => {
-      button.textContent = "Generate + Play Audio";
-      note.textContent = "Browser speech failed. Try Chrome/Safari with sound enabled, or use the Copy Script button.";
-    };
-    window.speechSynthesis.speak(utterance);
-    button.textContent = "Playing…";
-    note.textContent = "Playing browser voice preview now.";
+    await generateAiAudio(text, button, note);
   });
 }
 
@@ -393,7 +420,7 @@ if (copyBroadcast && broadcastOutput) {
     }
   });
 }
-addSpeakButton();
+addAiVoiceButton();
 
 function flashButton(button, text) {
   if (!button) return;
