@@ -1,41 +1,85 @@
 /* Trip-specific polish for Inconceivable dashboard */
+
+/* Clean dashboard-first hero. The old logo card remains in HTML but is hidden here
+   so we do not have to touch the huge embedded image in index.html. */
+.hero {
+  min-height: 62vh;
+}
+
 .hero-inner {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(280px, 420px);
-  gap: clamp(24px, 5vw, 58px);
-  align-items: center;
+  display: block;
+  text-align: center;
+  max-width: 980px;
 }
 
 .hero-copy-wrap {
   min-width: 0;
+  margin: 0 auto;
 }
 
 .hero-logo-card {
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.28);
-  border-radius: 28px;
-  padding: 18px;
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.22);
-  backdrop-filter: blur(8px);
+  display: none !important;
 }
 
-.hero-logo-card img {
+.hero .eyebrow {
+  color: var(--gold);
+  margin-bottom: 16px;
+}
+
+.hero h1 {
+  max-width: none;
+  margin: 0 auto 18px;
+  font-size: clamp(0px, 0px, 0px);
+  line-height: 1;
+}
+
+.hero h1::before {
+  content: "INCONCEIVABLE";
   display: block;
-  width: 100%;
-  height: auto;
-  border-radius: 18px;
-  background: white;
-  transform: perspective(900px) rotateX(0.5deg);
+  font-size: clamp(3.4rem, 11vw, 8.5rem);
+  line-height: 0.9;
+  letter-spacing: 0.08em;
+  font-weight: 950;
+  text-transform: uppercase;
+  color: #ffffff;
+  text-shadow: 0 16px 40px rgba(0,0,0,.28);
 }
 
-.hero-logo-card p {
-  margin: 12px 4px 0;
-  color: rgba(255,255,255,.82);
+.hero h1::after {
+  content: "Our Saint Vincent Adventure";
+  display: block;
+  margin-top: 18px;
+  font-size: clamp(1.35rem, 4vw, 3rem);
+  line-height: 1.1;
+  letter-spacing: 0.015em;
   font-weight: 800;
-  letter-spacing: .04em;
-  text-transform: uppercase;
-  font-size: .76rem;
-  text-align: center;
+  color: var(--gold);
+  text-transform: none;
+}
+
+.hero-copy {
+  margin: 0 auto;
+  max-width: 760px;
+}
+
+.hero-actions {
+  justify-content: center;
+}
+
+/* Dashboard cards */
+.quick-cards {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.quick-card {
+  grid-column: span 1;
+}
+
+.quick-card[href="#tracker"],
+.quick-card[href*="drive.google.com"],
+.quick-card[href="family.html"] {
+  background:
+    linear-gradient(180deg, rgba(217,251,248,.96), rgba(255,255,255,.94));
 }
 
 .tracker-panel {
@@ -71,29 +115,37 @@
   color: var(--ink);
 }
 
-.quick-card[href="#tracker"] {
-  background:
-    linear-gradient(180deg, rgba(217,251,248,.95), rgba(255,255,255,.94));
+@media (max-width: 1100px) {
+  .quick-cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 920px) {
-  .hero-inner,
   .tracker-layout {
     grid-template-columns: 1fr;
   }
 
-  .hero-logo-card {
-    max-width: 520px;
+  .quick-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 @media (max-width: 680px) {
-  .hero-logo-card {
-    padding: 12px;
-    border-radius: 22px;
+  .hero {
+    min-height: 58vh;
   }
 
-  .hero-logo-card img {
-    border-radius: 14px;
+  .hero-inner {
+    padding-top: 48px;
+    padding-bottom: 84px;
+  }
+
+  .hero h1::before {
+    letter-spacing: 0.045em;
+  }
+
+  .quick-cards {
+    grid-template-columns: 1fr;
   }
 }
