@@ -1,0 +1,21 @@
+{
+  "status": "planning",
+  "date": "June 2026",
+  "locationName": "St. Vincent and the Grenadines",
+  "latitude": 13.1600,
+  "longitude": -61.2248,
+  "mapZoom": 8,
+  "lastUpdated": "Pre-trip planning",
+  "weather": "Live weather will appear here after AIS/location automation is connected.",
+  "tonight": "To be updated by the crew.",
+  "tomorrow": "To be updated by the crew.",
+  "dinner": "To be updated by the crew.",
+  "activities": "Sailing snorkeling fishing beach time and relaxing.",
+  "funnyNote": "Crew morale is high.",
+  "captainMessage": "We’re having a blast. We’re thinking about everyone back home.",
+  "ais": {
+    "mmsi": "368392220",
+    "vesselName": "Inconceivable",
+    "source": "manual placeholder until AIS API is connected"
+  }
+}
