@@ -13,32 +13,61 @@
     <section class="snapshot-hero">
       <p class="eyebrow">Family snapshot</p>
       <h1>Inconceivable — Our Saint Vincent Adventure</h1>
-      <p class="lead">A simple read-only update page for friends and family following along from home.</p>
+      <p class="lead">A simple update page for friends and family following along from home.</p>
       <div class="message-card">
         <p class="message-label">Message from the crew</p>
-        <h2>Have fun guys — we’re thinking of everyone back home.</h2>
-        <p>We’ll update this page with a few favorite photos, our general location, weather, and a short note when we get a chance.</p>
+        <h2>We’re having a blast. We’re thinking about everyone back home.</h2>
+        <p>We’ll update this page with favorite photos, our general location, weather, and quick notes when we get a chance.</p>
       </div>
     </section>
 
     <section class="snapshot-grid">
       <article class="info-card">
         <h2>Latest location</h2>
-        <p class="big">St. Vincent &amp; The Grenadines</p>
-        <p>Current planned cruising area aboard <strong>Inconceivable</strong>. Exact daily details will be updated manually when we post a new snapshot.</p>
+        <p class="big" data-trip="locationName">St. Vincent &amp; The Grenadines</p>
+        <p data-trip="locationNote">Current planned cruising area aboard <strong>Inconceivable</strong>. This will update automatically once AIS data is connected.</p>
       </article>
 
       <article class="info-card">
         <h2>Weather snapshot</h2>
-        <p class="big">Caribbean sailing weather</p>
-        <p>Wind, sea state, and conditions will be summarized here from the crew’s daily update.</p>
+        <p class="big" data-trip="weatherTitle">Caribbean sailing weather</p>
+        <p data-trip="weather">Wind, sea state, and conditions will be summarized here from the crew’s daily update.</p>
       </article>
 
       <article class="info-card">
         <h2>Today’s note</h2>
-        <p class="big">Crew morale: high</p>
-        <p>Snorkeling, sailing, fishing, food, sunsets, and a lot of stories in progress.</p>
+        <p class="big" data-trip="funnyNote">Crew morale: high</p>
+        <p data-trip="activities">Snorkeling, sailing, fishing, food, sunsets, and a lot of stories in progress.</p>
       </article>
+    </section>
+
+    <section class="map-section">
+      <div class="section-heading">
+        <p class="eyebrow">Where are they?</p>
+        <h2>Latest map snapshot</h2>
+        <p data-trip="lastUpdated">Last updated manually by the crew until AIS automation is connected.</p>
+      </div>
+      <div class="map-frame-wrap" id="mapFrameWrap">
+        <iframe id="familyMap" title="Latest Inconceivable location map" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </section>
+
+    <section class="message-section">
+      <p class="eyebrow">Send the crew a note</p>
+      <h2>Leave a quick message</h2>
+      <p>Use this to send a simple note like “we miss you guys,” “glad you’re having fun,” or “post more pictures.” For now this opens your email app; the next upgrade can connect this to a real comment wall.</p>
+      <form id="familyMessageForm" class="family-form">
+        <label>
+          Your name
+          <input name="name" type="text" placeholder="Grandma, Dad, Stacy, etc." required />
+        </label>
+        <label>
+          Message
+          <textarea name="message" rows="4" placeholder="We miss you guys! Send more pictures!" required></textarea>
+        </label>
+        <button class="button primary" type="submit">Send message to the crew</button>
+      </form>
+      <p class="tiny">Messages are sent by email for now so nothing private is posted publicly.</p>
     </section>
 
     <section class="photo-section">
@@ -54,9 +83,10 @@
 
     <section class="snapshot-footer-card">
       <h2>Following along</h2>
-      <p>This page is intentionally simple and read-only. It is meant for family and friends to see a quick snapshot without getting into the planning dashboard.</p>
-      <p class="tiny">Last updated manually by the crew.</p>
+      <p>This page is intentionally simple. It is meant for family and friends to see a quick snapshot without getting into the planning dashboard.</p>
+      <p class="tiny">Location and weather become automatic once AIS/weather automation is connected.</p>
     </section>
   </main>
+  <script src="family.js"></script>
 </body>
 </html>
