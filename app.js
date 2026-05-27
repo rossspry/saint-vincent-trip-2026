@@ -1,8 +1,37 @@
 const STORAGE_KEY = "svgTripTodayV1";
 const CHECK_KEY = "svgTripChecksV1";
+const PHOTO_BOX_URL = "https://drive.google.com/drive/folders/1KYD_44wOEdmn48rLzYyVFDK9enNutFYU";
 
 const navToggle = document.querySelector(".nav-toggle");
 const navLinks = document.querySelector(".nav-links");
+
+// Dashboard-first card layout. This replaces the older longer card list without
+// touching index.html or the embedded image block.
+const quickCards = document.querySelector(".quick-cards");
+if (quickCards) {
+  quickCards.innerHTML = `
+    <a class="quick-card" href="#today"><span>🧭</span><strong>Today</strong><small>Daily plan location weather dinner and notes</small></a>
+    <a class="quick-card" href="${PHOTO_BOX_URL}" target="_blank" rel="noreferrer"><span>📸</span><strong>Photo Box</strong><small>Upload trip photos and videos to Google Drive</small></a>
+    <a class="quick-card" href="family.html"><span>🌅</span><strong>Family Snapshot</strong><small>Read-only update page for friends and family</small></a>
+    <a class="quick-card" href="#tracker"><span>📍</span><strong>AIS Tracker</strong><small>MarineTraffic MMSI 368392220</small></a>
+    <a class="quick-card" href="#route"><span>🗺️</span><strong>Route</strong><small>Planned legs ports and navigation overview</small></a>
+    <a class="quick-card" href="#checklists"><span>✅</span><strong>Checklists</strong><small>Morning pre-sail and evening secure boat</small></a>
+    <a class="quick-card" href="#captain"><span>🎙️</span><strong>Captain Update</strong><small>Generate the noon announcement script</small></a>
+  `;
+}
+
+// Navigation cleanup to match the dashboard-first card set.
+if (navLinks) {
+  navLinks.innerHTML = `
+    <a href="#today">Today</a>
+    <a href="${PHOTO_BOX_URL}" target="_blank" rel="noreferrer">Photo Box</a>
+    <a href="family.html">Family Snapshot</a>
+    <a href="#tracker">AIS Tracker</a>
+    <a href="#route">Route</a>
+    <a href="#checklists">Checklists</a>
+    <a href="#captain">Captain Update</a>
+  `;
+}
 
 if (navToggle && navLinks) {
   navToggle.addEventListener("click", () => {
