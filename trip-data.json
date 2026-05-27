@@ -2,10 +2,10 @@
   "status": "planning",
   "date": "June 2026",
   "locationName": "St. Vincent and the Grenadines",
-  "latitude": 13.1600,
+  "latitude": 13.16,
   "longitude": -61.2248,
   "mapZoom": 8,
-  "lastUpdated": "Pre-trip planning",
+  "lastUpdated": "2026-05-27 19:47:45 UTC",
   "weather": "Live weather will appear here after AIS/location automation is connected.",
   "tonight": "To be updated by the crew.",
   "tomorrow": "To be updated by the crew.",
@@ -17,5 +17,6 @@
     "mmsi": "368392220",
     "vesselName": "Inconceivable",
     "source": "manual placeholder until AIS API is connected"
-  }
+  },
+  "automationStatus": "No AIS position received for MMSI 368392220 within 120 seconds."
 }
