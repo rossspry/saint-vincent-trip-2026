@@ -4,19 +4,21 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#06384f" />
-  <title>Saint Vincent Trip 2026 Hub</title>
+  <title>Inconceivable — Our Saint Vincent Adventure</title>
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="trip-custom.css" />
 </head>
 <body>
   <header class="hero" id="top">
     <nav class="topbar" aria-label="Primary">
-      <a class="brand" href="#top" aria-label="Saint Vincent Trip 2026 home">
+      <a class="brand" href="#top" aria-label="Inconceivable trip hub home">
         <span class="brand-mark">⛵</span>
-        <span><strong>Saint Vincent Trip 2026</strong><small>Inconceivable • June 4–15</small></span>
+        <span><strong>Inconceivable</strong><small>Our Saint Vincent Adventure • June 4–15</small></span>
       </a>
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="navLinks">Menu</button>
       <div class="nav-links" id="navLinks">
         <a href="#today">Today</a>
+        <a href="#tracker">Tracker</a>
         <a href="#route">Route</a>
         <a href="#captain">Captain Update</a>
         <a href="#checklists">Checklists</a>
@@ -25,12 +27,19 @@
     </nav>
 
     <section class="hero-inner">
-      <p class="eyebrow">Crew command center</p>
-      <h1>Saint Vincent &amp; The Grenadines Trip Hub</h1>
-      <p class="hero-copy">A mobile-friendly dashboard for the crew of <strong>Inconceivable</strong>: today’s plan, route notes, checklists, meal planning, ports of call, captain broadcasts, weather resources, and trip files.</p>
-      <div class="hero-actions">
-        <a class="button primary" href="#today">Open Today’s Dashboard</a>
-        <a class="button secondary" href="#captain">Make Noon Update</a>
+      <div class="hero-copy-wrap">
+        <p class="eyebrow">Crew command center</p>
+        <h1>Inconceivable — Our Saint Vincent Adventure</h1>
+        <p class="hero-copy">A mobile-friendly dashboard for the crew of <strong>Inconceivable</strong>: today’s plan, AIS tracking, route notes, checklists, meal planning, ports of call, captain updates, weather resources, and trip files.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#today">Open Today’s Dashboard</a>
+          <a class="button secondary" href="#tracker">Track the Boat</a>
+          <a class="button secondary" href="#captain">Make Noon Update</a>
+        </div>
+      </div>
+      <div class="hero-logo-card" aria-label="Inconceivable yacht logo">
+        <img src="data:image/webp;base64,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" alt="Inconceivable logo" />
+        <p>St. Vincent &amp; The Grenadines • 2026</p>
       </div>
     </section>
   </header>
@@ -38,6 +47,7 @@
   <main>
     <section class="dashboard-grid quick-cards" aria-label="Quick access cards">
       <a class="quick-card" href="#official"><span>📋</span><strong>Official Float Plan</strong><small>Clean version for Barefoot</small></a>
+      <a class="quick-card" href="#tracker"><span>📍</span><strong>Track Inconceivable</strong><small>AIS MarineTraffic MMSI 368392220</small></a>
       <a class="quick-card" href="#enhanced"><span>🌴</span><strong>Enhanced Crew Plan</strong><small>Dinners activities fun details</small></a>
       <a class="quick-card" href="#route"><span>🧭</span><strong>Route &amp; Navigation</strong><small>Legs anchorages waypoints</small></a>
       <a class="quick-card" href="#meals"><span>🍍</span><strong>Meals &amp; Grocery</strong><small>Provisioning wish lists</small></a>
@@ -91,11 +101,42 @@
       </div>
     </section>
 
+    <section class="panel tracker-panel" id="tracker">
+      <div class="section-heading">
+        <p class="eyebrow">AIS boat tracker</p>
+        <h2>Track <em>Inconceivable</em></h2>
+        <p>Use MarineTraffic/AIS as a family tracking and reference tool. AIS position speed and course can be delayed or unavailable depending on coverage and whether the vessel is transmitting.</p>
+      </div>
+      <div class="tracker-layout">
+        <article class="tracker-card">
+          <h3>Vessel identity</h3>
+          <dl>
+            <div><dt>Vessel</dt><dd>Inconceivable</dd></div>
+            <div><dt>MMSI</dt><dd>368392220</dd></div>
+            <div><dt>MarineTraffic ship ID</dt><dd>9360684</dd></div>
+            <div><dt>Charter area</dt><dd>St. Vincent &amp; The Grenadines</dd></div>
+          </dl>
+          <a class="button primary tracker-button" href="https://www.marinetraffic.com/en/ais/details/ships/shipid:9360684" target="_blank" rel="noreferrer">Open Live MarineTraffic Page</a>
+        </article>
+        <article class="tracker-card">
+          <h3>What to check</h3>
+          <ul class="check-list">
+            <li>Last reported position and update time</li>
+            <li>Speed over ground</li>
+            <li>Course over ground</li>
+            <li>Destination or navigational status if broadcast</li>
+            <li>Whether family back home can see the latest AIS position</li>
+          </ul>
+          <p class="tracker-note"><strong>Navigation note:</strong> AIS is not the primary navigation source. Use the boat’s chartplotter, charts, weather, visual piloting, depth, and captain’s judgment for navigation.</p>
+        </article>
+      </div>
+    </section>
+
     <section class="panel" id="captain">
       <div class="section-heading">
         <p class="eyebrow">Noon broadcast</p>
-        <h2>Carnival-style Captain’s Update</h2>
-        <p>Generate a script for the entertainment laptop or AI voice service. Style target: English with Italian-accent cruise director energy. Useful first funny second.</p>
+        <h2>Captain’s Update</h2>
+        <p>Generate a script for the entertainment laptop or AI voice service. Style target: useful first, funny second, with a polished shipboard announcement feel.</p>
       </div>
       <div class="broadcast-layout">
         <div class="broadcast-card">
@@ -259,7 +300,7 @@
   </main>
 
   <footer>
-    <p>Saint Vincent Trip 2026 Hub • Built for the crew of <em>Inconceivable</em></p>
+    <p>Inconceivable — Our Saint Vincent Adventure • Built for the crew</p>
     <a href="#top">Back to top ↑</a>
   </footer>
 
