@@ -15,8 +15,8 @@ if (quickCards) {
     <a class="quick-card" href="family.html"><span>🌅</span><strong>Family Snapshot</strong><small>Read-only update page for friends and family</small></a>
     <a class="quick-card" href="#tracker"><span>📍</span><strong>AIS Tracker</strong><small>MarineTraffic MMSI 368392220</small></a>
     <a class="quick-card" href="#route"><span>🗺️</span><strong>Route</strong><small>Planned legs ports and navigation overview</small></a>
-    <a class="quick-card" href="#checklists"><span>✅</span><strong>Checklists</strong><small>Morning pre-sail and evening secure boat</small></a>
-    <a class="quick-card" href="#captain"><span>🎙️</span><strong>Captain Update</strong><small>Generate the noon announcement script</small></a>
+    <a class="quick-card" href="#checklists"><span>✅</span><strong>Checklists</strong><small>Morning underway anchoring evening dinghy snorkel</small></a>
+    <a class="quick-card" href="#captain"><span>🎙️</span><strong>Captain Update</strong><small>Generate and play the noon announcement</small></a>
   `;
 }
 
@@ -32,6 +32,82 @@ if (navLinks) {
     <a href="#captain">Captain Update</a>
   `;
 }
+
+function expandChecklists() {
+  const checklistSection = document.getElementById("checklists");
+  const board = checklistSection?.querySelector(".checklist-board");
+  const description = checklistSection?.querySelector(".section-heading p:last-child");
+  if (description) {
+    description.textContent = "Expanded working checklists for daily catamaran operations. Checks save on this device so each crew tablet or phone can track its own progress.";
+  }
+  if (!board) return;
+  board.innerHTML = `
+    <article>
+      <h3>Morning pre-sail</h3>
+      <label><input type="checkbox" data-check="morning-weather" /> Weather wind squalls radar and sea state checked</label>
+      <label><input type="checkbox" data-check="morning-route" /> Route hazards alternates bail-out anchorages reviewed</label>
+      <label><input type="checkbox" data-check="morning-brief" /> Crew briefing completed: plan roles timing safety</label>
+      <label><input type="checkbox" data-check="morning-engine" /> Engines fluids belts strainers bilges visually checked</label>
+      <label><input type="checkbox" data-check="morning-power" /> Batteries solar shore power inverter status checked</label>
+      <label><input type="checkbox" data-check="morning-water" /> Water tanks fuel levels holding tank plan checked</label>
+      <label><input type="checkbox" data-check="morning-hatches" /> Hatches ports lockers fridge/freezer and galley secured</label>
+    </article>
+
+    <article>
+      <h3>Underway / departure</h3>
+      <label><input type="checkbox" data-check="underway-dinghy" /> Dinghy lifted or secured for the leg</label>
+      <label><input type="checkbox" data-check="underway-lines" /> Dock/mooring/anchor lines clear and safely handled</label>
+      <label><input type="checkbox" data-check="underway-nav" /> Chartplotter route depth alarms and instruments checked</label>
+      <label><input type="checkbox" data-check="underway-vhf" /> VHF on correct channel volume set handheld charged</label>
+      <label><input type="checkbox" data-check="underway-crew" /> Crew seated/briefed before maneuvering or sail handling</label>
+      <label><input type="checkbox" data-check="underway-sails" /> Reefing plan discussed before sails are raised/unfurled</label>
+      <label><input type="checkbox" data-check="underway-log" /> Departure time engine hours and weather noted</label>
+    </article>
+
+    <article>
+      <h3>Anchoring / mooring arrival</h3>
+      <label><input type="checkbox" data-check="arrival-bottom" /> Bottom depth swing room current and lee protection assessed</label>
+      <label><input type="checkbox" data-check="arrival-anchor" /> Anchor set or mooring inspected before relaxing</label>
+      <label><input type="checkbox" data-check="arrival-scope" /> Scope/snubber/bridle set for conditions</label>
+      <label><input type="checkbox" data-check="arrival-transits" /> Visual bearings or range marks identified</label>
+      <label><input type="checkbox" data-check="arrival-alarm" /> Anchor alarm set on phone/chartplotter</label>
+      <label><input type="checkbox" data-check="arrival-clearance" /> Reef swim zones park rules no-anchor areas confirmed</label>
+      <label><input type="checkbox" data-check="arrival-brief" /> Crew knows swim dinghy and shore plan</label>
+    </article>
+
+    <article>
+      <h3>Evening secure boat</h3>
+      <label><input type="checkbox" data-check="evening-anchor" /> Anchor/mooring rechecked after settling and wind shift</label>
+      <label><input type="checkbox" data-check="evening-light" /> Anchor light on and visible</label>
+      <label><input type="checkbox" data-check="evening-dinghy" /> Dinghy locked tied lifted or otherwise secured</label>
+      <label><input type="checkbox" data-check="evening-galley" /> Galley propane trash food and dishes secured</label>
+      <label><input type="checkbox" data-check="evening-hatches" /> Hatches ports cockpit cushions and loose gear secured</label>
+      <label><input type="checkbox" data-check="evening-power" /> Batteries charging phones radios lights and water usage checked</label>
+      <label><input type="checkbox" data-check="evening-tomorrow" /> Tomorrow weather route breakfast and departure time discussed</label>
+    </article>
+
+    <article>
+      <h3>Dinghy / shore run</h3>
+      <label><input type="checkbox" data-check="dinghy-fuel" /> Fuel oars pump kill cord light and painter checked</label>
+      <label><input type="checkbox" data-check="dinghy-radio" /> Phone/VHF dry bag and emergency contact plan aboard</label>
+      <label><input type="checkbox" data-check="dinghy-lifejackets" /> Lifejackets or flotation plan appropriate for passengers</label>
+      <label><input type="checkbox" data-check="dinghy-landing" /> Landing spot surf rocks tide and return plan discussed</label>
+      <label><input type="checkbox" data-check="dinghy-lock" /> Lock cable or security plan used ashore</label>
+      <label><input type="checkbox" data-check="dinghy-count" /> Headcount before leaving and before returning</label>
+    </article>
+
+    <article>
+      <h3>Snorkel / swim</h3>
+      <label><input type="checkbox" data-check="snorkel-current" /> Current boat traffic reef conditions and exit point checked</label>
+      <label><input type="checkbox" data-check="snorkel-buddy" /> Buddy pairs assigned and everyone knows boundaries</label>
+      <label><input type="checkbox" data-check="snorkel-flag" /> Dive flag / visible float used if appropriate</label>
+      <label><input type="checkbox" data-check="snorkel-sun" /> Sunscreen rash guards water and time limit handled</label>
+      <label><input type="checkbox" data-check="snorkel-reef" /> Reef rule briefed: do not stand touch chase or collect</label>
+      <label><input type="checkbox" data-check="snorkel-count" /> Final headcount and gear count complete</label>
+    </article>
+  `;
+}
+expandChecklists();
 
 if (navToggle && navLinks) {
   navToggle.addEventListener("click", () => {
@@ -199,27 +275,63 @@ And now, for official crew morale: ${fun}.
 This has been your Captain’s Noon Update. Stay salty, stay hydrated, respect the reef, secure the dinghy, and remember: aboard Inconceivable, we do not merely vacation. We conduct elegant maritime operations with snacks.`;
 }
 
+function currentAnnouncementText() {
+  const text = broadcastOutput?.innerText?.trim() || "";
+  if (text && !text.includes("Your generated script will appear here")) return text;
+  if (!todayForm || !broadcastOutput) return "";
+  const data = formToData(todayForm);
+  saveTodayData(data);
+  updateSummary(data);
+  const script = generateCaptainScript(data);
+  broadcastOutput.innerHTML = `<h3>Captain’s Noon Update</h3><p>${escapeHtml(script)}</p>`;
+  return broadcastOutput.innerText.trim();
+}
+
+function pickVoice() {
+  const voices = window.speechSynthesis?.getVoices?.() || [];
+  return voices.find((voice) => /Daniel|Samantha|Google UK English Male|Google US English|Microsoft.*Guy|Microsoft.*David/i.test(voice.name)) || voices[0] || null;
+}
+
 function addSpeakButton() {
   if (!copyBroadcast || document.getElementById("speakBroadcast")) return;
   const button = document.createElement("button");
   button.className = "button secondary";
   button.id = "speakBroadcast";
   button.type = "button";
-  button.textContent = "Play Announcement";
+  button.textContent = "Generate + Play Audio";
   copyBroadcast.insertAdjacentElement("afterend", button);
+
+  const note = document.createElement("p");
+  note.className = "tiny";
+  note.id = "voiceStatus";
+  note.textContent = "Browser voice preview only. True AI MP3 voice needs a secure backend/API so the key is not exposed on GitHub Pages.";
+  button.insertAdjacentElement("afterend", note);
+
   button.addEventListener("click", () => {
-    const text = broadcastOutput?.innerText?.trim() || "";
-    if (!text || text.includes("Your generated script will appear here")) return;
+    const text = currentAnnouncementText();
+    if (!text) return;
     if (!("speechSynthesis" in window)) {
       flashButton(button, "Speech not supported");
+      note.textContent = "This browser does not support speech synthesis.";
       return;
     }
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.rate = 0.92;
-    utterance.pitch = 0.95;
+    const voice = pickVoice();
+    if (voice) utterance.voice = voice;
+    utterance.rate = 0.9;
+    utterance.pitch = 0.92;
+    utterance.onend = () => {
+      button.textContent = "Generate + Play Audio";
+      note.textContent = "Playback finished. For the real AI captain voice, we need to add a small backend/worker that generates MP3 files.";
+    };
+    utterance.onerror = () => {
+      button.textContent = "Generate + Play Audio";
+      note.textContent = "Browser speech failed. Try Chrome/Safari with sound enabled, or use the Copy Script button.";
+    };
     window.speechSynthesis.speak(utterance);
-    flashButton(button, "Playing");
+    button.textContent = "Playing…";
+    note.textContent = "Playing browser voice preview now.";
   });
 }
 
@@ -271,8 +383,8 @@ if (generateBroadcast && todayForm && broadcastOutput) {
 
 if (copyBroadcast && broadcastOutput) {
   copyBroadcast.addEventListener("click", async () => {
-    const text = broadcastOutput.innerText.trim();
-    if (!text || text.includes("Your generated script will appear here")) return;
+    const text = currentAnnouncementText();
+    if (!text) return;
     try {
       await navigator.clipboard.writeText(text);
       flashButton(copyBroadcast, "Copied");
