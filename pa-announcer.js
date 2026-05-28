@@ -1,4 +1,4 @@
-const CUSTOM_CHIME_URL = "https://drive.google.com/uc?export=download&id=1xTRWClbNVpepUkFMZY3M9d-mF4FaQ8QE";
+const CUSTOM_CHIME_URL = "chime.mp3";
 
 const ANNOUNCEMENT_PRESETS = {
   nonEmergency: [
