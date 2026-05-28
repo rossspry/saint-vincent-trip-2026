@@ -114,11 +114,22 @@
     </section>
 
     <section class="panel" id="media">
-      <div class="section-heading"><p class="eyebrow">Entertainment laptop</p><h2>Music announcements &amp; shipboard fun</h2></div>
-      <div class="cards three">
-        <article><h3>AI voice broadcasts</h3><p>Generate captain updates as text then create MP3s with an AI voice service.</p></article>
-        <article><h3>Playlists</h3><p>Caribbean sailing dinner chill sunset snorkel playlists.</p></article>
-        <article><h3>Trip archive</h3><p>Save scripts audio photos GoPro clips quotes of the day and crew awards.</p></article>
+      <div class="section-heading">
+        <p class="eyebrow">Shipwide announcements</p>
+        <h2>AI voice broadcast console</h2>
+        <p>Type any announcement or use a preset. The voice uses the same AI voice worker as the Captain Update.</p>
+      </div>
+      <div class="announcement-console">
+        <label>
+          Announcement text
+          <textarea id="announcementText" rows="4" placeholder="Type anything you want announced over the speaker system..."></textarea>
+        </label>
+        <div class="button-row">
+          <button class="button primary" id="announceIt" type="button">Announce It</button>
+          <button class="button secondary" id="clearAnnouncement" type="button">Clear</button>
+        </div>
+        <p class="tiny" id="announcementStatus">Ready.</p>
+        <div class="preset-grid" id="announcementPresets" aria-label="Preset announcements"></div>
       </div>
     </section>
 
@@ -139,6 +150,19 @@
             <li>If urgent but not immediately life-threatening, say <strong>PAN PAN PAN PAN PAN PAN</strong>.</li>
             <li>Give boat name: <strong>Inconceivable</strong>, MMSI <strong>368392220</strong>.</li>
             <li>Give location from chartplotter, phone GPS, AIS page, or nearest island/anchorage.</li>
+          </ol>
+        </article>
+
+        <article class="emergency-card emergency-red">
+          <h3>Man Overboard roles</h3>
+          <ol>
+            <li><strong>Everyone:</strong> shout “MAN OVERBOARD” and keep pointing at the person in the water.</li>
+            <li><strong>Ken:</strong> take the helm. Slow down, turn back carefully, keep propellers away from the MOB.</li>
+            <li><strong>Whitney:</strong> grab the throwable and go to the side where the MOB is. Throw flotation immediately.</li>
+            <li><strong>Kelli:</strong> you are spotter. Hold a rail. Do not take your eyes off the MOB for any reason.</li>
+            <li><strong>Ava and Riley:</strong> put life jackets on, go forward only if safe, and point at the MOB continuously.</li>
+            <li><strong>Grayson:</strong> stay by your father’s side or with the nearest adult. Put your life jacket on.</li>
+            <li><strong>Radio:</strong> if the person is not recovered immediately, call MAYDAY on VHF 16.</li>
           </ol>
         </article>
 
@@ -178,6 +202,11 @@
         <article class="emergency-card">
           <h3>MAYDAY script</h3>
           <p class="script-block">MAYDAY MAYDAY MAYDAY<br>THIS IS INCONCEIVABLE INCONCEIVABLE INCONCEIVABLE<br>MMSI THREE SIX EIGHT THREE NINE TWO TWO TWO ZERO<br>POSITION IS [READ LAT/LON OR NEAREST ISLAND]<br>WE ARE [SINKING / ON FIRE / PERSON OVERBOARD / SEVERE MEDICAL EMERGENCY]<br>WE HAVE [NUMBER] PEOPLE ON BOARD<br>WE NEED IMMEDIATE ASSISTANCE<br>OVER</p>
+        </article>
+
+        <article class="emergency-card">
+          <h3>MAYDAY MOB script</h3>
+          <p class="script-block">MAYDAY MAYDAY MAYDAY<br>THIS IS INCONCEIVABLE<br>MAN OVERBOARD<br>POSITION IS [READ LAT/LON OR NEAREST ISLAND]<br>ONE PERSON IN THE WATER<br>WE ARE ATTEMPTING RECOVERY<br>WE NEED IMMEDIATE ASSISTANCE<br>OVER</p>
         </article>
 
         <article class="emergency-card">
@@ -225,5 +254,6 @@
   <script src="app.js"></script>
   <script src="dashboard-updates.js"></script>
   <script src="itinerary-ideas.js"></script>
+  <script src="pa-announcer.js"></script>
 </body>
 </html>
