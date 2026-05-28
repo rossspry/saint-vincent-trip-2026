@@ -1,4 +1,4 @@
-const CREW_EMAIL = "rossspry@gmail.com";
+const CREW_EMAIL = "NCsailingcrew@gmail.com";
 
 async function loadTripData() {
   try {
