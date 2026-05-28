@@ -102,6 +102,34 @@
   padding: 22px;
 }
 
+/* Make the dashboard Map and current status section large like the family page. */
+#live-map.tracker-panel {
+  padding: clamp(20px, 3vw, 30px);
+}
+
+#live-map .tracker-layout,
+#live-map .tracker-layout.large-tracker-layout {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.7fr) minmax(520px, 1.6fr);
+  gap: 20px;
+  align-items: stretch;
+}
+
+#live-map .map-card {
+  padding: 0;
+  overflow: hidden;
+  min-height: clamp(560px, 68vw, 820px);
+}
+
+#live-map .map-card iframe,
+#live-map .map-card iframe.dashboard-large-map {
+  width: 100%;
+  height: clamp(560px, 68vw, 820px);
+  min-height: clamp(560px, 68vw, 820px);
+  border: 0;
+  display: block;
+}
+
 .tracker-button {
   margin-top: 18px;
   width: 100%;
@@ -282,8 +310,17 @@
 }
 
 @media (max-width: 920px) {
-  .tracker-layout {
+  .tracker-layout,
+  #live-map .tracker-layout,
+  #live-map .tracker-layout.large-tracker-layout {
     grid-template-columns: 1fr;
+  }
+
+  #live-map .map-card,
+  #live-map .map-card iframe,
+  #live-map .map-card iframe.dashboard-large-map {
+    min-height: 520px;
+    height: 520px;
   }
 
   .quick-cards {
@@ -310,5 +347,12 @@
   .emergency-grid,
   .preset-grid {
     grid-template-columns: 1fr;
+  }
+
+  #live-map .map-card,
+  #live-map .map-card iframe,
+  #live-map .map-card iframe.dashboard-large-map {
+    min-height: 460px;
+    height: 460px;
   }
 }
