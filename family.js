@@ -1,6 +1,6 @@
 const CREW_EMAIL = "NCsailingcrew@gmail.com";
 const PHOTO_BOX_URL = "https://drive.google.com/drive/folders/1KYD_44wOEdmn48rLzYyVFDK9enNutFYU";
-const PHOTO_FEED_URL = "photos.json";
+const PHOTO_FEED_URL = "https://script.google.com/macros/s/AKfycbycwTwnSd6OvhD97xqdfj3-E1BWxRgGRYXWor_AmfKPGVxkqds0tSBZ496i51tzk3K59g/exec";
 const MAX_LATEST_PHOTOS = 10;
 
 async function loadTripData() {
