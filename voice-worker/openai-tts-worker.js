@@ -47,7 +47,7 @@ export default {
     const instructions = String(
       body.instructions ||
       env.OPENAI_VOICE_INSTRUCTIONS ||
-      "Speak like a warm confident sailing captain making a fun but clear shipboard announcement. Calm Caribbean vacation energy. Natural pacing."
+      "Speak like a cheerful shipboard announcer on a Caribbean sailing catamaran. Use a happy peppy upbeat tone with friendly energy and a slightly quicker pace than normal. Keep every word clear and easy to understand."
     );
 
     const response = await fetch("https://api.openai.com/v1/audio/speech", {
