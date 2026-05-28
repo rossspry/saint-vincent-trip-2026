@@ -115,7 +115,7 @@
   color: var(--ink);
 }
 
-/* Itinerary postcard activity cards */
+/* Itinerary and idea cards */
 .postcard-itinerary-panel {
   margin-top: 24px;
 }
@@ -126,101 +126,106 @@
   gap: 18px;
 }
 
-.itinerary-postcard {
-  position: relative;
-  min-height: 320px;
-  padding: 24px;
-  border-radius: 24px;
-  border: 1px solid rgba(5, 45, 67, 0.18);
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.94), rgba(255,248,234,.94)),
-    radial-gradient(circle at top right, rgba(95, 212, 216, .28), transparent 12rem);
+.itinerary-postcard,
+.idea-card,
+.emergency-card {
+  background: rgba(255,255,255,.95);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 22px;
   box-shadow: 0 18px 40px rgba(3, 27, 41, .12);
-  overflow: hidden;
 }
 
-.itinerary-postcard::before {
-  content: "";
-  position: absolute;
-  inset: 12px;
-  border: 2px dashed rgba(5,45,67,.16);
-  border-radius: 18px;
-  pointer-events: none;
+.itinerary-postcard h3,
+.idea-card h3,
+.emergency-card h3 {
+  color: var(--navy);
+  margin-bottom: 8px;
 }
 
-.postcard-stamp {
-  position: absolute;
-  top: 22px;
-  right: 22px;
-  width: 74px;
-  height: 58px;
-  border: 2px solid rgba(5,45,67,.24);
-  border-radius: 10px;
-  display: grid;
-  place-items: center;
-  font-weight: 950;
-  color: var(--blue);
-  background: rgba(255,255,255,.72);
-  transform: rotate(4deg);
-}
-
-.postcard-topline {
+.postcard-topline,
+.idea-card-head span {
   color: var(--muted);
   font-size: .85rem;
   font-weight: 900;
   letter-spacing: .08em;
   text-transform: uppercase;
-  padding-right: 90px;
-}
-
-.itinerary-postcard h3 {
-  margin: 10px 90px 10px 0;
-  color: var(--navy);
-  font-size: clamp(1.35rem, 2.5vw, 2rem);
 }
 
 .postcard-overnight,
-.postcard-route {
-  color: var(--ink);
-}
-
-.postcard-route {
+.postcard-route,
+.idea-card p {
   color: var(--muted);
-  font-size: .95rem;
 }
 
-.postcard-ideas {
-  margin-top: 14px;
-  background: rgba(255,255,255,.72);
-  border: 1px solid rgba(5,45,67,.1);
-  border-radius: 18px;
-  padding: 14px;
-}
-
-.postcard-ideas h4 {
-  margin: 0 0 8px;
-  color: var(--blue);
-  text-transform: uppercase;
-  letter-spacing: .08em;
-  font-size: .8rem;
-}
-
-.postcard-ideas ul {
-  margin: 0;
+.postcard-ideas ul,
+.idea-card ul {
+  margin: 10px 0 0;
   padding-left: 18px;
 }
 
-.postcard-ideas li {
+.postcard-ideas li,
+.idea-card li {
   margin: 6px 0;
   font-weight: 750;
 }
 
-@media (max-width: 1100px) {
-  .quick-cards {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
+.emergency-panel .section-heading {
+  max-width: 980px;
+}
 
-  .itinerary-postcard-grid {
+.emergency-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.priority-grid {
+  align-items: stretch;
+}
+
+.emergency-red {
+  border-color: rgba(190, 44, 44, .35);
+  background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(255,235,235,.94));
+}
+
+.contact-list,
+.radio-tags,
+.emergency-card ol,
+.emergency-card ul {
+  margin-bottom: 0;
+}
+
+.contact-list li,
+.emergency-card li {
+  margin: 8px 0;
+}
+
+.radio-tags dt {
+  margin-top: 10px;
+  color: var(--blue);
+  font-weight: 950;
+}
+
+.radio-tags dd {
+  margin: 4px 0 10px;
+  color: var(--muted);
+}
+
+.script-block {
+  background: #fff8ea;
+  border-left: 5px solid var(--gold);
+  border-radius: 14px;
+  padding: 14px;
+  font-weight: 800;
+  line-height: 1.55;
+}
+
+@media (max-width: 1100px) {
+  .quick-cards,
+  .itinerary-postcard-grid,
+  .emergency-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -250,22 +255,8 @@
   }
 
   .quick-cards,
-  .itinerary-postcard-grid {
+  .itinerary-postcard-grid,
+  .emergency-grid {
     grid-template-columns: 1fr;
-  }
-
-  .itinerary-postcard {
-    min-height: auto;
-    padding: 20px;
-  }
-
-  .postcard-stamp {
-    width: 62px;
-    height: 48px;
-    font-size: .82rem;
-  }
-
-  .itinerary-postcard h3 {
-    margin-right: 74px;
   }
 }
