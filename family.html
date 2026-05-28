@@ -81,36 +81,6 @@
       <div class="map-frame-wrap large-map-frame" id="mapFrameWrap">
         <iframe id="familyMap" title="Latest Inconceivable location map" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
       </div>
-
-      <details class="manual-location-panel">
-        <summary>Manual location update if AIS is not working</summary>
-        <form id="manualLocationForm" class="family-form manual-location-form">
-          <label>
-            Update password
-            <input name="updateSecret" type="password" placeholder="Same UPDATE_SECRET used on the dashboard" autocomplete="current-password" required />
-          </label>
-          <label>
-            Current location name
-            <input name="locationName" type="text" placeholder="Example: Admiralty Bay, Bequia" required />
-          </label>
-          <div class="location-two-col">
-            <label>
-              Latitude
-              <input name="latitude" type="number" step="0.000001" placeholder="13.005000" required />
-            </label>
-            <label>
-              Longitude
-              <input name="longitude" type="number" step="0.000001" placeholder="-61.235000" required />
-            </label>
-          </div>
-          <label>
-            Manual note
-            <input name="locationNote" type="text" placeholder="AIS down - manual update from crew" />
-          </label>
-          <button class="button primary" type="submit">Publish manual location</button>
-          <p class="tiny" id="manualLocationStatus">Use this only when AIS is not updating or the map is wrong.</p>
-        </form>
-      </details>
     </section>
 
     <section class="photo-section">
