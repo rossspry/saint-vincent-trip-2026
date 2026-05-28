@@ -1,3 +1,5 @@
+const CUSTOM_CHIME_URL = "https://drive.google.com/uc?export=download&id=1xTRWClbNVpepUkFMZY3M9d-mF4FaQ8QE";
+
 const ANNOUNCEMENT_PRESETS = {
   nonEmergency: [
     {
@@ -63,8 +65,8 @@ const ANNOUNCEMENT_PRESETS = {
       text: "All hands, put your life jackets on and meet at the dinghy. I repeat, all hands put your life jackets on and meet at the dinghy."
     },
     {
-      label: "MAN OVERBOARD",
-      text: "Man overboard. Man overboard. Man overboard. Ken take the helm. Whitney grab the throwable. Kelli keep eyes on the person in the water. Ava and Riley put on life jackets and point. Grayson stay with your father or the nearest adult."
+      label: "Person in water",
+      text: "Person in the water. Person in the water. Person in the water. Ken take the helm. Whitney grab the throwable. Kelli keep eyes on the person in the water. Ava and Riley put on life jackets and point. Grayson stay with your father or the nearest adult."
     },
     {
       label: "Fire aboard",
@@ -75,7 +77,7 @@ const ANNOUNCEMENT_PRESETS = {
       text: "Medical emergency. Medical emergency. Bring the first aid kit. Clear space around the patient. One person prepare to call for help."
     },
     {
-      label: "Abandon cockpit / go forward",
+      label: "Go forward",
       text: "Emergency instruction. Put on life jackets. Move carefully to the forward deck and hold a secure handhold."
     }
   ]
@@ -100,7 +102,7 @@ function playTone(ctx, start, frequency, duration, gainValue = 0.22) {
   oscillator.stop(start + duration + 0.04);
 }
 
-function playChime() {
+function playBuiltInChime() {
   const ctx = createAudioContext();
   if (!ctx) return Promise.resolve();
   const now = ctx.currentTime + 0.05;
@@ -108,6 +110,36 @@ function playChime() {
   playTone(ctx, now + 0.28, 784, 0.32, 0.18);
   playTone(ctx, now + 0.58, 523.25, 0.65, 0.22);
   return new Promise((resolve) => setTimeout(resolve, 1500));
+}
+
+function playAudioUrl(url, fallback) {
+  if (!url) return fallback();
+  return new Promise((resolve) => {
+    const audio = new Audio(url);
+    let settled = false;
+    const finish = () => {
+      if (settled) return;
+      settled = true;
+      resolve();
+    };
+    audio.addEventListener("ended", finish, { once: true });
+    audio.addEventListener("error", async () => {
+      if (settled) return;
+      settled = true;
+      await fallback();
+      resolve();
+    }, { once: true });
+    audio.play().catch(async () => {
+      if (settled) return;
+      settled = true;
+      await fallback();
+      resolve();
+    });
+  });
+}
+
+function playChime() {
+  return playAudioUrl(CUSTOM_CHIME_URL, playBuiltInChime);
 }
 
 function playEmergencyAlarm() {
@@ -203,7 +235,7 @@ async function announceText(text, type, button, status) {
       await playEmergencyAlarm();
       status.textContent = "Emergency announcement complete.";
     } else {
-      status.textContent = "Playing standard chimes.";
+      status.textContent = "Playing custom chime.";
       await playChime();
       status.textContent = "Generating AI voice announcement.";
       await playVoice(text, status);
