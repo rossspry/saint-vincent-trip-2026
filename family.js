@@ -19,7 +19,7 @@ async function loadPhotoFeed() {
     return await response.json();
   } catch (error) {
     console.warn("Could not load photos.json", error);
-    return [];
+    return { mainPhoto: null, photos: [] };
   }
 }
 
@@ -47,16 +47,11 @@ function mealText(meal) {
 function updateMap(data) {
   const iframe = document.getElementById("familyMap");
   if (!iframe || !data || typeof data.latitude !== "number" || typeof data.longitude !== "number") return;
-
   const lat = data.latitude;
   const lon = data.longitude;
   const zoom = data.mapZoom || 9;
   const delta = zoom >= 11 ? 0.08 : 0.35;
-  const left = lon - delta;
-  const right = lon + delta;
-  const top = lat + delta;
-  const bottom = lat - delta;
-  iframe.src = `https://www.openstreetmap.org/export/embed.html?bbox=${left}%2C${bottom}%2C${right}%2C${top}&layer=mapnik&marker=${lat}%2C${lon}`;
+  iframe.src = `https://www.openstreetmap.org/export/embed.html?bbox=${lon - delta}%2C${lat - delta}%2C${lon + delta}%2C${lat + delta}&layer=mapnik&marker=${lat}%2C${lon}`;
 }
 
 function renderTripData(data) {
@@ -67,7 +62,7 @@ function renderTripData(data) {
   setText('[data-trip="activities"]', data.activities);
   setText('[data-trip="captainMessage"]', data.captainMessage);
   setText('[data-trip="lastUpdated"]', `Last updated: ${data.lastUpdated || "not yet"}`);
-
+  setText('[data-trip="automationStatus"]', data.automationStatus);
   if (data.meals) {
     setText('[data-meal="breakfast"]', mealText(data.meals.breakfast));
     setText('[data-meal="lunch"]', mealText(data.meals.lunch));
@@ -75,37 +70,45 @@ function renderTripData(data) {
   } else if (data.dinner) {
     setText('[data-meal="dinner"]', data.dinner);
   }
-
   updateMap(data);
 }
 
-function renderPhotos(photos) {
+function normalizePhotos(feed) {
+  if (Array.isArray(feed)) return { mainPhoto: feed[0] || null, photos: feed };
+  const photos = Array.isArray(feed?.photos) ? feed.photos : [];
+  return { mainPhoto: feed?.mainPhoto || photos[0] || null, photos };
+}
+
+function renderMainPhoto(photo) {
+  const card = document.getElementById("mainPhotoCard");
+  const caption = document.getElementById("mainPhotoCaption");
+  if (!card || !photo) return;
+  const imageUrl = photo.thumbnailUrl || photo.url || photo.webContentLink || "";
+  const link = photo.viewUrl || photo.webViewLink || PHOTO_BOX_URL;
+  const title = photo.title || photo.name || "The crew aboard Inconceivable";
+  if (!imageUrl) return;
+  card.innerHTML = `
+    <a href="${escapeHtml(link)}" target="_blank" rel="noreferrer"><img src="${escapeHtml(imageUrl)}" alt="${escapeHtml(title)}" loading="eager" /></a>
+    <figcaption id="mainPhotoCaption">${escapeHtml(title)}</figcaption>
+  `;
+  if (caption) caption.textContent = title;
+}
+
+function renderPhotos(feed) {
   const grid = document.getElementById("latestPhotoGrid");
   if (!grid) return;
-
-  if (!Array.isArray(photos) || !photos.length) {
-    grid.innerHTML = `
-      <figure class="photo-placeholder">
-        <span>Photo Box</span>
-        <figcaption><a href="${PHOTO_BOX_URL}" target="_blank" rel="noreferrer">Open the shared Photo Box</a></figcaption>
-      </figure>
-    `;
+  const { mainPhoto, photos } = normalizePhotos(feed);
+  renderMainPhoto(mainPhoto);
+  if (!photos.length) {
+    grid.innerHTML = `<figure class="photo-placeholder"><span>Photo Box</span><figcaption><a href="${PHOTO_BOX_URL}" target="_blank" rel="noreferrer">Open the shared Photo Box</a></figcaption></figure>`;
     return;
   }
-
   grid.innerHTML = photos.slice(0, 10).map((photo) => {
     const title = escapeHtml(photo.title || photo.name || "Trip photo");
     const url = photo.thumbnailUrl || photo.url || photo.webContentLink || "";
     const link = photo.viewUrl || photo.webViewLink || PHOTO_BOX_URL;
-    if (!url) {
-      return `<figure class="photo-placeholder"><span>Photo</span><figcaption><a href="${escapeHtml(link)}" target="_blank" rel="noreferrer">${title}</a></figcaption></figure>`;
-    }
-    return `
-      <figure>
-        <a href="${escapeHtml(link)}" target="_blank" rel="noreferrer"><img src="${escapeHtml(url)}" alt="${title}" loading="lazy" /></a>
-        <figcaption>${title}</figcaption>
-      </figure>
-    `;
+    if (!url) return `<figure class="photo-placeholder"><span>Photo</span><figcaption><a href="${escapeHtml(link)}" target="_blank" rel="noreferrer">${title}</a></figcaption></figure>`;
+    return `<figure><a href="${escapeHtml(link)}" target="_blank" rel="noreferrer"><img src="${escapeHtml(url)}" alt="${title}" loading="lazy" /></a><figcaption>${title}</figcaption></figure>`;
   }).join("");
 }
 
