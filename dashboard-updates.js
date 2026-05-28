@@ -1,5 +1,6 @@
 const STATUS_DRAFT_KEY = "svgTripStatusDraftV1";
-const STATUS_WORKER_ENDPOINT = "";
+const STATUS_SECRET_KEY = "svgTripStatusSecretV1";
+const STATUS_WORKER_ENDPOINT = "https://inconceivable-status-update.rossspry.workers.dev/";
 
 function dashboardEscape(value) {
   return String(value || "")
@@ -55,9 +56,14 @@ function addCaptainStatusForm() {
     <div class="section-heading compact-heading">
       <p class="eyebrow">Family status editor</p>
       <h2>Update meals and crew message</h2>
-      <p>This updates the dashboard preview now. Once the protected update worker is connected, the same form will publish to the family page.</p>
+      <p>This publishes to the protected update worker, then GitHub updates the family page data.</p>
     </div>
     <form id="captainStatusForm" class="status-editor-form">
+      <label>
+        Update password
+        <input name="updateSecret" type="password" placeholder="Enter the UPDATE_SECRET from Cloudflare" autocomplete="current-password" />
+      </label>
+
       <label>
         Message from the crew
         <textarea name="captainMessage" rows="3" placeholder="We are anchored off Bequia, everyone is happy, and the sunset is ridiculous."></textarea>
@@ -129,11 +135,11 @@ function addCaptainStatusForm() {
       </label>
 
       <div class="button-row">
-        <button class="button primary" type="submit">Save Status Preview</button>
+        <button class="button primary" type="submit">Publish Family Status</button>
         <button class="button secondary" type="button" id="copyStatusJson">Copy JSON</button>
         <button class="button secondary" type="button" id="downloadStatusJson">Download manual-status.json</button>
       </div>
-      <p class="tiny" id="statusEditorNote">Not published yet. This is ready for the secure update worker.</p>
+      <p class="tiny" id="statusEditorNote">Ready to publish through the Cloudflare status worker.</p>
     </form>
     <div class="status-preview" id="statusPreview"></div>
   `;
@@ -144,6 +150,7 @@ function addCaptainStatusForm() {
   const preview = panel.querySelector("#statusPreview");
   const note = panel.querySelector("#statusEditorNote");
   const saved = loadStatusDraft();
+  form.updateSecret.value = localStorage.getItem(STATUS_SECRET_KEY) || "";
 
   for (const [key, value] of Object.entries(saved)) {
     if (key === "meals") continue;
@@ -191,25 +198,34 @@ function addCaptainStatusForm() {
     return payload;
   }
 
-  form.addEventListener("input", saveAndPreview);
+  form.addEventListener("input", () => {
+    localStorage.setItem(STATUS_SECRET_KEY, form.updateSecret.value);
+    saveAndPreview();
+  });
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     const payload = saveAndPreview();
+    const updateSecret = form.updateSecret.value.trim();
 
-    if (!STATUS_WORKER_ENDPOINT) {
-      note.textContent = "Saved locally. Publishing needs the secure update worker URL added to dashboard-updates.js.";
+    if (!updateSecret) {
+      note.textContent = "Enter the UPDATE_SECRET password first.";
       return;
     }
 
     try {
+      note.textContent = "Publishing status update...";
       const response = await fetch(STATUS_WORKER_ENDPOINT, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "X-Update-Secret": updateSecret
+        },
         body: JSON.stringify(payload)
       });
-      if (!response.ok) throw new Error(`Worker returned ${response.status}`);
-      note.textContent = "Published to family status.";
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(result.error || `Worker returned ${response.status}`);
+      note.textContent = `Published to family status. Commit: ${result.commit || "done"}`;
     } catch (error) {
       note.textContent = `Publish failed: ${error.message}`;
     }
