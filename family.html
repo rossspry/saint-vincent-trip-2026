@@ -16,8 +16,8 @@
       <p class="lead">A simple update page for friends and family following along from home.</p>
       <div class="message-card">
         <p class="message-label">Message from the crew</p>
-        <h2>We’re having a blast. We’re thinking about everyone back home.</h2>
-        <p>We’ll update this page with favorite photos, our general location, weather, and quick notes when we get a chance.</p>
+        <h2 data-trip="captainMessage">We’re having a blast. We’re thinking about everyone back home.</h2>
+        <p>We’ll update this page with favorite photos, our general location, weather, meals, and quick notes when we get a chance.</p>
       </div>
     </section>
 
@@ -25,13 +25,13 @@
       <article class="info-card">
         <h2>Latest location</h2>
         <p class="big" data-trip="locationName">St. Vincent &amp; The Grenadines</p>
-        <p data-trip="locationNote">Current planned cruising area aboard <strong>Inconceivable</strong>. This will update automatically once AIS data is connected.</p>
+        <p data-trip="locationNote">Current planned cruising area aboard <strong>Inconceivable</strong>. AIS is the primary source when available.</p>
       </article>
 
       <article class="info-card">
         <h2>Weather snapshot</h2>
         <p class="big" data-trip="weatherTitle">Caribbean sailing weather</p>
-        <p data-trip="weather">Wind, sea state, and conditions will be summarized here from the crew’s daily update.</p>
+        <p data-trip="weather">Weather will update from the current AIS/manual location when the automation runs.</p>
       </article>
 
       <article class="info-card">
@@ -41,11 +41,26 @@
       </article>
     </section>
 
+    <section class="snapshot-grid meal-grid" aria-label="Current meal plan">
+      <article class="info-card">
+        <h2>Breakfast</h2>
+        <p class="big" data-meal="breakfast">Regular breakfast onboard</p>
+      </article>
+      <article class="info-card">
+        <h2>Lunch</h2>
+        <p class="big" data-meal="lunch">Lunch onboard</p>
+      </article>
+      <article class="info-card">
+        <h2>Dinner</h2>
+        <p class="big" data-meal="dinner">Dinner onboard</p>
+      </article>
+    </section>
+
     <section class="map-section">
       <div class="section-heading">
         <p class="eyebrow">Where are they?</p>
         <h2>Latest map snapshot</h2>
-        <p data-trip="lastUpdated">Last updated manually by the crew until AIS automation is connected.</p>
+        <p data-trip="lastUpdated">Last updated by AIS or manual fallback.</p>
       </div>
       <div class="map-frame-wrap" id="mapFrameWrap">
         <iframe id="familyMap" title="Latest Inconceivable location map" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
@@ -72,19 +87,18 @@
 
     <section class="photo-section">
       <p class="eyebrow">Latest pictures</p>
-      <h2>A few favorites from the trip</h2>
-      <div class="photo-grid">
-        <figure class="photo-placeholder"><span>Photo 1</span><figcaption>Latest crew photo</figcaption></figure>
-        <figure class="photo-placeholder"><span>Photo 2</span><figcaption>Anchorage or sailing view</figcaption></figure>
-        <figure class="photo-placeholder"><span>Photo 3</span><figcaption>Food sunset or island stop</figcaption></figure>
-        <figure class="photo-placeholder"><span>Photo 4</span><figcaption>Snorkeling fishing or beach day</figcaption></figure>
+      <h2>Latest photos from the Inconceivable Photo Box</h2>
+      <p class="tiny">When the Google Drive photo feed is connected, this section will show the latest 10 uploaded photos automatically.</p>
+      <div class="photo-grid" id="latestPhotoGrid">
+        <figure class="photo-placeholder"><span>Photo feed</span><figcaption>Waiting for Photo Box feed</figcaption></figure>
       </div>
+      <p><a class="button secondary" href="https://drive.google.com/drive/folders/1KYD_44wOEdmn48rLzYyVFDK9enNutFYU" target="_blank" rel="noreferrer">Open Photo Box</a></p>
     </section>
 
     <section class="snapshot-footer-card">
       <h2>Following along</h2>
       <p>This page is intentionally simple. It is meant for family and friends to see a quick snapshot without getting into the planning dashboard.</p>
-      <p class="tiny">Location and weather become automatic once AIS/weather automation is connected.</p>
+      <p class="tiny">Location uses AIS first, last known AIS second, and manual fallback only when AIS has never reported.</p>
     </section>
   </main>
   <script src="family.js"></script>
