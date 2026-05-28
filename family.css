@@ -127,7 +127,7 @@ h2 { color: var(--navy); font-size: clamp(1.35rem, 3vw, 2.2rem); }
   gap: 16px;
   margin: 22px 0;
 }
-.info-card, .photo-section, .snapshot-footer-card, .map-section, .message-section {
+.info-card, .photo-section, .map-section, .message-section {
   background: rgba(255,255,255,.92);
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -140,6 +140,7 @@ h2 { color: var(--navy); font-size: clamp(1.35rem, 3vw, 2.2rem); }
 .dinner-highlight { border-color: rgba(244,199,107,.55); background: linear-gradient(180deg, rgba(255,255,255,.95), rgba(255,248,234,.96)); }
 
 .map-section, .message-section, .photo-section { margin-bottom: 24px; }
+.live-map-section { padding: clamp(20px, 3vw, 28px); }
 .section-heading p:last-child { color: var(--muted); }
 .map-frame-wrap {
   overflow: hidden;
@@ -148,7 +149,28 @@ h2 { color: var(--navy); font-size: clamp(1.35rem, 3vw, 2.2rem); }
   background: #dff6fa;
   min-height: 360px;
 }
+.large-map-frame { min-height: clamp(520px, 68vw, 780px); }
 #familyMap { width: 100%; min-height: 360px; border: 0; display: block; }
+.large-map-frame #familyMap { min-height: clamp(520px, 68vw, 780px); }
+
+.manual-location-panel {
+  margin-top: 18px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: rgba(248,241,223,.7);
+  padding: 16px;
+}
+.manual-location-panel summary {
+  cursor: pointer;
+  color: var(--navy);
+  font-weight: 950;
+}
+.manual-location-form { margin-top: 16px; }
+.location-two-col {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
 
 .family-form { display: grid; gap: 14px; margin-top: 16px; }
 .family-form label { display: grid; gap: 7px; color: var(--navy); font-weight: 900; }
@@ -193,8 +215,6 @@ h2 { color: var(--navy); font-size: clamp(1.35rem, 3vw, 2.2rem); }
 .photo-grid figcaption, .photo-placeholder figcaption { background: rgba(255,255,255,.88); padding: 10px; color: var(--muted); font-weight: 800; font-size: .85rem; }
 .photo-grid a { color: var(--blue); }
 
-.snapshot-footer-card { text-align: center; }
-.snapshot-footer-card p { color: var(--muted); }
 .tiny { font-size: .88rem; color: var(--muted); }
 
 @media (max-width: 940px) {
@@ -207,8 +227,9 @@ h2 { color: var(--navy); font-size: clamp(1.35rem, 3vw, 2.2rem); }
   .snapshot-page { width: min(100% - 18px, 1120px); padding-top: 10px; }
   .snapshot-hero { border-radius: 24px; padding: 16px; }
   h1 { font-size: clamp(2rem, 12vw, 3.1rem); }
-  .snapshot-grid, .photo-grid { grid-template-columns: 1fr; }
+  .snapshot-grid, .photo-grid, .location-two-col { grid-template-columns: 1fr; }
   .main-photo-card { min-height: 260px; border-radius: 22px; }
+  .large-map-frame, .large-map-frame #familyMap { min-height: 460px; }
   .photo-grid figure, .photo-placeholder { min-height: 180px; }
   .photo-grid img { height: 210px; }
   .button { width: 100%; }
