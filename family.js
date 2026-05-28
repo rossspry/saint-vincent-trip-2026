@@ -1,6 +1,6 @@
 const CREW_EMAIL = "NCsailingcrew@gmail.com";
 const PHOTO_BOX_URL = "https://drive.google.com/drive/folders/1KYD_44wOEdmn48rLzYyVFDK9enNutFYU";
-const PHOTO_FEED_URL = "https://script.google.com/macros/s/AKfycbw_gACL9w95kYf1Ex1geRshstRxtXnqdVHhoV8SzPuz/dev";
+const PHOTO_FEED_URL = "https://script.google.com/macros/s/AKfycbycwTwnSd6OvhD97xqdfj3-E1BWxRgGRYXWor_AmfKPGVxkqds0tSBZ496i51tzk3K59g/exec";
 const STATUS_WORKER_ENDPOINT = "https://inconceivable-status-update.rossspry.workers.dev/";
 const STATUS_SECRET_KEY = "svgTripStatusSecretV1";
 const MAX_LATEST_PHOTOS = 10;
@@ -17,14 +17,50 @@ async function loadTripData() {
   }
 }
 
+function loadJsonp(url) {
+  return new Promise((resolve, reject) => {
+    const callbackName = `photoFeedCallback_${Date.now()}_${Math.floor(Math.random() * 100000)}`;
+    const script = document.createElement("script");
+    const separator = url.includes("?") ? "&" : "?";
+    const timeout = setTimeout(() => {
+      cleanup();
+      reject(new Error("Photo feed timed out."));
+    }, 12000);
+
+    function cleanup() {
+      clearTimeout(timeout);
+      delete window[callbackName];
+      script.remove();
+    }
+
+    window[callbackName] = (payload) => {
+      cleanup();
+      resolve(payload);
+    };
+
+    script.onerror = () => {
+      cleanup();
+      reject(new Error("Photo feed script failed to load."));
+    };
+
+    script.src = `${url}${separator}callback=${callbackName}&cacheBust=${Date.now()}`;
+    document.body.appendChild(script);
+  });
+}
+
 async function loadPhotoFeed() {
   try {
-    const response = await fetch(PHOTO_FEED_URL, { cache: "no-store" });
-    if (!response.ok) throw new Error(`${PHOTO_FEED_URL} not found`);
-    return await response.json();
-  } catch (error) {
-    console.warn(`Could not load ${PHOTO_FEED_URL}`, error);
-    return { mainPhoto: null, photos: [] };
+    return await loadJsonp(PHOTO_FEED_URL);
+  } catch (jsonpError) {
+    console.warn("Could not load Apps Script photo feed with JSONP", jsonpError);
+    try {
+      const response = await fetch("photos.json", { cache: "no-store" });
+      if (!response.ok) throw new Error("photos.json not found");
+      return await response.json();
+    } catch (localError) {
+      console.warn("Could not load local photos.json fallback", localError);
+      return { mainPhoto: null, photos: [] };
+    }
   }
 }
 
