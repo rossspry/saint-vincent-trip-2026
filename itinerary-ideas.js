@@ -20,6 +20,74 @@ function safeIdeasText(value) {
     .replaceAll("'", "&#039;");
 }
 
+function addActivityCardStyles() {
+  if (document.getElementById("activity-card-style")) return;
+  const style = document.createElement("style");
+  style.id = "activity-card-style";
+  style.textContent = `
+    .activity-stop-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .activity-day-number {
+      color: var(--blue);
+      font-size: .82rem;
+      font-weight: 950;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    .activity-day-date {
+      color: var(--muted);
+      font-size: .95rem;
+      font-weight: 900;
+    }
+    .activity-day-description {
+      margin: 0 0 4px;
+      color: var(--gold);
+      font-size: 1.08rem;
+      font-weight: 950;
+      line-height: 1.25;
+    }
+    .extra-idea {
+      color: var(--blue);
+    }
+    .extra-activity-form {
+      margin-top: auto;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: end;
+      padding-top: 12px;
+      border-top: 1px solid var(--line);
+    }
+    .extra-activity-form label {
+      display: grid;
+      gap: 6px;
+      color: var(--navy);
+      font-size: .85rem;
+      font-weight: 900;
+    }
+    .extra-activity-form input {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 10px 12px;
+      font: inherit;
+      color: var(--ink);
+      background: white;
+    }
+    .extra-activity-form .button {
+      padding: 10px 14px;
+    }
+    @media (max-width: 680px) {
+      .extra-activity-form { grid-template-columns: 1fr; }
+    }
+  `;
+  document.head.appendChild(style);
+}
+
 function loadExtraIdeas() {
   try {
     return JSON.parse(localStorage.getItem(ACTIVITY_EXTRA_KEY)) || {};
@@ -71,6 +139,8 @@ function ideaListHtml(entry, extraIdeas) {
 function renderItineraryIdeas(itinerary) {
   const routeSection = document.getElementById("route");
   if (!routeSection || document.getElementById("itineraryIdeasPanel")) return;
+
+  addActivityCardStyles();
 
   const entries = Array.isArray(itinerary) ? itinerary : [];
   const extraIdeas = loadExtraIdeas();
