@@ -25,7 +25,7 @@ function renderItineraryIdeas(itinerary) {
   const entries = Array.isArray(itinerary) ? itinerary : [];
   const section = document.createElement("div");
   section.id = "itineraryIdeasPanel";
-  section.className = "itinerary-ideas-panel";
+  section.className = "postcard-itinerary-panel";
 
   const cards = entries.map((entry) => {
     const ideas = Array.isArray(entry.activityIdeas) ? entry.activityIdeas : [];
@@ -34,25 +34,27 @@ function renderItineraryIdeas(itinerary) {
       : `<li>${safeIdeasText(entry.plannedActivity || "Activity ideas not set yet.")}</li>`;
 
     return `
-      <article class="idea-card">
-        <div class="idea-card-head">
-          <span>${safeIdeasText(entry.dayLabel || "Day")}</span>
-          <strong>${safeIdeasText(entry.plannedLocation || "Planned stop")}</strong>
+      <article class="itinerary-postcard">
+        <div class="postcard-stamp">${safeIdeasText(entry.dayLabel || "Day")}</div>
+        <div class="postcard-topline">${safeIdeasText(entry.date || "2026")}</div>
+        <h3>${safeIdeasText(entry.plannedLocation || "Planned stop")}</h3>
+        <p class="postcard-overnight"><strong>Overnight:</strong> ${safeIdeasText(entry.plannedOvernight || "Flexible")}</p>
+        <p class="postcard-route">${safeIdeasText(entry.route || "Route plan pending.")}</p>
+        <div class="postcard-ideas">
+          <h4>Activity ideas</h4>
+          <ul>${ideaList}</ul>
         </div>
-        <p>${safeIdeasText(entry.route || "Route plan pending.")}</p>
-        <h3>Activity ideas</h3>
-        <ul>${ideaList}</ul>
       </article>
     `;
   }).join("");
 
   section.innerHTML = `
     <div class="section-heading compact-heading">
-      <p class="eyebrow">Island ideas</p>
-      <h2>Route activity ideas</h2>
-      <p>These are the fun stop ideas attached to the itinerary. They are planning ideas, not fixed commitments.</p>
+      <p class="eyebrow">Island postcards</p>
+      <h2>Activity ideas by stop</h2>
+      <p>Each postcard is a planning snapshot for that stop. Weather, crew energy, and charter rules still win.</p>
     </div>
-    <div class="idea-card-grid">${cards}</div>
+    <div class="itinerary-postcard-grid">${cards}</div>
   `;
 
   routeSection.appendChild(section);
