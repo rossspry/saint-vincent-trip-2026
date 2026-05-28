@@ -2,11 +2,18 @@ const STORAGE_KEY = "svgTripTodayV1";
 const CHECK_KEY = "svgTripChecksV1";
 const PHOTO_BOX_URL = "https://drive.google.com/drive/folders/1KYD_44wOEdmn48rLzYyVFDK9enNutFYU";
 const AI_VOICE_ENDPOINT = "https://inconceivable-ai-voice.rossspry.workers.dev/";
+const FAMILY_PAGE_URL = `${window.location.origin}${window.location.pathname.replace(/[^/]*$/, "")}family.html`;
 
 const navToggle = document.querySelector(".nav-toggle");
 const navLinks = document.querySelector(".nav-links");
-
 const quickCards = document.querySelector(".quick-cards");
+const todayForm = document.getElementById("todayForm");
+const statusSummary = document.getElementById("statusSummary");
+const resetToday = document.getElementById("resetToday");
+const generateBroadcast = document.getElementById("generateBroadcast");
+const copyBroadcast = document.getElementById("copyBroadcast");
+const broadcastOutput = document.getElementById("broadcastOutput");
+
 if (quickCards) {
   quickCards.innerHTML = `
     <a class="quick-card" href="#today"><span>🧭</span><strong>Today</strong><small>Daily plan location weather dinner and notes</small></a>
@@ -31,88 +38,11 @@ if (navLinks) {
   `;
 }
 
-function expandChecklists() {
-  const checklistSection = document.getElementById("checklists");
-  const board = checklistSection?.querySelector(".checklist-board");
-  const description = checklistSection?.querySelector(".section-heading p:last-child");
-  if (description) {
-    description.textContent = "Expanded working checklists for daily catamaran operations. Checks save on this device so each crew tablet or phone can track its own progress.";
-  }
-  if (!board) return;
-  board.innerHTML = `
-    <article>
-      <h3>Morning pre-sail</h3>
-      <label><input type="checkbox" data-check="morning-weather" /> Weather wind squalls radar and sea state checked</label>
-      <label><input type="checkbox" data-check="morning-route" /> Route hazards alternates bail-out anchorages reviewed</label>
-      <label><input type="checkbox" data-check="morning-brief" /> Crew briefing completed: plan roles timing safety</label>
-      <label><input type="checkbox" data-check="morning-engine" /> Engines fluids belts strainers bilges visually checked</label>
-      <label><input type="checkbox" data-check="morning-power" /> Batteries solar shore power inverter status checked</label>
-      <label><input type="checkbox" data-check="morning-water" /> Water tanks fuel levels holding tank plan checked</label>
-      <label><input type="checkbox" data-check="morning-hatches" /> Hatches ports lockers fridge/freezer and galley secured</label>
-    </article>
-
-    <article>
-      <h3>Underway / departure</h3>
-      <label><input type="checkbox" data-check="underway-dinghy" /> Dinghy lifted or secured for the leg</label>
-      <label><input type="checkbox" data-check="underway-lines" /> Dock/mooring/anchor lines clear and safely handled</label>
-      <label><input type="checkbox" data-check="underway-nav" /> Chartplotter route depth alarms and instruments checked</label>
-      <label><input type="checkbox" data-check="underway-vhf" /> VHF on correct channel volume set handheld charged</label>
-      <label><input type="checkbox" data-check="underway-crew" /> Crew seated/briefed before maneuvering or sail handling</label>
-      <label><input type="checkbox" data-check="underway-sails" /> Reefing plan discussed before sails are raised/unfurled</label>
-      <label><input type="checkbox" data-check="underway-log" /> Departure time engine hours and weather noted</label>
-    </article>
-
-    <article>
-      <h3>Anchoring / mooring arrival</h3>
-      <label><input type="checkbox" data-check="arrival-bottom" /> Bottom depth swing room current and lee protection assessed</label>
-      <label><input type="checkbox" data-check="arrival-anchor" /> Anchor set or mooring inspected before relaxing</label>
-      <label><input type="checkbox" data-check="arrival-scope" /> Scope/snubber/bridle set for conditions</label>
-      <label><input type="checkbox" data-check="arrival-transits" /> Visual bearings or range marks identified</label>
-      <label><input type="checkbox" data-check="arrival-alarm" /> Anchor alarm set on phone/chartplotter</label>
-      <label><input type="checkbox" data-check="arrival-clearance" /> Reef swim zones park rules no-anchor areas confirmed</label>
-      <label><input type="checkbox" data-check="arrival-brief" /> Crew knows swim dinghy and shore plan</label>
-    </article>
-
-    <article>
-      <h3>Evening secure boat</h3>
-      <label><input type="checkbox" data-check="evening-anchor" /> Anchor/mooring rechecked after settling and wind shift</label>
-      <label><input type="checkbox" data-check="evening-light" /> Anchor light on and visible</label>
-      <label><input type="checkbox" data-check="evening-dinghy" /> Dinghy locked tied lifted or otherwise secured</label>
-      <label><input type="checkbox" data-check="evening-galley" /> Galley propane trash food and dishes secured</label>
-      <label><input type="checkbox" data-check="evening-hatches" /> Hatches ports cockpit cushions and loose gear secured</label>
-      <label><input type="checkbox" data-check="evening-power" /> Batteries charging phones radios lights and water usage checked</label>
-      <label><input type="checkbox" data-check="evening-tomorrow" /> Tomorrow weather route breakfast and departure time discussed</label>
-    </article>
-
-    <article>
-      <h3>Dinghy / shore run</h3>
-      <label><input type="checkbox" data-check="dinghy-fuel" /> Fuel oars pump kill cord light and painter checked</label>
-      <label><input type="checkbox" data-check="dinghy-radio" /> Phone/VHF dry bag and emergency contact plan aboard</label>
-      <label><input type="checkbox" data-check="dinghy-lifejackets" /> Lifejackets or flotation plan appropriate for passengers</label>
-      <label><input type="checkbox" data-check="dinghy-landing" /> Landing spot surf rocks tide and return plan discussed</label>
-      <label><input type="checkbox" data-check="dinghy-lock" /> Lock cable or security plan used ashore</label>
-      <label><input type="checkbox" data-check="dinghy-count" /> Headcount before leaving and before returning</label>
-    </article>
-
-    <article>
-      <h3>Snorkel / swim</h3>
-      <label><input type="checkbox" data-check="snorkel-current" /> Current boat traffic reef conditions and exit point checked</label>
-      <label><input type="checkbox" data-check="snorkel-buddy" /> Buddy pairs assigned and everyone knows boundaries</label>
-      <label><input type="checkbox" data-check="snorkel-flag" /> Dive flag / visible float used if appropriate</label>
-      <label><input type="checkbox" data-check="snorkel-sun" /> Sunscreen rash guards water and time limit handled</label>
-      <label><input type="checkbox" data-check="snorkel-reef" /> Reef rule briefed: do not stand touch chase or collect</label>
-      <label><input type="checkbox" data-check="snorkel-count" /> Final headcount and gear count complete</label>
-    </article>
-  `;
-}
-expandChecklists();
-
 if (navToggle && navLinks) {
   navToggle.addEventListener("click", () => {
     const isOpen = navLinks.classList.toggle("open");
     navToggle.setAttribute("aria-expanded", String(isOpen));
   });
-
   navLinks.addEventListener("click", (event) => {
     if (event.target.tagName === "A") {
       navLinks.classList.remove("open");
@@ -121,67 +51,84 @@ if (navToggle && navLinks) {
   });
 }
 
-const todayForm = document.getElementById("todayForm");
-const statusSummary = document.getElementById("statusSummary");
-const resetToday = document.getElementById("resetToday");
-const generateBroadcast = document.getElementById("generateBroadcast");
-const copyBroadcast = document.getElementById("copyBroadcast");
-const broadcastOutput = document.getElementById("broadcastOutput");
-
-function formToData(form) {
-  return Object.fromEntries(new FormData(form).entries());
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 }
 
-async function loadSharedTripData() {
+function textOrFallback(value, fallback = "Not set yet") {
+  return value && String(value).trim() ? String(value).trim() : fallback;
+}
+
+function loadLocal(key) {
   try {
-    const response = await fetch("trip-data.json", { cache: "no-store" });
-    if (!response.ok) throw new Error("trip-data.json not found");
-    return await response.json();
-  } catch (error) {
-    console.warn("Could not load trip-data.json", error);
-    return null;
-  }
-}
-
-function sharedToTodayData(data) {
-  if (!data) return {};
-  return {
-    date: data.date || "",
-    location: data.locationName || "",
-    tonight: data.tonight || "",
-    tomorrow: data.tomorrow || "",
-    weather: data.weather || "",
-    dinner: data.dinner || "",
-    activities: data.activities || "",
-    fun: data.funnyNote || "",
-    route: data.route || "",
-    wind: data.wind || "",
-    safety: data.safety || ""
-  };
-}
-
-function getTodayData() {
-  try {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+    return JSON.parse(localStorage.getItem(key)) || {};
   } catch {
     return {};
   }
 }
 
-function saveTodayData(data) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+function saveLocal(key, value) {
+  localStorage.setItem(key, JSON.stringify(value));
+}
+
+function formToData(form) {
+  return Object.fromEntries(new FormData(form).entries());
+}
+
+async function loadJsonFile(path, fallback = null) {
+  try {
+    const response = await fetch(path, { cache: "no-store" });
+    if (!response.ok) throw new Error(`${path} not found`);
+    return await response.json();
+  } catch (error) {
+    console.warn(`Could not load ${path}`, error);
+    return fallback;
+  }
+}
+
+function isoFromTripDate(value) {
+  if (!value) return "";
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) return "";
+  return parsed.toISOString().slice(0, 10);
+}
+
+function getItineraryEntry(itinerary, tripData) {
+  if (!Array.isArray(itinerary) || !itinerary.length) return null;
+  const fromTripData = isoFromTripDate(tripData?.date);
+  const todayIso = new Date().toISOString().slice(0, 10);
+  return itinerary.find((item) => item.date === fromTripData) || itinerary.find((item) => item.date === todayIso) || itinerary[0];
+}
+
+function sharedToTodayData(data, itineraryEntry) {
+  if (!data && !itineraryEntry) return {};
+  return {
+    date: data?.date || itineraryEntry?.date || "",
+    location: data?.locationName || itineraryEntry?.plannedLocation || "",
+    tonight: data?.tonight || itineraryEntry?.plannedOvernight || "",
+    tomorrow: data?.tomorrow || itineraryEntry?.nextDestination || "",
+    weather: data?.weather || "",
+    dinner: data?.dinner || "",
+    activities: data?.activities || itineraryEntry?.plannedActivity || "",
+    fun: data?.funnyNote || "",
+    route: data?.route || itineraryEntry?.route || "",
+    wind: data?.wind || "",
+    safety: data?.safety || "",
+    itineraryNote: itineraryEntry?.captainNote || ""
+  };
 }
 
 function fillForm(data) {
   if (!todayForm) return;
-  for (const [key, value] of Object.entries(data)) {
+  for (const [key, value] of Object.entries(data || {})) {
     const field = todayForm.elements[key];
-    if (field && !field.value) field.value = value;
+    if (field && !field.value) field.value = value || "";
   }
-}
-
-function textOrFallback(value, fallback = "Not set yet") {
-  return value && value.trim() ? value.trim() : fallback;
 }
 
 function updateSummary(data) {
@@ -195,14 +142,41 @@ function updateSummary(data) {
   `;
 }
 
-function escapeHtml(value) {
-  return String(value)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
+function addFamilySharePanel() {
+  const main = document.querySelector("main");
+  const firstPanel = document.getElementById("today");
+  if (!main || !firstPanel || document.getElementById("family-share-panel")) return;
+
+  const section = document.createElement("section");
+  section.className = "panel";
+  section.id = "family-share-panel";
+  section.innerHTML = `
+    <div class="section-heading">
+      <p class="eyebrow">Share with family</p>
+      <h2>Family tracking page</h2>
+      <p>Send this link to anyone who wants the public trip snapshot without editing anything.</p>
+    </div>
+    <div class="copy-row">
+      <a class="button secondary" href="${FAMILY_PAGE_URL}" target="_blank" rel="noreferrer">Open Family Page</a>
+      <input class="share-link-input" type="text" value="${FAMILY_PAGE_URL}" readonly aria-label="Family page link" />
+      <button class="button primary" type="button" id="copyFamilyLink">Copy Link</button>
+    </div>
+  `;
+
+  main.insertBefore(section, firstPanel);
+  const copyButton = section.querySelector("#copyFamilyLink");
+  const linkInput = section.querySelector(".share-link-input");
+  copyButton.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(FAMILY_PAGE_URL);
+      flashButton(copyButton, "Copied");
+    } catch {
+      linkInput.select();
+      flashButton(copyButton, "Select + copy");
+    }
+  });
 }
+addFamilySharePanel();
 
 function addDashboardMap(data) {
   const main = document.querySelector("main");
@@ -213,11 +187,7 @@ function addDashboardMap(data) {
   const lon = typeof data?.longitude === "number" ? data.longitude : -61.2248;
   const zoom = data?.mapZoom || 8;
   const delta = zoom >= 11 ? 0.08 : 0.35;
-  const left = lon - delta;
-  const right = lon + delta;
-  const top = lat + delta;
-  const bottom = lat - delta;
-  const mapUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${left}%2C${bottom}%2C${right}%2C${top}&layer=mapnik&marker=${lat}%2C${lon}`;
+  const mapUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${lon - delta}%2C${lat - delta}%2C${lon + delta}%2C${lat + delta}&layer=mapnik&marker=${lat}%2C${lon}`;
 
   const section = document.createElement("section");
   section.className = "panel tracker-panel";
@@ -226,7 +196,7 @@ function addDashboardMap(data) {
     <div class="section-heading">
       <p class="eyebrow">Live trip snapshot</p>
       <h2>Map and current status</h2>
-      <p>${escapeHtml(data?.lastUpdated || "Manual pre-trip placeholder until AIS automation is connected.")}</p>
+      <p>${escapeHtml(data?.lastUpdated || "Manual pre-trip placeholder until GPS automation is connected.")}</p>
     </div>
     <div class="tracker-layout">
       <article class="tracker-card">
@@ -237,7 +207,7 @@ function addDashboardMap(data) {
         <p><strong>Tonight:</strong> ${escapeHtml(data?.tonight || "Not set yet")}</p>
         <p><strong>Tomorrow:</strong> ${escapeHtml(data?.tomorrow || "Not set yet")}</p>
         <p><strong>Dinner:</strong> ${escapeHtml(data?.dinner || "Not set yet")}</p>
-        <p class="tracker-note"><strong>Automation note:</strong> This map is fed by trip-data.json now. AIS will update automatically only when an accessible provider sees the vessel.</p>
+        <p class="tracker-note"><strong>Automation note:</strong> GPS/captain updates will feed this page. AIS is optional and depends on available coverage.</p>
       </article>
       <div class="tracker-card map-card">
         <iframe title="Inconceivable current map" src="${mapUrl}" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
@@ -249,22 +219,25 @@ function addDashboardMap(data) {
 
 function generateCaptainScript(data) {
   const date = textOrFallback(data.date, "today");
-  const location = textOrFallback(data.location, "our current anchorage");
+  const location = textOrFallback(data.location, "our current position");
   const route = textOrFallback(data.route, "the day’s sailing plan");
   const tonight = textOrFallback(data.tonight, "tonight’s anchorage");
-  const tomorrow = textOrFallback(data.tomorrow, "tomorrow’s next stop");
+  const tomorrow = textOrFallback(data.tomorrow, "tomorrow’s planned destination");
   const weather = textOrFallback(data.weather, "warm Caribbean conditions with the latest weather still to be confirmed");
   const wind = textOrFallback(data.wind, "manageable wind and sea state for the plan");
   const dinner = textOrFallback(data.dinner, "a fine shipboard dinner from our heroic galley crew");
   const activities = textOrFallback(data.activities, "swimming snorkeling relaxing and enjoying this ridiculous level of paradise");
   const safety = textOrFallback(data.safety, "hydrate stay clipped into common sense and nobody becomes a dinghy rescue story");
   const fun = textOrFallback(data.fun, "morale remains high and the captain has declared all snacks tax deductible under maritime law");
+  const itineraryNote = data.itineraryNote ? `\n\nItinerary note: ${data.itineraryNote}.` : "";
 
   return `Crew of Inconceivable, this is your Captain’s Noon Update for ${date}.
 
 We are currently at ${location}. Today’s working plan is ${route}. The weather picture is ${weather}, with wind and sea state reported as ${wind}.
 
-This afternoon, the plan is ${activities}. Tonight we are aiming for ${tonight}, and dinner is scheduled as ${dinner}. Tomorrow’s planned destination or operating area is ${tomorrow}.
+This afternoon, the plan is ${activities}. Tonight we are aiming for ${tonight}. Tomorrow’s planned destination is ${tomorrow}, weather and crew comfort permitting.${itineraryNote}
+
+Dinner is scheduled as ${dinner}.
 
 Safety note from the bridge: ${safety}.
 
@@ -278,7 +251,7 @@ function currentAnnouncementText() {
   if (text && !text.includes("Your generated script will appear here")) return text;
   if (!todayForm || !broadcastOutput) return "";
   const data = formToData(todayForm);
-  saveTodayData(data);
+  saveLocal(STORAGE_KEY, data);
   updateSummary(data);
   const script = generateCaptainScript(data);
   broadcastOutput.innerHTML = `<h3>Captain’s Noon Update</h3><p>${escapeHtml(script)}</p>`;
@@ -294,11 +267,7 @@ async function generateAiAudio(text, button, note) {
     const response = await fetch(AI_VOICE_ENDPOINT, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        text,
-        voice: "cedar",
-        instructions: "Speak like a warm confident sailing captain making a fun but clear shipboard announcement. Calm Caribbean vacation energy. Natural pacing. No fake accent."
-      })
+      body: JSON.stringify({ text, voice: "cedar" })
     });
 
     if (!response.ok) {
@@ -354,29 +323,71 @@ function addAiVoiceButton() {
   });
 }
 
-if (todayForm) {
-  const saved = getTodayData();
-  loadSharedTripData().then((shared) => {
-    const sharedToday = sharedToTodayData(shared);
-    const startingData = Object.keys(saved).length ? saved : sharedToday;
+function renderChecklists() {
+  const checklistSection = document.getElementById("checklists");
+  const board = checklistSection?.querySelector(".checklist-board");
+  const description = checklistSection?.querySelector(".section-heading p:last-child");
+  if (description) {
+    description.textContent = "Expanded working checklists for daily catamaran operations. Checks save on this device so each crew tablet or phone can track its own progress.";
+  }
+  if (!board) return;
+
+  const checklistGroups = [
+    ["Morning pre-sail", ["Weather wind squalls radar and sea state checked", "Route hazards alternates bail-out anchorages reviewed", "Crew briefing completed", "Engines fluids belts strainers bilges visually checked", "Batteries solar shore power inverter status checked", "Water tanks fuel levels holding tank plan checked", "Hatches ports lockers fridge freezer and galley secured"]],
+    ["Underway / departure", ["Dinghy lifted or secured for the leg", "Dock mooring anchor lines clear and safely handled", "Chartplotter route depth alarms and instruments checked", "VHF on correct channel volume set handheld charged", "Crew seated and briefed before maneuvering", "Reefing plan discussed before sails are raised", "Departure time engine hours and weather noted"]],
+    ["Anchoring / mooring arrival", ["Bottom depth swing room current and lee protection assessed", "Anchor set or mooring inspected", "Scope snubber bridle set for conditions", "Visual bearings or range marks identified", "Anchor alarm set", "Reef swim zones park rules no-anchor areas confirmed", "Crew knows swim dinghy and shore plan"]],
+    ["Evening secure boat", ["Anchor or mooring rechecked", "Anchor light on and visible", "Dinghy locked tied lifted or secured", "Galley propane trash food and dishes secured", "Hatches ports cockpit cushions and loose gear secured", "Batteries charging phones radios lights and water usage checked", "Tomorrow weather route breakfast and departure time discussed"]],
+    ["Dinghy / shore run", ["Fuel oars pump kill cord light and painter checked", "Phone or VHF in dry bag", "Lifejackets or flotation plan appropriate", "Landing spot surf rocks tide and return plan discussed", "Lock cable or security plan used ashore", "Headcount before leaving and before returning"]],
+    ["Snorkel / swim", ["Current boat traffic reef conditions and exit point checked", "Buddy pairs assigned", "Dive flag or visible float used if appropriate", "Sunscreen rash guards water and time limit handled", "Reef rule briefed", "Final headcount and gear count complete"]]
+  ];
+
+  board.innerHTML = checklistGroups.map(([title, items], groupIndex) => `
+    <article>
+      <h3>${escapeHtml(title)}</h3>
+      ${items.map((label, itemIndex) => `<label><input type="checkbox" data-check="g${groupIndex}-${itemIndex}" /> ${escapeHtml(label)}</label>`).join("")}
+    </article>
+  `).join("");
+
+  const savedChecks = loadLocal(CHECK_KEY);
+  board.querySelectorAll("input[data-check]").forEach((box) => {
+    box.checked = Boolean(savedChecks[box.dataset.check]);
+    box.addEventListener("change", () => {
+      const current = loadLocal(CHECK_KEY);
+      current[box.dataset.check] = box.checked;
+      saveLocal(CHECK_KEY, current);
+    });
+  });
+}
+renderChecklists();
+
+Promise.all([
+  loadJsonFile("trip-data.json", null),
+  loadJsonFile("itinerary.json", [])
+]).then(([shared, itinerary]) => {
+  const itineraryEntry = getItineraryEntry(itinerary, shared);
+  const sharedToday = sharedToTodayData(shared, itineraryEntry);
+
+  if (todayForm) {
+    const saved = loadLocal(STORAGE_KEY);
+    const savedHasValues = Object.values(saved).some((value) => value && String(value).trim());
+    const startingData = savedHasValues ? { ...sharedToday, ...saved } : sharedToday;
     fillForm(startingData);
     updateSummary(startingData);
-    addDashboardMap(shared);
-  });
+  }
 
+  addDashboardMap(shared);
+});
+
+if (todayForm) {
   todayForm.addEventListener("submit", (event) => {
     event.preventDefault();
     const data = formToData(todayForm);
-    saveTodayData(data);
+    saveLocal(STORAGE_KEY, data);
     updateSummary(data);
     flashButton(todayForm.querySelector("button[type='submit']"), "Saved");
   });
 
-  todayForm.addEventListener("input", () => {
-    updateSummary(formToData(todayForm));
-  });
-} else {
-  loadSharedTripData().then(addDashboardMap);
+  todayForm.addEventListener("input", () => updateSummary(formToData(todayForm)));
 }
 
 if (resetToday && todayForm) {
@@ -393,7 +404,7 @@ if (resetToday && todayForm) {
 if (generateBroadcast && todayForm && broadcastOutput) {
   generateBroadcast.addEventListener("click", () => {
     const data = formToData(todayForm);
-    saveTodayData(data);
+    saveLocal(STORAGE_KEY, data);
     updateSummary(data);
     const script = generateCaptainScript(data);
     broadcastOutput.innerHTML = `<h3>Captain’s Noon Update</h3><p>${escapeHtml(script)}</p>`;
@@ -422,26 +433,3 @@ function flashButton(button, text) {
     button.textContent = original;
   }, 1300);
 }
-
-function loadChecks() {
-  try {
-    return JSON.parse(localStorage.getItem(CHECK_KEY)) || {};
-  } catch {
-    return {};
-  }
-}
-
-function saveChecks(checks) {
-  localStorage.setItem(CHECK_KEY, JSON.stringify(checks));
-}
-
-const checkboxes = document.querySelectorAll("input[data-check]");
-const savedChecks = loadChecks();
-checkboxes.forEach((box) => {
-  box.checked = Boolean(savedChecks[box.dataset.check]);
-  box.addEventListener("change", () => {
-    const current = loadChecks();
-    current[box.dataset.check] = box.checked;
-    saveChecks(current);
-  });
-});
