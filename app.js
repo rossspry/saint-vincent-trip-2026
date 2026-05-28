@@ -1,7 +1,7 @@
 const STORAGE_KEY = "svgTripTodayV1";
 const CHECK_KEY = "svgTripChecksV1";
 const PHOTO_BOX_URL = "https://drive.google.com/drive/folders/1KYD_44wOEdmn48rLzYyVFDK9enNutFYU";
-const AI_VOICE_ENDPOINT = ""; // Paste your deployed Cloudflare Worker URL here after setup.
+const AI_VOICE_ENDPOINT = "https://inconceivable-ai-voice.rossspry.workers.dev/";
 
 const navToggle = document.querySelector(".nav-toggle");
 const navLinks = document.querySelector(".nav-links");
@@ -286,12 +286,6 @@ function currentAnnouncementText() {
 }
 
 async function generateAiAudio(text, button, note) {
-  if (!AI_VOICE_ENDPOINT) {
-    note.textContent = "AI voice endpoint is not connected yet. Deploy the Cloudflare Worker in voice-worker then paste its URL into AI_VOICE_ENDPOINT in app.js.";
-    flashButton(button, "Worker needed");
-    return;
-  }
-
   button.disabled = true;
   button.textContent = "Generating MP3…";
   note.textContent = "Sending the Captain’s Update to the AI voice worker.";
@@ -350,9 +344,7 @@ function addAiVoiceButton() {
   const note = document.createElement("p");
   note.className = "tiny";
   note.id = "voiceStatus";
-  note.textContent = AI_VOICE_ENDPOINT
-    ? "Ready to generate a real AI voice MP3."
-    : "AI voice Worker not connected yet. Browser robot voice has been removed from this button path.";
+  note.textContent = "Ready to generate a real AI voice MP3.";
   button.insertAdjacentElement("afterend", note);
 
   button.addEventListener("click", async () => {
