@@ -1,0 +1,122 @@
+[
+  {
+    "date": "2026-06-04",
+    "dayLabel": "Day 1",
+    "plannedLocation": "Blue Lagoon, St. Vincent",
+    "plannedOvernight": "Blue Lagoon, St. Vincent",
+    "nextDestination": "Bequia",
+    "route": "Boarding, charter checkout, provisioning, and final setup at Blue Lagoon. First sailing leg is planned toward Bequia after checkout and weather review.",
+    "plannedActivity": "Boarding, stowing gear, provisioning, systems checkout, dinghy check, safety briefing, and getting settled aboard Inconceivable.",
+    "captainNote": "First priority is getting the boat organized and the crew comfortable before we start moving."
+  },
+  {
+    "date": "2026-06-05",
+    "dayLabel": "Day 2",
+    "plannedLocation": "Bequia",
+    "plannedOvernight": "Bequia",
+    "nextDestination": "Mustique or Canouan, weather permitting",
+    "route": "Blue Lagoon to Bequia, then settle into the anchorage or mooring field.",
+    "plannedActivity": "First proper island stop, swim check, shore walk, possible dinner ashore, and crew shakedown day.",
+    "captainNote": "Keep the first sailing day simple and comfortable."
+  },
+  {
+    "date": "2026-06-06",
+    "dayLabel": "Day 3",
+    "plannedLocation": "Bequia / Southern Grenadines staging",
+    "plannedOvernight": "Mustique or Canouan area, conditions permitting",
+    "nextDestination": "Canouan or Tobago Cays",
+    "route": "Work south from Bequia based on weather, crew comfort, and charter guidance.",
+    "plannedActivity": "Sailing, snorkeling, beach time, and finding the best protected overnight stop.",
+    "captainNote": "Destination is flexible; comfort and conditions win."
+  },
+  {
+    "date": "2026-06-07",
+    "dayLabel": "Day 4",
+    "plannedLocation": "Canouan / Tobago Cays area",
+    "plannedOvernight": "Tobago Cays area if conditions and charter rules allow",
+    "nextDestination": "Union Island or Mayreau",
+    "route": "Move toward the Tobago Cays / Mayreau / Union Island cruising area.",
+    "plannedActivity": "Snorkeling, turtle watching, dinghy exploring, and protected anchorage time.",
+    "captainNote": "Reef and park rules matter here; no hero anchoring."
+  },
+  {
+    "date": "2026-06-08",
+    "dayLabel": "Day 5",
+    "plannedLocation": "Tobago Cays / Mayreau / Union Island area",
+    "plannedOvernight": "Mayreau or Union Island area",
+    "nextDestination": "Southern Grenadines exploration day",
+    "route": "Short-hop day in the southern Grenadines, adjusted for weather and crew energy.",
+    "plannedActivity": "Snorkeling, beach exploring, lunch stops, fishing where appropriate, and relaxed island time.",
+    "captainNote": "This is a good day to avoid rushing and let the crew enjoy the boat."
+  },
+  {
+    "date": "2026-06-09",
+    "dayLabel": "Day 6",
+    "plannedLocation": "Southern Grenadines",
+    "plannedOvernight": "Flexible southern Grenadines anchorage",
+    "nextDestination": "Begin northbound planning",
+    "route": "Flexible exploration day with an eye on the weather window for returning north.",
+    "plannedActivity": "Water time, shore time, and boat life. Confirm northbound plan before evening.",
+    "captainNote": "This is where we start thinking ahead, not waiting until the last minute."
+  },
+  {
+    "date": "2026-06-10",
+    "dayLabel": "Day 7",
+    "plannedLocation": "Southern / Central Grenadines",
+    "plannedOvernight": "Canouan, Mustique, or Bequia staging area",
+    "nextDestination": "Bequia or St. Vincent staging",
+    "route": "Begin moving north, choosing the best protected stop for wind and sea state.",
+    "plannedActivity": "Sail north, swim or snorkel if time allows, and keep the boat organized for the return path.",
+    "captainNote": "The return starts early so the last days stay relaxed."
+  },
+  {
+    "date": "2026-06-11",
+    "dayLabel": "Day 8",
+    "plannedLocation": "Bequia / St. Vincent staging",
+    "plannedOvernight": "Bequia or St. Vincent area",
+    "nextDestination": "Final cruising day or Blue Lagoon approach",
+    "route": "Position for a comfortable final return to Blue Lagoon.",
+    "plannedActivity": "Final island time, provisioning cleanup, fuel/water planning, and return logistics.",
+    "captainNote": "No one wants a rushed final return."
+  },
+  {
+    "date": "2026-06-12",
+    "dayLabel": "Day 9",
+    "plannedLocation": "Bequia / St. Vincent",
+    "plannedOvernight": "Blue Lagoon or nearby staging anchorage",
+    "nextDestination": "Blue Lagoon final return",
+    "route": "Move toward Blue Lagoon or a nearby final anchorage depending on charter timing.",
+    "plannedActivity": "Final swim, boat cleanup, fuel plan, trash, luggage organizing, and last dinner aboard or ashore.",
+    "captainNote": "Start making the boat easy to return while still enjoying the trip."
+  },
+  {
+    "date": "2026-06-13",
+    "dayLabel": "Day 10",
+    "plannedLocation": "Blue Lagoon / St. Vincent area",
+    "plannedOvernight": "Blue Lagoon or final approved anchorage",
+    "nextDestination": "Charter return preparations",
+    "route": "Final short movements only if needed. Prioritize return readiness.",
+    "plannedActivity": "Clean, pack, fuel, settle bills, upload photos, and make the last night easy.",
+    "captainNote": "The goal is no chaos on return morning."
+  },
+  {
+    "date": "2026-06-14",
+    "dayLabel": "Day 11",
+    "plannedLocation": "Blue Lagoon, St. Vincent",
+    "plannedOvernight": "Blue Lagoon",
+    "nextDestination": "Return Inconceivable to base",
+    "route": "Final return and handover preparations at Blue Lagoon.",
+    "plannedActivity": "Final cleaning, packing, gear check, photo backup, and preparing for checkout.",
+    "captainNote": "Leave the boat in good order and finish strong."
+  },
+  {
+    "date": "2026-06-15",
+    "dayLabel": "Return Day",
+    "plannedLocation": "Blue Lagoon, St. Vincent",
+    "plannedOvernight": "Trip complete",
+    "nextDestination": "Homeward travel",
+    "route": "Charter return by noon and departure logistics.",
+    "plannedActivity": "Final checkout, luggage, airport or lodging transfer, and goodbyes to Inconceivable.",
+    "captainNote": "Trip complete, memories secured, no loose gear left behind."
+  }
+]
