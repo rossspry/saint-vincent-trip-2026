@@ -2,6 +2,14 @@ const STATUS_DRAFT_KEY = "svgTripStatusDraftV1";
 const STATUS_SECRET_KEY = "svgTripStatusSecretV1";
 const STATUS_WORKER_ENDPOINT = "https://inconceivable-status-update.rossspry.workers.dev/";
 
+function removeRedundantFamilyPanel() {
+  const panel = document.getElementById("family-share-panel");
+  if (panel) panel.remove();
+}
+
+removeRedundantFamilyPanel();
+setTimeout(removeRedundantFamilyPanel, 250);
+
 function dashboardEscape(value) {
   return String(value || "")
     .replaceAll("&", "&amp;")
