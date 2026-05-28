@@ -7,7 +7,21 @@
   "mapZoom": 13,
   "weather": "Manual fallback location active. Check the latest forecast before departure.",
   "tonight": "Blue Lagoon, St. Vincent — charter base and final boat setup.",
-  "dinner": "Easy first-night dinner near Blue Lagoon or simple onboard meal after provisioning.",
+  "meals": {
+    "breakfast": {
+      "choice": "Regular breakfast onboard",
+      "custom": ""
+    },
+    "lunch": {
+      "choice": "Lunch onboard",
+      "custom": ""
+    },
+    "dinner": {
+      "choice": "Dinner onboard",
+      "custom": ""
+    }
+  },
+  "dinner": "Dinner onboard",
   "activities": "Boarding, stowing gear, provisioning, systems checkout, dinghy check, and crew briefing.",
   "captainMessage": "Manual fallback status is active until AIS reports Inconceivable again.",
   "note": "This file is used only when AIS does not return a current position."
