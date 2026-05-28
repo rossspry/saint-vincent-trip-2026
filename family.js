@@ -1,5 +1,7 @@
 const CREW_EMAIL = "NCsailingcrew@gmail.com";
 const PHOTO_BOX_URL = "https://drive.google.com/drive/folders/1KYD_44wOEdmn48rLzYyVFDK9enNutFYU";
+const PHOTO_FEED_URL = "photos.json";
+const MAX_LATEST_PHOTOS = 10;
 
 async function loadTripData() {
   try {
@@ -14,11 +16,11 @@ async function loadTripData() {
 
 async function loadPhotoFeed() {
   try {
-    const response = await fetch("photos.json", { cache: "no-store" });
-    if (!response.ok) throw new Error("photos.json not found");
+    const response = await fetch(PHOTO_FEED_URL, { cache: "no-store" });
+    if (!response.ok) throw new Error(`${PHOTO_FEED_URL} not found`);
     return await response.json();
   } catch (error) {
-    console.warn("Could not load photos.json", error);
+    console.warn(`Could not load ${PHOTO_FEED_URL}`, error);
     return { mainPhoto: null, photos: [] };
   }
 }
@@ -79,12 +81,29 @@ function normalizePhotos(feed) {
   return { mainPhoto: feed?.mainPhoto || photos[0] || null, photos };
 }
 
+function getPhotoImageUrl(photo, size = "w1200") {
+  if (!photo) return "";
+  if (photo.thumbnailUrl) return photo.thumbnailUrl;
+  if (photo.url) return photo.url;
+  if (photo.webContentLink) return photo.webContentLink;
+  if (photo.id) return `https://drive.google.com/thumbnail?id=${encodeURIComponent(photo.id)}&sz=${size}`;
+  return "";
+}
+
+function getPhotoLink(photo) {
+  if (!photo) return PHOTO_BOX_URL;
+  if (photo.viewUrl) return photo.viewUrl;
+  if (photo.webViewLink) return photo.webViewLink;
+  if (photo.id) return `https://drive.google.com/file/d/${encodeURIComponent(photo.id)}/view`;
+  return PHOTO_BOX_URL;
+}
+
 function renderMainPhoto(photo) {
   const card = document.getElementById("mainPhotoCard");
   const caption = document.getElementById("mainPhotoCaption");
   if (!card || !photo) return;
-  const imageUrl = photo.thumbnailUrl || photo.url || photo.webContentLink || "";
-  const link = photo.viewUrl || photo.webViewLink || PHOTO_BOX_URL;
+  const imageUrl = getPhotoImageUrl(photo, "w1600");
+  const link = getPhotoLink(photo);
   const title = photo.title || photo.name || "The crew aboard Inconceivable";
   if (!imageUrl) return;
   card.innerHTML = `
@@ -98,15 +117,23 @@ function renderPhotos(feed) {
   const grid = document.getElementById("latestPhotoGrid");
   if (!grid) return;
   const { mainPhoto, photos } = normalizePhotos(feed);
-  renderMainPhoto(mainPhoto);
-  if (!photos.length) {
-    grid.innerHTML = `<figure class="photo-placeholder"><span>Photo Box</span><figcaption><a href="${PHOTO_BOX_URL}" target="_blank" rel="noreferrer">Open the shared Photo Box</a></figcaption></figure>`;
+  const latestPhotos = photos.slice(0, MAX_LATEST_PHOTOS);
+  renderMainPhoto(mainPhoto || latestPhotos[0]);
+
+  if (!latestPhotos.length) {
+    grid.innerHTML = `
+      <figure class="photo-placeholder">
+        <span>No latest photos yet</span>
+        <figcaption><a href="${PHOTO_BOX_URL}" target="_blank" rel="noreferrer">Open the shared Photo Box</a></figcaption>
+      </figure>
+    `;
     return;
   }
-  grid.innerHTML = photos.slice(0, 10).map((photo) => {
+
+  grid.innerHTML = latestPhotos.map((photo) => {
     const title = escapeHtml(photo.title || photo.name || "Trip photo");
-    const url = photo.thumbnailUrl || photo.url || photo.webContentLink || "";
-    const link = photo.viewUrl || photo.webViewLink || PHOTO_BOX_URL;
+    const url = getPhotoImageUrl(photo, "w900");
+    const link = getPhotoLink(photo);
     if (!url) return `<figure class="photo-placeholder"><span>Photo</span><figcaption><a href="${escapeHtml(link)}" target="_blank" rel="noreferrer">${title}</a></figcaption></figure>`;
     return `<figure><a href="${escapeHtml(link)}" target="_blank" rel="noreferrer"><img src="${escapeHtml(url)}" alt="${title}" loading="lazy" /></a><figcaption>${title}</figcaption></figure>`;
   }).join("");
