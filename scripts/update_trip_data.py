@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Update trip-data.json from AIS first, then manual fallback, then itinerary.
+"""Update trip-data.json from AIS first, then last known AIS, then manual fallback.
 
 Priority order:
-1. AISStream position for Inconceivable MMSI 368392220
-2. manual-status.json fallback when AIS is missing or stale
-3. itinerary.json for planned route and tomorrow destination only
+1. Current AISStream position for Inconceivable MMSI 368392220
+2. Last known AIS position already stored in trip-data.json
+3. manual-status.json fallback when no AIS position has ever been stored
+4. itinerary.json for planned route and tomorrow destination only
 """
 
 from __future__ import annotations
@@ -46,6 +47,16 @@ def load_json(path: Path, default: Any) -> Any:
 
 def save_data(data: dict[str, Any]) -> None:
     DATA_PATH.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+
+
+def has_position(data: dict[str, Any]) -> bool:
+    return isinstance(data.get("latitude"), (int, float)) and isinstance(data.get("longitude"), (int, float))
+
+
+def is_ais_based(data: dict[str, Any]) -> bool:
+    source = str((data.get("ais") or {}).get("source") or "").lower()
+    status = str(data.get("status") or "").lower()
+    return has_position(data) and ("ais" in source or "ais" in status)
 
 
 def itinerary_for_date(date_value: str | None, itinerary: list[dict[str, Any]]) -> dict[str, Any] | None:
@@ -191,35 +202,34 @@ def build_from_manual(reason: str) -> dict[str, Any]:
     data = dict(manual)
     data["status"] = "manual fallback"
     data["lastUpdated"] = now_utc()
-    data["automationStatus"] = reason + " Using manual-status.json fallback."
+    data["automationStatus"] = reason + " Using manual-status.json because no last AIS position exists."
     data["ais"] = {
         "mmsi": MMSI,
         "vesselName": VESSEL_NAME,
         "source": "AIS unavailable; manual fallback active",
     }
     data = merge_itinerary(data, entry)
-    data = add_weather(data)
-    return data
+    return add_weather(data)
 
 
-def main() -> int:
-    api_key = os.getenv("AISSTREAM_API_KEY", "").strip()
+def build_from_last_ais(existing: dict[str, Any], reason: str) -> dict[str, Any]:
     itinerary = load_json(ITINERARY_PATH, [])
+    entry = itinerary_for_date(existing.get("date"), itinerary)
+    data = dict(existing)
+    data["status"] = "last known AIS"
+    data["lastUpdated"] = now_utc()
+    data["automationStatus"] = reason + " Keeping last known AIS position instead of using manual fallback."
+    data.setdefault("captainMessage", "AIS was not refreshed this cycle, but the map is holding the last known AIS position for Inconceivable.")
+    ais = dict(data.get("ais") or {})
+    ais["source"] = ais.get("source") or "AISStream.io"
+    ais["fallbackMode"] = "last known AIS position retained"
+    data["ais"] = ais
+    data = merge_itinerary(data, entry)
+    return add_weather(data)
 
-    if not api_key:
-        save_data(build_from_manual("AISSTREAM_API_KEY is missing from GitHub repository secrets."))
-        return 0
 
-    try:
-        position = asyncio.run(fetch_ais_position(api_key))
-    except Exception as exc:
-        save_data(build_from_manual(f"AIS fetch failed: {exc}."))
-        return 0
-
-    if not position:
-        save_data(build_from_manual(f"No AIS position received for MMSI {MMSI} within {AIS_TIMEOUT_SECONDS} seconds."))
-        return 0
-
+def build_from_live_ais(position: dict[str, Any]) -> dict[str, Any]:
+    itinerary = load_json(ITINERARY_PATH, [])
     entry = itinerary_for_date(None, itinerary)
     data: dict[str, Any] = {
         "status": "live AIS",
@@ -243,10 +253,34 @@ def main() -> int:
         },
         "captainMessage": "Live AIS position is active for Inconceivable.",
     }
-
     data = merge_itinerary(data, entry)
-    data = add_weather(data)
-    save_data(data)
+    return add_weather(data)
+
+
+def main() -> int:
+    existing = load_json(DATA_PATH, {})
+    api_key = os.getenv("AISSTREAM_API_KEY", "").strip()
+
+    if not api_key:
+        data = build_from_last_ais(existing, "AISSTREAM_API_KEY is missing from GitHub repository secrets.") if is_ais_based(existing) else build_from_manual("AISSTREAM_API_KEY is missing from GitHub repository secrets.")
+        save_data(data)
+        return 0
+
+    try:
+        position = asyncio.run(fetch_ais_position(api_key))
+    except Exception as exc:
+        reason = f"AIS fetch failed: {exc}."
+        data = build_from_last_ais(existing, reason) if is_ais_based(existing) else build_from_manual(reason)
+        save_data(data)
+        return 0
+
+    if not position:
+        reason = f"No AIS position received for MMSI {MMSI} within {AIS_TIMEOUT_SECONDS} seconds."
+        data = build_from_last_ais(existing, reason) if is_ais_based(existing) else build_from_manual(reason)
+        save_data(data)
+        return 0
+
+    save_data(build_from_live_ais(position))
     return 0
 
 
