@@ -71,21 +71,51 @@
       </article>
     </section>
 
-    <section class="map-section">
+    <section class="map-section live-map-section">
       <div class="section-heading">
-        <p class="eyebrow">Where are they?</p>
+        <p class="eyebrow">Live trip snapshot</p>
         <h2>Latest map snapshot</h2>
         <p data-trip="automationStatus">Location uses AIS first, last known AIS second, and manual fallback only if AIS has never reported.</p>
       </div>
-      <div class="map-frame-wrap" id="mapFrameWrap">
+      <div class="map-frame-wrap large-map-frame" id="mapFrameWrap">
         <iframe id="familyMap" title="Latest Inconceivable location map" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
       </div>
+
+      <details class="manual-location-panel">
+        <summary>Manual location update if AIS is not working</summary>
+        <form id="manualLocationForm" class="family-form manual-location-form">
+          <label>
+            Update password
+            <input name="updateSecret" type="password" placeholder="Same UPDATE_SECRET used on the dashboard" autocomplete="current-password" required />
+          </label>
+          <label>
+            Current location name
+            <input name="locationName" type="text" placeholder="Example: Admiralty Bay, Bequia" required />
+          </label>
+          <div class="location-two-col">
+            <label>
+              Latitude
+              <input name="latitude" type="number" step="0.000001" placeholder="13.005000" required />
+            </label>
+            <label>
+              Longitude
+              <input name="longitude" type="number" step="0.000001" placeholder="-61.235000" required />
+            </label>
+          </div>
+          <label>
+            Manual note
+            <input name="locationNote" type="text" placeholder="AIS down - manual update from crew" />
+          </label>
+          <button class="button primary" type="submit">Publish manual location</button>
+          <p class="tiny" id="manualLocationStatus">Use this only when AIS is not updating or the map is wrong.</p>
+        </form>
+      </details>
     </section>
 
     <section class="photo-section">
       <p class="eyebrow">Latest pictures</p>
       <h2>Latest photos from the Inconceivable Photo Box</h2>
-      <p class="tiny">When the Google Drive photo feed is connected, this section will show the latest 10 uploaded photos automatically.</p>
+      <p class="tiny">This section shows the latest 8–10 uploaded photos automatically from the Google Drive Photo Box feed.</p>
       <div class="photo-grid" id="latestPhotoGrid">
         <figure class="photo-placeholder"><span>Photo feed</span><figcaption>Waiting for Photo Box feed</figcaption></figure>
       </div>
@@ -108,11 +138,6 @@
         <button class="button primary" type="submit">Send message to the crew</button>
       </form>
       <p class="tiny">Messages are sent by email to NCsailingcrew@gmail.com for now so nothing private is posted publicly.</p>
-    </section>
-
-    <section class="snapshot-footer-card">
-      <h2>Following along</h2>
-      <p>This page is meant to be simple, readable, and phone-friendly. It gives family a quick snapshot without exposing the crew dashboard.</p>
     </section>
   </main>
   <script src="family.js"></script>
