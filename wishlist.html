@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#06384f" />
+  <title>Inconceivable Crew Wishlist</title>
+  <link rel="stylesheet" href="family.css" />
+</head>
+<body>
+  <main class="snapshot-page wishlist-page">
+    <section class="snapshot-hero snapshot-hero-new wishlist-hero">
+      <div class="hero-text">
+        <p class="eyebrow">Crew wishlist</p>
+        <h1>What does the crew want?</h1>
+        <p class="lead">A simple phone-friendly request list for snacks, drinks, bait, comfort items, sunscreen, treats, and anything else the crew decides is mission-critical.</p>
+        <div class="snapshot-pills">
+          <span>Requested by crew</span>
+          <span>Review before buying</span>
+          <span>Check off when acquired</span>
+        </div>
+      </div>
+      <div class="main-photo-card wishlist-card-top">
+        <div class="main-photo-placeholder">
+          <span>🛒</span>
+          <strong>Galley command list</strong>
+          <small>This page can be backed by a Google Sheet so it stays easy to view and update from a phone.</small>
+        </div>
+      </div>
+    </section>
+
+    <section class="message-section">
+      <p class="eyebrow">Add request</p>
+      <h2>New wishlist item</h2>
+      <form id="wishlistForm" class="family-form">
+        <label>
+          Requested by
+          <select name="requestedBy" required>
+            <option>Ross</option>
+            <option>Whitney</option>
+            <option>Ken</option>
+            <option>Kelli</option>
+            <option>Ava</option>
+            <option>Riley</option>
+            <option>Grayson</option>
+            <option>Whole crew</option>
+          </select>
+        </label>
+        <label>
+          Item requested
+          <input name="item" type="text" placeholder="Mango juice, chips, bait, ginger ale, sunscreen..." required />
+        </label>
+        <button class="button primary" type="submit">Add to wishlist</button>
+      </form>
+      <p class="tiny" id="wishlistStatus">Connect the Google Apps Script URL in wishlist.js to make this shared.</p>
+    </section>
+
+    <section class="photo-section">
+      <p class="eyebrow">Current list</p>
+      <h2>Wishlist items</h2>
+      <div class="wishlist-actions">
+        <a class="button secondary" id="openWishlistSheet" href="#" target="_blank" rel="noreferrer">Open Google Sheet</a>
+        <button class="button secondary" id="refreshWishlist" type="button">Refresh List</button>
+      </div>
+      <div class="wishlist-list" id="wishlistList">
+        <p class="tiny">No shared list loaded yet.</p>
+      </div>
+    </section>
+
+    <section class="snapshot-footer-card">
+      <h2>Request rules</h2>
+      <p>Checkbox means acquired. The X button marks an item unapproved or deleted. The actual shared version will be powered by Google Sheets.</p>
+      <p><a class="button secondary" href="index.html">Back to crew dashboard</a></p>
+    </section>
+  </main>
+  <script src="wishlist.js"></script>
+</body>
+</html>
