@@ -63,6 +63,14 @@ h1, h2, h3 { line-height: 1.08; margin-top: 0; }
 h1 { font-size: clamp(2.1rem, 5.5vw, 4.4rem); max-width: 760px; margin: 0 0 14px; letter-spacing: -0.04em; }
 h2 { color: var(--navy); font-size: clamp(1.35rem, 3vw, 2.2rem); }
 .snapshot-hero h2 { color: white; }
+.crew-adventure-line {
+  max-width: 760px;
+  margin: -2px 0 14px;
+  color: var(--gold);
+  font-size: clamp(1.05rem, 2.4vw, 1.45rem);
+  font-weight: 950;
+  line-height: 1.25;
+}
 .lead { max-width: 680px; font-size: clamp(1rem, 2vw, 1.2rem); color: rgba(255,255,255,.9); margin-bottom: 18px; }
 
 .snapshot-pills { display: flex; flex-wrap: wrap; gap: 10px; margin-top: auto; }
