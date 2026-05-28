@@ -10,34 +10,49 @@
 </head>
 <body>
   <main class="snapshot-page">
-    <section class="snapshot-hero">
-      <p class="eyebrow">Family snapshot</p>
-      <h1>Inconceivable — Our Saint Vincent Adventure</h1>
-      <p class="lead">A simple update page for friends and family following along from home.</p>
-      <div class="message-card">
-        <p class="message-label">Message from the crew</p>
-        <h2 data-trip="captainMessage">We’re having a blast. We’re thinking about everyone back home.</h2>
-        <p>We’ll update this page with favorite photos, our general location, weather, meals, and quick notes when we get a chance.</p>
+    <section class="snapshot-hero snapshot-hero-new">
+      <div class="hero-text">
+        <p class="eyebrow">Family snapshot</p>
+        <h1>Where’s Inconceivable today?</h1>
+        <p class="lead">A quick and fun update for family and friends: where we are, what we’re doing, what we’re eating, and a few of the latest photos from the trip.</p>
+        <div class="snapshot-pills">
+          <span data-trip="locationName">St. Vincent &amp; The Grenadines</span>
+          <span data-trip="weather">Weather loading soon</span>
+          <span data-trip="lastUpdated">Last updated soon</span>
+        </div>
       </div>
+      <figure class="main-photo-card" id="mainPhotoCard">
+        <div class="main-photo-placeholder">
+          <span>⛵</span>
+          <strong>Main crew photo coming soon</strong>
+          <small>Drop the group-on-the-boat photo into the Photo Box and the feed can make it the main image.</small>
+        </div>
+        <figcaption id="mainPhotoCaption">The crew aboard Inconceivable</figcaption>
+      </figure>
     </section>
 
-    <section class="snapshot-grid">
+    <section class="message-card big-message-card">
+      <p class="message-label">Message from the crew</p>
+      <h2 data-trip="captainMessage">We’re having a blast. We’re thinking about everyone back home.</h2>
+    </section>
+
+    <section class="snapshot-grid top-snapshot-grid">
       <article class="info-card">
-        <h2>Latest location</h2>
+        <h2>Where we are</h2>
         <p class="big" data-trip="locationName">St. Vincent &amp; The Grenadines</p>
-        <p data-trip="locationNote">Current planned cruising area aboard <strong>Inconceivable</strong>. AIS is the primary source when available.</p>
+        <p data-trip="locationNote">AIS is the primary location source. If AIS misses an update, this page holds the last known AIS position.</p>
       </article>
 
       <article class="info-card">
-        <h2>Weather snapshot</h2>
-        <p class="big" data-trip="weatherTitle">Caribbean sailing weather</p>
-        <p data-trip="weather">Weather will update from the current AIS/manual location when the automation runs.</p>
-      </article>
-
-      <article class="info-card">
-        <h2>Today’s note</h2>
+        <h2>What we’re doing</h2>
         <p class="big" data-trip="funnyNote">Crew morale: high</p>
         <p data-trip="activities">Snorkeling, sailing, fishing, food, sunsets, and a lot of stories in progress.</p>
+      </article>
+
+      <article class="info-card dinner-highlight">
+        <h2>Tonight’s dinner plan</h2>
+        <p class="big" data-meal="dinner">Dinner onboard</p>
+        <p>Subject to weather, anchorage, and crew snack discipline.</p>
       </article>
     </section>
 
@@ -60,11 +75,21 @@
       <div class="section-heading">
         <p class="eyebrow">Where are they?</p>
         <h2>Latest map snapshot</h2>
-        <p data-trip="lastUpdated">Last updated by AIS or manual fallback.</p>
+        <p data-trip="automationStatus">Location uses AIS first, last known AIS second, and manual fallback only if AIS has never reported.</p>
       </div>
       <div class="map-frame-wrap" id="mapFrameWrap">
         <iframe id="familyMap" title="Latest Inconceivable location map" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
       </div>
+    </section>
+
+    <section class="photo-section">
+      <p class="eyebrow">Latest pictures</p>
+      <h2>Latest photos from the Inconceivable Photo Box</h2>
+      <p class="tiny">When the Google Drive photo feed is connected, this section will show the latest 10 uploaded photos automatically.</p>
+      <div class="photo-grid" id="latestPhotoGrid">
+        <figure class="photo-placeholder"><span>Photo feed</span><figcaption>Waiting for Photo Box feed</figcaption></figure>
+      </div>
+      <p><a class="button secondary" href="https://drive.google.com/drive/folders/1KYD_44wOEdmn48rLzYyVFDK9enNutFYU" target="_blank" rel="noreferrer">Open Photo Box</a></p>
     </section>
 
     <section class="message-section">
@@ -82,23 +107,12 @@
         </label>
         <button class="button primary" type="submit">Send message to the crew</button>
       </form>
-      <p class="tiny">Messages are sent by email for now so nothing private is posted publicly.</p>
-    </section>
-
-    <section class="photo-section">
-      <p class="eyebrow">Latest pictures</p>
-      <h2>Latest photos from the Inconceivable Photo Box</h2>
-      <p class="tiny">When the Google Drive photo feed is connected, this section will show the latest 10 uploaded photos automatically.</p>
-      <div class="photo-grid" id="latestPhotoGrid">
-        <figure class="photo-placeholder"><span>Photo feed</span><figcaption>Waiting for Photo Box feed</figcaption></figure>
-      </div>
-      <p><a class="button secondary" href="https://drive.google.com/drive/folders/1KYD_44wOEdmn48rLzYyVFDK9enNutFYU" target="_blank" rel="noreferrer">Open Photo Box</a></p>
+      <p class="tiny">Messages are sent by email to NCsailingcrew@gmail.com for now so nothing private is posted publicly.</p>
     </section>
 
     <section class="snapshot-footer-card">
       <h2>Following along</h2>
-      <p>This page is intentionally simple. It is meant for family and friends to see a quick snapshot without getting into the planning dashboard.</p>
-      <p class="tiny">Location uses AIS first, last known AIS second, and manual fallback only when AIS has never reported.</p>
+      <p>This page is meant to be simple, readable, and phone-friendly. It gives family a quick snapshot without exposing the crew dashboard.</p>
     </section>
   </main>
   <script src="family.js"></script>
