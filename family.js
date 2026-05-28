@@ -157,9 +157,9 @@ function renderMainPhoto(photo) {
 function renderPhotos(feed) {
   const grid = document.getElementById("latestPhotoGrid");
   if (!grid) return;
-  const { mainPhoto, photos } = normalizePhotos(feed);
+  const { photos } = normalizePhotos(feed);
   const latestPhotos = photos.slice(0, MAX_LATEST_PHOTOS);
-  renderMainPhoto(mainPhoto || latestPhotos[0]);
+  renderMainPhoto(window.FAMILY_MAIN_PHOTO || latestPhotos[0]);
 
   if (!latestPhotos.length) {
     grid.innerHTML = `
@@ -190,57 +190,6 @@ if (messageForm) {
     const subject = encodeURIComponent("Message for Inconceivable crew");
     const body = encodeURIComponent(`${name} sent a message from the family snapshot page:\n\n${message}`);
     window.location.href = `mailto:${CREW_EMAIL}?subject=${subject}&body=${body}`;
-  });
-}
-
-const manualLocationForm = document.getElementById("manualLocationForm");
-if (manualLocationForm) {
-  const note = document.getElementById("manualLocationStatus");
-  manualLocationForm.updateSecret.value = localStorage.getItem(STATUS_SECRET_KEY) || "";
-  manualLocationForm.addEventListener("input", () => {
-    localStorage.setItem(STATUS_SECRET_KEY, manualLocationForm.updateSecret.value);
-  });
-  manualLocationForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    const latitude = Number(manualLocationForm.latitude.value);
-    const longitude = Number(manualLocationForm.longitude.value);
-    const updateSecret = manualLocationForm.updateSecret.value.trim();
-    if (!updateSecret || Number.isNaN(latitude) || Number.isNaN(longitude)) {
-      if (note) note.textContent = "Enter password latitude and longitude first.";
-      return;
-    }
-    const payload = {
-      ...(currentTripData || {}),
-      status: "manual fallback",
-      date: new Date().toISOString().slice(0, 10),
-      locationName: manualLocationForm.locationName.value.trim(),
-      latitude,
-      longitude,
-      mapZoom: 11,
-      locationNote: manualLocationForm.locationNote.value.trim() || "Manual fallback location entered by crew because AIS was not updating.",
-      captainMessage: currentTripData?.captainMessage || "",
-      activities: currentTripData?.activities || "",
-      funnyNote: currentTripData?.funnyNote || "",
-      meals: currentTripData?.meals || undefined,
-      dinner: currentTripData?.dinner || undefined
-    };
-    try {
-      if (note) note.textContent = "Publishing manual fallback location...";
-      const response = await fetch(STATUS_WORKER_ENDPOINT, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Update-Secret": updateSecret
-        },
-        body: JSON.stringify(payload)
-      });
-      const result = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(result.error || `Worker returned ${response.status}`);
-      renderTripData({ ...payload, automationStatus: "Manual fallback location published. AIS still has priority when available." });
-      if (note) note.textContent = `Manual location published. Commit: ${result.commit || "done"}`;
-    } catch (error) {
-      if (note) note.textContent = `Manual update failed: ${error.message}`;
-    }
   });
 }
 
