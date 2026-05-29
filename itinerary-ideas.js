@@ -45,7 +45,11 @@ function addActivityCardStyles() {
     }
     .activity-day-description {
       margin: 0 0 4px;
-      color: var(--gold);
+      color: #06384f;
+      background: rgba(217, 251, 248, .9);
+      border-left: 5px solid var(--blue);
+      border-radius: 14px;
+      padding: 10px 12px;
       font-size: 1.08rem;
       font-weight: 950;
       line-height: 1.25;
