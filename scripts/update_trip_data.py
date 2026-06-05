@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Update trip-data.json from AIS first, then last known AIS, then manual fallback.
+"""Update trip-data.json from AIS first, then real last known AIS, then manual fallback.
 
 Priority order:
 1. Current AISStream position for Inconceivable MMSI 368392220
-2. Last known AIS position already stored in trip-data.json
-3. manual-status.json fallback when no AIS position has ever been stored
+2. Last known AIS position already stored in trip-data.json, but only if it came from AISStream
+3. manual-status.json fallback when no real AIS position has ever been stored
 4. itinerary.json for planned route and tomorrow destination only
 """
 
@@ -53,10 +53,28 @@ def has_position(data: dict[str, Any]) -> bool:
     return isinstance(data.get("latitude"), (int, float)) and isinstance(data.get("longitude"), (int, float))
 
 
-def is_ais_based(data: dict[str, Any]) -> bool:
-    source = str((data.get("ais") or {}).get("source") or "").lower()
+def is_real_ais_based(data: dict[str, Any]) -> bool:
+    """Return true only for positions that actually came from AISStream.
+
+    Older versions of this site stored Blue Lagoon sample data with a status that later
+    said "last known AIS." That made the automation keep a fake/stale location forever.
+    Manual fallback and sample positions must not count as real AIS history.
+    """
+    if not has_position(data):
+        return False
+
+    ais = data.get("ais") or {}
+    source = str(ais.get("source") or "").lower()
     status = str(data.get("status") or "").lower()
-    return has_position(data) and ("ais" in source or "ais" in status)
+    message_type = str(ais.get("messageType") or "").lower()
+    last_ais_time = str(ais.get("lastAisTimeUtc") or "").strip()
+
+    if "manual" in source or "sample" in source or "fallback" in source:
+        return False
+    if "manual" in status or "sample" in status:
+        return False
+
+    return "aisstream" in source or bool(message_type) or bool(last_ais_time) or status == "live ais"
 
 
 def itinerary_for_date(date_value: str | None, itinerary: list[dict[str, Any]]) -> dict[str, Any] | None:
@@ -202,7 +220,7 @@ def build_from_manual(reason: str) -> dict[str, Any]:
     data = dict(manual)
     data["status"] = "manual fallback"
     data["lastUpdated"] = now_utc()
-    data["automationStatus"] = reason + " Using manual-status.json because no last AIS position exists."
+    data["automationStatus"] = reason + " Using manual-status.json because no real AIS position exists."
     data["ais"] = {
         "mmsi": MMSI,
         "vesselName": VESSEL_NAME,
@@ -218,11 +236,13 @@ def build_from_last_ais(existing: dict[str, Any], reason: str) -> dict[str, Any]
     data = dict(existing)
     data["status"] = "last known AIS"
     data["lastUpdated"] = now_utc()
-    data["automationStatus"] = reason + " Keeping last known AIS position instead of using manual fallback."
-    data.setdefault("captainMessage", "AIS was not refreshed this cycle, but the map is holding the last known AIS position for Inconceivable.")
+    data["automationStatus"] = reason + " Keeping real last known AIS position instead of using manual fallback."
+    data.setdefault("captainMessage", "AIS was not refreshed this cycle, but the map is holding the last real AIS position for Inconceivable.")
     ais = dict(data.get("ais") or {})
-    ais["source"] = ais.get("source") or "AISStream.io"
-    ais["fallbackMode"] = "last known AIS position retained"
+    source = str(ais.get("source") or "").lower()
+    if not source or "manual" in source or "sample" in source or "fallback" in source:
+        ais["source"] = "AISStream.io"
+    ais["fallbackMode"] = "real last known AIS position retained"
     data["ais"] = ais
     data = merge_itinerary(data, entry)
     return add_weather(data)
@@ -262,7 +282,7 @@ def main() -> int:
     api_key = os.getenv("AISSTREAM_API_KEY", "").strip()
 
     if not api_key:
-        data = build_from_last_ais(existing, "AISSTREAM_API_KEY is missing from GitHub repository secrets.") if is_ais_based(existing) else build_from_manual("AISSTREAM_API_KEY is missing from GitHub repository secrets.")
+        data = build_from_last_ais(existing, "AISSTREAM_API_KEY is missing from GitHub repository secrets.") if is_real_ais_based(existing) else build_from_manual("AISSTREAM_API_KEY is missing from GitHub repository secrets.")
         save_data(data)
         return 0
 
@@ -270,13 +290,13 @@ def main() -> int:
         position = asyncio.run(fetch_ais_position(api_key))
     except Exception as exc:
         reason = f"AIS fetch failed: {exc}."
-        data = build_from_last_ais(existing, reason) if is_ais_based(existing) else build_from_manual(reason)
+        data = build_from_last_ais(existing, reason) if is_real_ais_based(existing) else build_from_manual(reason)
         save_data(data)
         return 0
 
     if not position:
         reason = f"No AIS position received for MMSI {MMSI} within {AIS_TIMEOUT_SECONDS} seconds."
-        data = build_from_last_ais(existing, reason) if is_ais_based(existing) else build_from_manual(reason)
+        data = build_from_last_ais(existing, reason) if is_real_ais_based(existing) else build_from_manual(reason)
         save_data(data)
         return 0
 
