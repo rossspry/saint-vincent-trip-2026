@@ -1,12 +1,12 @@
 {
   "status": "manual fallback",
-  "date": "2026-06-04",
-  "locationName": "Blue Lagoon, St. Vincent",
-  "latitude": 13.1262,
-  "longitude": -61.1968,
+  "date": "2026-06-05",
+  "locationName": "Tobago Cays",
+  "latitude": 12.635817,
+  "longitude": -61.361667,
   "mapZoom": 13,
-  "weather": "Manual fallback location active. Check the latest forecast before departure.",
-  "tonight": "Blue Lagoon, St. Vincent — charter base and final boat setup.",
+  "weather": "Manual fallback location active at Tobago Cays. Check the latest marine forecast before moving.",
+  "tonight": "Tobago Cays — enjoying the protected water reef scenery and a night in paradise.",
   "meals": {
     "breakfast": {
       "choice": "Regular breakfast onboard",
@@ -22,7 +22,7 @@
     }
   },
   "dinner": "Dinner onboard",
-  "activities": "Boarding, stowing gear, provisioning, systems checkout, dinghy check, and crew briefing.",
-  "captainMessage": "Manual fallback status is active until AIS reports Inconceivable again.",
-  "note": "This file is used only when AIS does not return a current position."
+  "activities": "Tobago Cays anchorage time snorkeling turtle watching dinghy exploring beach time and enjoying paradise.",
+  "captainMessage": "We are in Tobago Cays. AIS is not updating right now so this is a manual position update from the crew.",
+  "note": "Manual crew position update entered from 12°38.149N 061°21.700W. AIS should still take priority when it reports again."
 }
