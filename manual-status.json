@@ -5,8 +5,9 @@
   "latitude": 12.635817,
   "longitude": -61.361667,
   "mapZoom": 13,
-  "weather": "Manual fallback location active at Tobago Cays. Check the latest marine forecast before moving.",
+  "weather": "Manual crew update active at Tobago Cays. Check the latest marine forecast before moving.",
   "tonight": "Tobago Cays — enjoying the protected water reef scenery and a night in paradise.",
+  "tomorrow": "Union Island / Frigate Island",
   "meals": {
     "breakfast": {
       "choice": "Regular breakfast onboard",
@@ -23,6 +24,9 @@
   },
   "dinner": "Dinner onboard",
   "activities": "Tobago Cays anchorage time snorkeling turtle watching dinghy exploring beach time and enjoying paradise.",
-  "captainMessage": "We are in Tobago Cays. AIS is not updating right now so this is a manual position update from the crew.",
-  "note": "Manual crew position update entered from 12°38.149N 061°21.700W. AIS should still take priority when it reports again."
+  "captainMessage": "We are in Tobago Cays and enjoying a beautiful day in paradise. We are sending love back home and will keep posting updates and photos.",
+  "funnyNote": "Crew morale is high. The captain has declared Tobago Cays officially ridiculous.",
+  "locationNote": "Manual crew update active for this trip.",
+  "note": "Updated from the crew dashboard. Manual daily family updates are active for this trip.",
+  "lastUpdated": "2026-06-05T22:35:00.000Z"
 }
