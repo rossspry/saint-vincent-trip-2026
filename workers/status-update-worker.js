@@ -1,9 +1,9 @@
 // Cloudflare Worker: secure status update endpoint for Inconceivable trip site
 //
 // Purpose:
-// - Accept captain status updates from the dashboard
+// - Accept daily family updates from the dashboard
 // - Update manual-status.json in GitHub
-// - Trigger the site to show the updated meal plan and crew message
+// - Trigger the site to show the updated location, meals, crew note, and plans
 //
 // Required Cloudflare secrets / variables:
 // - GITHUB_TOKEN: GitHub fine-grained token with Contents read/write for this repo
@@ -52,6 +52,15 @@ function cleanMeal(meal, fallbackChoice) {
   };
 }
 
+function normalizeNumber(value) {
+  if (typeof value === "number" && Number.isFinite(value)) return value;
+  if (typeof value === "string" && value.trim()) {
+    const parsed = Number(value);
+    if (Number.isFinite(parsed)) return parsed;
+  }
+  return undefined;
+}
+
 function normalizePayload(body) {
   const meals = body.meals || {};
   const dinnerMeal = cleanMeal(meals.dinner, "Dinner onboard");
@@ -61,22 +70,25 @@ function normalizePayload(body) {
     status: "manual fallback",
     date: cleanString(body.date, new Date().toISOString().slice(0, 10)),
     locationName: cleanString(body.locationName),
-    latitude: typeof body.latitude === "number" ? body.latitude : undefined,
-    longitude: typeof body.longitude === "number" ? body.longitude : undefined,
-    mapZoom: typeof body.mapZoom === "number" ? body.mapZoom : undefined,
+    latitude: normalizeNumber(body.latitude),
+    longitude: normalizeNumber(body.longitude),
+    mapZoom: normalizeNumber(body.mapZoom) || 13,
     weather: cleanString(body.weather),
     tonight: cleanString(body.tonight),
     tomorrow: cleanString(body.tomorrow),
     activities: cleanString(body.activities),
     funnyNote: cleanString(body.funnyNote),
     captainMessage: cleanString(body.captainMessage),
+    locationNote: cleanString(body.locationNote, "Manual daily crew update active for this trip."),
+    photoBoxUrl: cleanString(body.photoBoxUrl),
+    lastUpdated: new Date().toISOString(),
     meals: {
       breakfast: cleanMeal(meals.breakfast, "Regular breakfast onboard"),
       lunch: cleanMeal(meals.lunch, "Lunch onboard"),
       dinner: dinnerMeal
     },
     dinner: dinnerText,
-    note: "Updated from protected captain dashboard worker. AIS remains the primary source when available."
+    note: "Updated from the protected captain dashboard. Manual daily family updates are active for this trip."
   };
 }
 
