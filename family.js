@@ -6,15 +6,46 @@ const STATUS_SECRET_KEY = "svgTripStatusSecretV1";
 const MAX_LATEST_PHOTOS = 10;
 let currentTripData = null;
 
+async function fetchJsonNoStore(path) {
+  const response = await fetch(`${path}?cacheBust=${Date.now()}`, { cache: "no-store" });
+  if (!response.ok) throw new Error(`${path} not found`);
+  return await response.json();
+}
+
+function hasPosition(data) {
+  return data && typeof data.latitude === "number" && typeof data.longitude === "number";
+}
+
+function isLiveAis(data) {
+  const source = String(data?.ais?.source || "").toLowerCase();
+  const status = String(data?.status || "").toLowerCase();
+  return hasPosition(data) && (status === "live ais" || source.includes("aisstream"));
+}
+
+function mergeManualStatus(tripData, manualStatus) {
+  if (!hasPosition(manualStatus)) return tripData;
+  if (isLiveAis(tripData)) return tripData;
+  return {
+    ...(tripData || {}),
+    ...manualStatus,
+    automationStatus: manualStatus.automationStatus || "Manual daily crew update active. AIS is not updating for this trip.",
+    lastUpdated: manualStatus.lastUpdated || manualStatus.updatedAt || new Date().toISOString()
+  };
+}
+
 async function loadTripData() {
-  try {
-    const response = await fetch("trip-data.json", { cache: "no-store" });
-    if (!response.ok) throw new Error("trip-data.json not found");
-    return await response.json();
-  } catch (error) {
-    console.warn("Could not load trip-data.json", error);
-    return null;
-  }
+  const [tripResult, manualResult] = await Promise.allSettled([
+    fetchJsonNoStore("trip-data.json"),
+    fetchJsonNoStore("manual-status.json")
+  ]);
+
+  const tripData = tripResult.status === "fulfilled" ? tripResult.value : null;
+  const manualStatus = manualResult.status === "fulfilled" ? manualResult.value : null;
+
+  if (tripResult.status === "rejected") console.warn("Could not load trip-data.json", tripResult.reason);
+  if (manualResult.status === "rejected") console.warn("Could not load manual-status.json", manualResult.reason);
+
+  return mergeManualStatus(tripData, manualStatus);
 }
 
 function loadJsonp(url) {
