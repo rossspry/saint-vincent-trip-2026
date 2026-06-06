@@ -5,8 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex,nofollow" />
   <meta name="theme-color" content="#06384f" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
   <title>Inconceivable Family Snapshot</title>
-  <link rel="stylesheet" href="family.css" />
+  <link rel="stylesheet" href="family.css?v=20260606" />
 </head>
 <body>
   <main class="snapshot-page">
@@ -41,7 +44,7 @@
       <article class="info-card">
         <h2>Where we are</h2>
         <p class="big" data-trip="locationName">St. Vincent &amp; The Grenadines</p>
-        <p data-trip="locationNote">AIS is the primary location source. If AIS misses an update, this page holds the last known AIS position.</p>
+        <p data-trip="locationNote">Manual crew updates are active for this trip so the family page stays current.</p>
       </article>
 
       <article class="info-card">
@@ -74,9 +77,9 @@
 
     <section class="map-section live-map-section">
       <div class="section-heading">
-        <p class="eyebrow">Live trip snapshot</p>
-        <h2>Latest map snapshot</h2>
-        <p data-trip="automationStatus">Location uses AIS first, last known AIS second, and manual fallback only if AIS has never reported.</p>
+        <p class="eyebrow">Trip map</p>
+        <h2>Latest family map snapshot</h2>
+        <p data-trip="automationStatus">Manual crew update active. This page checks for fresh trip data each time it loads.</p>
       </div>
       <div class="map-frame-wrap large-map-frame" id="mapFrameWrap">
         <iframe id="familyMap" title="Latest Inconceivable location map" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
@@ -111,7 +114,7 @@
       <p class="tiny">Messages are sent by email to NCsailingcrew@gmail.com for now so nothing private is posted publicly.</p>
     </section>
   </main>
-  <script src="family-main-photo.js"></script>
-  <script src="family.js"></script>
+  <script src="family-main-photo.js?v=20260606"></script>
+  <script src="family.js?v=20260606"></script>
 </body>
 </html>
