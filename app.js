@@ -14,13 +14,22 @@ const generateBroadcast = document.getElementById("generateBroadcast");
 const copyBroadcast = document.getElementById("copyBroadcast");
 const broadcastOutput = document.getElementById("broadcastOutput");
 
+function hideAisTrackerSections() {
+  document.querySelectorAll('a[href="#tracker"]').forEach((link) => {
+    const card = link.closest(".quick-card");
+    if (card) card.remove();
+    else link.remove();
+  });
+  const tracker = document.getElementById("tracker");
+  if (tracker) tracker.remove();
+}
+
 if (quickCards) {
   quickCards.innerHTML = `
     <a class="quick-card" href="#today"><span>🧭</span><strong>Today</strong><small>Daily plan location weather dinner and notes</small></a>
     <a class="quick-card" href="${PHOTO_BOX_URL}" target="_blank" rel="noreferrer"><span>📸</span><strong>Photo Box</strong><small>Upload trip photos and videos to Google Drive</small></a>
     <a class="quick-card" href="family.html"><span>🌅</span><strong>Family Snapshot</strong><small>Read-only update page for friends and family</small></a>
-    <a class="quick-card" href="#tracker"><span>📍</span><strong>AIS Tracker</strong><small>MarineTraffic MMSI 368392220</small></a>
-    <a class="quick-card" href="#route"><span>🗺️</span><strong>Route</strong><small>Planned legs ports and navigation overview</small></a>
+    <a class="quick-card" href="#route"><span>🗺️</span><strong>Route</strong><small>Planned stops and daily schedule</small></a>
     <a class="quick-card" href="#checklists"><span>✅</span><strong>Checklists</strong><small>Morning underway anchoring evening dinghy snorkel</small></a>
     <a class="quick-card" href="#captain"><span>🎙️</span><strong>Captain Update</strong><small>Generate an AI captain MP3</small></a>
   `;
@@ -31,7 +40,6 @@ if (navLinks) {
     <a href="#today">Today</a>
     <a href="${PHOTO_BOX_URL}" target="_blank" rel="noreferrer">Photo Box</a>
     <a href="family.html">Family Snapshot</a>
-    <a href="#tracker">AIS Tracker</a>
     <a href="#route">Route</a>
     <a href="#checklists">Checklists</a>
     <a href="#captain">Captain Update</a>
@@ -52,7 +60,7 @@ if (navToggle && navLinks) {
 }
 
 function escapeHtml(value) {
-  return String(value)
+  return String(value || "")
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
@@ -82,7 +90,7 @@ function formToData(form) {
 
 async function loadJsonFile(path, fallback = null) {
   try {
-    const response = await fetch(path, { cache: "no-store" });
+    const response = await fetch(`${path}?cacheBust=${Date.now()}`, { cache: "no-store" });
     if (!response.ok) throw new Error(`${path} not found`);
     return await response.json();
   } catch (error) {
@@ -153,7 +161,7 @@ function addFamilySharePanel() {
   section.innerHTML = `
     <div class="section-heading">
       <p class="eyebrow">Share with family</p>
-      <h2>Family tracking page</h2>
+      <h2>Family snapshot page</h2>
       <p>Send this link to anyone who wants the public trip snapshot without editing anything.</p>
     </div>
     <div class="copy-row">
@@ -185,7 +193,7 @@ function addDashboardMap(data) {
 
   const lat = typeof data?.latitude === "number" ? data.latitude : 13.16;
   const lon = typeof data?.longitude === "number" ? data.longitude : -61.2248;
-  const zoom = data?.mapZoom || 8;
+  const zoom = data?.mapZoom || 11;
   const delta = zoom >= 11 ? 0.08 : 0.35;
   const mapUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${lon - delta}%2C${lat - delta}%2C${lon + delta}%2C${lat + delta}&layer=mapnik&marker=${lat}%2C${lon}`;
 
@@ -194,20 +202,18 @@ function addDashboardMap(data) {
   section.id = "live-map";
   section.innerHTML = `
     <div class="section-heading">
-      <p class="eyebrow">Live trip snapshot</p>
+      <p class="eyebrow">Trip map</p>
       <h2>Map and current status</h2>
-      <p>${escapeHtml(data?.lastUpdated || "Manual pre-trip placeholder until GPS automation is connected.")}</p>
+      <p>${escapeHtml(data?.lastUpdated || "Manual crew updates will appear here after publishing.")}</p>
     </div>
     <div class="tracker-layout">
       <article class="tracker-card">
         <h3>${escapeHtml(data?.locationName || "St. Vincent and the Grenadines")}</h3>
-        <p><strong>Vessel:</strong> ${escapeHtml(data?.ais?.vesselName || "Inconceivable")}</p>
-        <p><strong>MMSI:</strong> ${escapeHtml(data?.ais?.mmsi || "368392220")}</p>
-        <p><strong>Weather:</strong> ${escapeHtml(data?.weather || "Waiting on live weather connection.")}</p>
+        <p><strong>Weather:</strong> ${escapeHtml(data?.weather || "Waiting on the daily crew update.")}</p>
         <p><strong>Tonight:</strong> ${escapeHtml(data?.tonight || "Not set yet")}</p>
         <p><strong>Tomorrow:</strong> ${escapeHtml(data?.tomorrow || "Not set yet")}</p>
         <p><strong>Dinner:</strong> ${escapeHtml(data?.dinner || "Not set yet")}</p>
-        <p class="tracker-note"><strong>Automation note:</strong> GPS/captain updates will feed this page. AIS is optional and depends on available coverage.</p>
+        <p class="tracker-note"><strong>Status:</strong> Manual crew updates are active for this trip. The family page uses the latest published daily update.</p>
       </article>
       <div class="tracker-card map-card">
         <iframe title="Inconceivable current map" src="${mapUrl}" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
@@ -361,7 +367,7 @@ function renderChecklists() {
 renderChecklists();
 
 Promise.all([
-  loadJsonFile("trip-data.json", null),
+  loadJsonFile("manual-status.json", null),
   loadJsonFile("itinerary.json", [])
 ]).then(([shared, itinerary]) => {
   const itineraryEntry = getItineraryEntry(itinerary, shared);
@@ -376,6 +382,7 @@ Promise.all([
   }
 
   addDashboardMap(shared);
+  hideAisTrackerSections();
 });
 
 if (todayForm) {
@@ -424,6 +431,7 @@ if (copyBroadcast && broadcastOutput) {
   });
 }
 addAiVoiceButton();
+hideAisTrackerSections();
 
 function flashButton(button, text) {
   if (!button) return;
