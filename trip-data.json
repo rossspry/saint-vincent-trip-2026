@@ -5,8 +5,9 @@
   "latitude": 12.635817,
   "longitude": -61.361667,
   "mapZoom": 13,
-  "weather": "27.2°C, wind 31.1 km/h from 89°",
+  "weather": "27.6°C, wind 32.7 km/h from 94°",
   "tonight": "Tobago Cays — enjoying the protected water reef scenery and a night in paradise.",
+  "tomorrow": "Union Island / Frigate Island",
   "meals": {
     "breakfast": {
       "choice": "Regular breakfast onboard",
@@ -23,26 +24,27 @@
   },
   "dinner": "Dinner onboard",
   "activities": "Tobago Cays anchorage time snorkeling turtle watching dinghy exploring beach time and enjoying paradise.",
-  "captainMessage": "We are in Tobago Cays. AIS is not updating right now so this is a manual position update from the crew.",
-  "note": "Manual crew position update entered from 12°38.149N 061°21.700W. AIS should still take priority when it reports again.",
-  "lastUpdated": "2026-06-06 12:08:07 UTC",
+  "captainMessage": "We are in Tobago Cays and enjoying a beautiful day in paradise. We are sending love back home and will keep posting updates and photos.",
+  "funnyNote": "Crew morale is high. The captain has declared Tobago Cays officially ridiculous.",
+  "locationNote": "Manual crew update active for this trip.",
+  "note": "Updated from the crew dashboard. Manual daily family updates are active for this trip.",
+  "lastUpdated": "2026-06-06 14:18:46 UTC",
   "automationStatus": "No AIS position received for MMSI 368392220 within 120 seconds. Using manual-status.json because no real AIS position exists.",
   "ais": {
     "mmsi": "368392220",
     "vesselName": "Inconceivable",
     "source": "AIS unavailable; manual fallback active"
   },
-  "route": "Blue Lagoon to Bequia, then settle into the anchorage or mooring field.",
-  "tomorrow": "Mustique or Canouan, weather permitting",
+  "route": "Stay in the Tobago Cays area overnight, enjoying the protected reef water and keeping the day simple.",
   "itinerary": {
-    "date": "2026-06-05",
-    "dayLabel": "Day 2",
-    "plannedLocation": "Bequia",
-    "plannedOvernight": "Bequia",
-    "nextDestination": "Mustique or Canouan, weather permitting",
-    "route": "Blue Lagoon to Bequia, then settle into the anchorage or mooring field.",
-    "plannedActivity": "First proper island stop, swim check, shore walk, possible dinner ashore, and crew shakedown day.",
-    "captainNote": "Keep the first sailing day simple and comfortable."
+    "date": "2026-06-06",
+    "dayLabel": "Day 3",
+    "plannedLocation": "Tobago Cays",
+    "plannedOvernight": "Tobago Cays",
+    "nextDestination": "Union Island / Frigate Island",
+    "route": "Stay in the Tobago Cays area overnight, enjoying the protected reef water and keeping the day simple.",
+    "plannedActivity": "Snorkeling, turtle watching, beach time, dinghy exploring, and a relaxed night in Tobago Cays.",
+    "captainNote": "Tobago Cays overnight. Respect park and reef rules. Keep the boat secure and simple."
   },
   "weatherSource": "Open-Meteo forecast API"
 }
