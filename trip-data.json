@@ -5,7 +5,7 @@
   "latitude": 12.635817,
   "longitude": -61.361667,
   "mapZoom": 13,
-  "weather": "27.8°C, wind 35.4 km/h from 85°",
+  "weather": "27.9°C, wind 39.3 km/h from 92°",
   "tonight": "Tobago Cays — enjoying the protected water reef scenery and a night in paradise.",
   "tomorrow": "Union Island / Frigate Island",
   "meals": {
@@ -28,23 +28,23 @@
   "funnyNote": "Crew morale is high. The captain has declared Tobago Cays officially ridiculous.",
   "locationNote": "Manual crew update active for this trip.",
   "note": "Updated from the crew dashboard. Manual daily family updates are active for this trip.",
-  "lastUpdated": "2026-06-06 23:07:50 UTC",
+  "lastUpdated": "2026-06-07 01:39:14 UTC",
   "automationStatus": "No AIS position received for MMSI 368392220 within 120 seconds. Using manual-status.json because no real AIS position exists.",
   "ais": {
     "mmsi": "368392220",
     "vesselName": "Inconceivable",
     "source": "AIS unavailable; manual fallback active"
   },
-  "route": "Stay in the Tobago Cays area overnight, enjoying the protected reef water and keeping the day simple.",
+  "route": "Move from Tobago Cays toward Union Island and the Frigate Island area, weather and comfort permitting.",
   "itinerary": {
-    "date": "2026-06-06",
-    "dayLabel": "Day 3",
-    "plannedLocation": "Tobago Cays",
-    "plannedOvernight": "Tobago Cays",
-    "nextDestination": "Union Island / Frigate Island",
-    "route": "Stay in the Tobago Cays area overnight, enjoying the protected reef water and keeping the day simple.",
-    "plannedActivity": "Snorkeling, turtle watching, beach time, dinghy exploring, and a relaxed night in Tobago Cays.",
-    "captainNote": "Tobago Cays overnight. Respect park and reef rules. Keep the boat secure and simple."
+    "date": "2026-06-07",
+    "dayLabel": "Day 4",
+    "plannedLocation": "Union Island / Frigate Island",
+    "plannedOvernight": "Union Island / Frigate Island area",
+    "nextDestination": "Petit St. Vincent",
+    "route": "Move from Tobago Cays toward Union Island and the Frigate Island area, weather and comfort permitting.",
+    "plannedActivity": "Short-hop sailing day, possible Happy Island stop, shore exploring, beach time, and anchorage setup.",
+    "captainNote": "Keep the move short and comfortable. Watch reefs, traffic, and anchorage room."
   },
   "weatherSource": "Open-Meteo forecast API"
 }
