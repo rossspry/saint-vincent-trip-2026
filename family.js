@@ -3,7 +3,7 @@ const PHOTO_BOX_URL = "https://drive.google.com/drive/folders/1KYD_44wOEdmn48rLz
 const PHOTO_FEED_URL = "https://script.google.com/macros/s/AKfycbycwTwnSd6OvhD97xqdfj3-E1BWxRgGRYXWor_AmfKPGVxkqds0tSBZ496i51tzk3K59g/exec";
 const STATUS_WORKER_ENDPOINT = "https://inconceivable-status-update.rossspry.workers.dev/";
 const STATUS_SECRET_KEY = "svgTripStatusSecretV1";
-const MAX_LATEST_PHOTOS = 10;
+const MAX_LATEST_PHOTOS = 60;
 let currentTripData = null;
 
 async function fetchJsonNoStore(path) {
@@ -28,7 +28,7 @@ function mergeManualStatus(tripData, manualStatus) {
   return {
     ...(tripData || {}),
     ...manualStatus,
-    automationStatus: manualStatus.automationStatus || "Manual daily crew update active. AIS is not updating for this trip.",
+    automationStatus: manualStatus.automationStatus || "Manual daily crew update active for this trip.",
     lastUpdated: manualStatus.lastUpdated || manualStatus.updatedAt || new Date().toISOString()
   };
 }
