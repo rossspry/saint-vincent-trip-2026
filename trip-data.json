@@ -1,21 +1,21 @@
 {
   "status": "manual fallback",
-  "date": "2026-06-06",
-  "locationName": "Frigate Island / Union Island",
+  "date": "2026-06-07",
+  "locationName": "Underway from Frigate Island to Mayreau",
   "latitude": 12.582233,
   "longitude": -61.439283,
   "mapZoom": 13,
-  "weather": "27.1°C, wind 23.7 km/h from 80°",
-  "tonight": "Frigate Island / Union Island area — provisioning stop and island time.",
-  "tomorrow": "Mayreau",
+  "weather": "27.0°C, wind 30.0 km/h from 85°",
+  "tonight": "Mayreau — a beautiful small Grenadine island known for quiet anchorages, clear water, beach walks, and big views over the Tobago Cays.",
+  "tomorrow": "Canouan",
   "meals": {
     "breakfast": {
-      "choice": "Regular breakfast onboard",
-      "custom": "Breakfast onboard"
+      "choice": "Custom",
+      "custom": "Omelets onboard"
     },
     "lunch": {
-      "choice": "Custom",
-      "custom": "Lunch on an island somewhere"
+      "choice": "Lunch onboard",
+      "custom": ""
     },
     "dinner": {
       "choice": "Dinner onboard",
@@ -23,28 +23,28 @@
     }
   },
   "dinner": "Dinner onboard",
-  "activities": "Kite surfing fishing and getting provisions around Frigate Island / Union Island.",
-  "captainMessage": "We have moved from Tobago Cays to the Frigate Island / Union Island area. Today we are planning kite surfing fishing and a provisioning run. Breakfast is onboard lunch will be on an island somewhere and tomorrow we plan to head toward Mayreau.",
-  "funnyNote": "Crew morale remains high. The official plan is adventure snacks provisions and not losing anyone during the kite surfing department.",
+  "activities": "Leaving Frigate Island and sailing to beautiful Mayreau. We will enjoy the passage, the views, the water, and a relaxed arrival into one of the prettiest little islands in the Grenadines.",
+  "captainMessage": "Today we are leaving Frigate Island and heading to beautiful Mayreau. Mayreau is one of the smallest inhabited islands in the Grenadines, with quiet charm, clear Caribbean water, peaceful anchorages, and views that remind you how lucky we are to be here. Breakfast is omelets onboard, and then we will enjoy the sail and settle into island time.",
+  "funnyNote": "Crew morale is high. The captain has authorized omelets, island hopping, and another professionally managed day of doing almost nothing in paradise.",
   "locationNote": "Manual crew update active for this trip.",
-  "note": "Updated manually from the crew position 12°34.934N 061°26.357W. Manual daily family updates are active for this trip.",
-  "lastUpdated": "2026-06-09 07:54:09 UTC",
+  "note": "Updated from the crew dashboard. Manual daily family updates are active for this trip.",
+  "lastUpdated": "2026-06-09 11:20:05 UTC",
   "automationStatus": "No AIS position received for MMSI 368392220 within 120 seconds. Using manual-status.json because no real AIS position exists.",
   "ais": {
     "mmsi": "368392220",
     "vesselName": "Inconceivable",
     "source": "AIS unavailable; manual fallback active"
   },
-  "route": "Stay in the Tobago Cays area overnight, enjoying the protected reef water and keeping the day simple.",
+  "route": "Move from Tobago Cays toward Union Island and the Frigate Island area, weather and comfort permitting.",
   "itinerary": {
-    "date": "2026-06-06",
-    "dayLabel": "Day 3",
-    "plannedLocation": "Tobago Cays",
-    "plannedOvernight": "Tobago Cays",
-    "nextDestination": "Union Island / Frigate Island",
-    "route": "Stay in the Tobago Cays area overnight, enjoying the protected reef water and keeping the day simple.",
-    "plannedActivity": "Snorkeling, turtle watching, beach time, dinghy exploring, and a relaxed night in Tobago Cays.",
-    "captainNote": "Tobago Cays overnight. Respect park and reef rules. Keep the boat secure and simple."
+    "date": "2026-06-07",
+    "dayLabel": "Day 4",
+    "plannedLocation": "Union Island / Frigate Island",
+    "plannedOvernight": "Union Island / Frigate Island area",
+    "nextDestination": "Petit St. Vincent",
+    "route": "Move from Tobago Cays toward Union Island and the Frigate Island area, weather and comfort permitting.",
+    "plannedActivity": "Short-hop sailing day, possible Happy Island stop, shore exploring, beach time, and anchorage setup.",
+    "captainNote": "Keep the move short and comfortable. Watch reefs, traffic, and anchorage room."
   },
   "weatherSource": "Open-Meteo forecast API"
 }
