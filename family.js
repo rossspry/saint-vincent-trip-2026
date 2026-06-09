@@ -155,12 +155,20 @@ function mealText(meal) {
 
 function updateMap(data) {
   const iframe = document.getElementById("familyMap");
-  if (!iframe || !data || typeof data.latitude !== "number" || typeof data.longitude !== "number") return;
+  const mapWrap = document.getElementById("mapFrameWrap");
+  if (!data || typeof data.latitude !== "number" || typeof data.longitude !== "number") return;
   const lat = data.latitude;
   const lon = data.longitude;
-  const zoom = data.mapZoom || 11;
-  const delta = zoom >= 11 ? 0.08 : 0.35;
-  iframe.src = `https://www.openstreetmap.org/export/embed.html?bbox=${lon - delta}%2C${lat - delta}%2C${lon + delta}%2C${lat + delta}&layer=mapnik&marker=${lat}%2C${lon}`;
+  const zoom = data.mapZoom || 15;
+  const satelliteUrl = `https://www.google.com/maps?q=${lat},${lon}&z=${zoom}&t=k&output=embed`;
+  const fullMapUrl = `https://www.google.com/maps?q=${lat},${lon}&z=${zoom}&t=k`;
+  if (iframe) iframe.src = satelliteUrl;
+  if (mapWrap && !document.getElementById("openSatelliteMap")) {
+    mapWrap.insertAdjacentHTML("afterend", `<p><a id="openSatelliteMap" class="button secondary" href="${fullMapUrl}" target="_blank" rel="noreferrer">Open satellite map larger</a></p>`);
+  } else {
+    const link = document.getElementById("openSatelliteMap");
+    if (link) link.href = fullMapUrl;
+  }
 }
 
 function renderTripData(data) {
