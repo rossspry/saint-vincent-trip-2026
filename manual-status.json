@@ -18,15 +18,15 @@
       "custom": ""
     },
     "dinner": {
-      "choice": "Dinner onboard",
-      "custom": ""
+      "choice": "Custom",
+      "custom": "Some island somewhere"
     }
   },
-  "dinner": "Dinner onboard",
+  "dinner": "Some island somewhere",
   "activities": "Leaving Frigate Island and sailing to beautiful Mayreau. We will enjoy the passage, the views, the water, and a relaxed arrival into one of the prettiest little islands in the Grenadines.",
   "captainMessage": "Today we are leaving Frigate Island and heading to beautiful Mayreau. Mayreau is one of the smallest inhabited islands in the Grenadines, with quiet charm, clear Caribbean water, peaceful anchorages, and views that remind you how lucky we are to be here. Breakfast is omelets onboard, and then we will enjoy the sail and settle into island time.",
   "funnyNote": "Crew morale is high. The captain has authorized omelets, island hopping, and another professionally managed day of doing almost nothing in paradise.",
   "locationNote": "Manual crew update active for this trip.",
   "note": "Updated from the crew dashboard. Manual daily family updates are active for this trip.",
-  "lastUpdated": "2026-06-07T15:00:00.000Z"
+  "lastUpdated": "2026-06-07T15:20:00.000Z"
 }
