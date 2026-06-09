@@ -4,6 +4,43 @@ const PHOTO_FEED_URL = "https://script.google.com/macros/s/AKfycbycwTwnSd6OvhD97
 const STATUS_WORKER_ENDPOINT = "https://inconceivable-status-update.rossspry.workers.dev/";
 const STATUS_SECRET_KEY = "svgTripStatusSecretV1";
 const MAX_LATEST_PHOTOS = 60;
+const DESTINATIONS = [
+  {
+    name: "Tobago Cays",
+    dates: "June 6",
+    url: "https://www.google.com/search?tbm=isch&q=Tobago+Cays+Saint+Vincent+and+the+Grenadines"
+  },
+  {
+    name: "Union Island / Frigate Island",
+    dates: "June 7",
+    url: "https://www.google.com/search?tbm=isch&q=Union+Island+Frigate+Island+Saint+Vincent+and+the+Grenadines"
+  },
+  {
+    name: "Petit St. Vincent",
+    dates: "June 8",
+    url: "https://www.google.com/search?tbm=isch&q=Petit+St+Vincent+Grenadines"
+  },
+  {
+    name: "Canouan",
+    dates: "June 9–10",
+    url: "https://www.google.com/search?tbm=isch&q=Canouan+Saint+Vincent+and+the+Grenadines"
+  },
+  {
+    name: "Mayreau",
+    dates: "June 11–13 flexible",
+    url: "https://www.google.com/search?tbm=isch&q=Mayreau+Saint+Vincent+and+the+Grenadines"
+  },
+  {
+    name: "Bequia",
+    dates: "June 14",
+    url: "https://www.google.com/search?tbm=isch&q=Bequia+Saint+Vincent+and+the+Grenadines"
+  },
+  {
+    name: "Blue Lagoon, St. Vincent",
+    dates: "June 15",
+    url: "https://www.google.com/search?tbm=isch&q=Blue+Lagoon+St+Vincent+Marina"
+  }
+];
 let currentTripData = null;
 
 async function fetchJsonNoStore(path) {
@@ -211,6 +248,18 @@ function renderPhotos(feed) {
   }).join("");
 }
 
+function renderDestinations() {
+  const grid = document.getElementById("destinationGrid");
+  if (!grid) return;
+  grid.innerHTML = DESTINATIONS.map((destination) => `
+    <a class="destination-card" href="${escapeHtml(destination.url)}" target="_blank" rel="noreferrer">
+      <span>${escapeHtml(destination.dates)}</span>
+      <strong>${escapeHtml(destination.name)}</strong>
+      <small>See photos and learn about this stop →</small>
+    </a>
+  `).join("");
+}
+
 const messageForm = document.getElementById("familyMessageForm");
 if (messageForm) {
   messageForm.addEventListener("submit", (event) => {
@@ -224,5 +273,6 @@ if (messageForm) {
   });
 }
 
+renderDestinations();
 loadTripData().then(renderTripData);
 loadPhotoFeed().then(renderPhotos);
