@@ -1,17 +1,17 @@
 {
   "status": "manual fallback",
-  "date": "2026-06-07",
+  "date": "2026-06-08",
   "locationName": "Mayreau",
   "latitude": 12.647367,
   "longitude": -61.390767,
   "mapZoom": 13,
-  "weather": "Beautiful breezy Grenadines day. Check the latest marine forecast before moving.",
-  "tonight": "Mayreau — one of the smallest and most charming islands in the Grenadines, with clear water, quiet anchorages, and postcard views across the Tobago Cays.",
+  "weather": "Another beautiful Grenadines day in literal paradise. Check the latest marine forecast before moving.",
+  "tonight": "Mayreau — a tiny island paradise with clear water, peaceful anchorages, beach walks, and wide-open views across the Tobago Cays.",
   "tomorrow": "Canouan",
   "meals": {
     "breakfast": {
       "choice": "Custom",
-      "custom": "Omelets onboard"
+      "custom": "Breakfast onboard"
     },
     "lunch": {
       "choice": "Lunch onboard",
@@ -23,10 +23,10 @@
     }
   },
   "dinner": "Some island somewhere",
-  "activities": "We have arrived in beautiful Mayreau. The plan is to enjoy the anchorage, take in the island views, swim, relax, and settle into quiet Grenadines island time.",
-  "captainMessage": "We have arrived at our destination in beautiful Mayreau. Mayreau is a tiny Grenadine island with huge Caribbean charm: bright blue water, peaceful anchorages, beach walks, and views that look like they were made for postcards. We are settled in and soaking up another ridiculous day in paradise.",
-  "funnyNote": "Crew morale is high. Mayreau is small, the views are enormous, and the captain is considering listing staring at the water as an official scheduled activity.",
-  "locationNote": "Manual crew update active for this trip. Current crew position entered as 12°38.842N 061°23.446W.",
+  "activities": "Second day at Mayreau: snorkeling, fishing, catching grouper, relaxing in the anchorage, and enjoying one of the prettiest places in the Grenadines.",
+  "captainMessage": "We are on our second day in Mayreau, and it is a literal paradise. Crew morale is mixed, but the adults are absolutely loving life. The captain is fully in his element: catching grouper, snorkeling, enjoying the water, and soaking up everything Mayreau has to offer.",
+  "funnyNote": "Adult morale is excellent. Youth reviews are mixed. Captain Ross is in full island mode and may need to be lured back aboard with snacks.",
+  "locationNote": "Manual crew update active for this trip. Current Mayreau position remains 12°38.842N 061°23.446W.",
   "note": "Updated from the crew dashboard. Manual daily family updates are active for this trip.",
-  "lastUpdated": "2026-06-07T18:20:00.000Z"
+  "lastUpdated": "2026-06-08T14:00:00.000Z"
 }
