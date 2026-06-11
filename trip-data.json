@@ -5,7 +5,7 @@
   "latitude": 12.647367,
   "longitude": -61.390767,
   "mapZoom": 13,
-  "weather": "26.7°C, wind 31.6 km/h from 95°",
+  "weather": "25.9°C, wind 31.8 km/h from 116°",
   "tonight": "Mayreau — a tiny island paradise with clear water, peaceful anchorages, beach walks, and wide-open views across the Tobago Cays.",
   "tomorrow": "Canouan",
   "meals": {
@@ -28,7 +28,7 @@
   "funnyNote": "Adult morale is excellent. Youth reviews are mixed. Captain Ross is in full island mode and may need to be lured back aboard with snacks.",
   "locationNote": "Manual crew update active for this trip. Current Mayreau position remains 12°38.842N 061°23.446W.",
   "note": "Updated from the crew dashboard. Manual daily family updates are active for this trip.",
-  "lastUpdated": "2026-06-11 04:43:26 UTC",
+  "lastUpdated": "2026-06-11 09:14:48 UTC",
   "automationStatus": "No AIS position received for MMSI 368392220 within 120 seconds. Using manual-status.json because no real AIS position exists.",
   "ais": {
     "mmsi": "368392220",
