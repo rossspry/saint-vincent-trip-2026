@@ -2,9 +2,9 @@
   "status": "manual fallback",
   "date": "2026-06-12",
   "locationName": "Canouan",
-  "latitude": 12.7056,
-  "longitude": -61.3294,
-  "mapZoom": 13,
+  "latitude": 12.70865,
+  "longitude": -61.3271167,
+  "mapZoom": 15,
   "weather": "Beautiful Grenadines island weather. The crew is settled in Canouan and ready for exploring, fishing, snorkeling, and dinner ashore.",
   "tonight": "Canouan — home of our favorite restaurant, Scruffy's, and the newest stop for the Inconceivable crew.",
   "tomorrow": "A fun-filled Canouan day of fishing, exploring, and snorkeling.",
@@ -26,7 +26,7 @@
   "activities": "Today the plan is to rent side-by-sides and explore Canouan, then come back to the boat for showers and get dressed for dinner at Scruffy's. Tomorrow brings a full Canouan day of fishing, exploring, and snorkeling.",
   "captainMessage": "We have arrived in Canouan, home of our favorite restaurant, Scruffy's. Morale is high, everyone is having a blast, and the captain is threatening to never leave.",
   "funnyNote": "Crew morale is high. Everyone is having a blast. The captain is officially threatening to never leave Canouan.",
-  "locationNote": "Manual crew update active for this trip. Current stop: Canouan, Saint Vincent and the Grenadines.",
+  "locationNote": "Manual crew update active for this trip. Current position: 12°42.519′N, 061°19.627′W off Canouan.",
   "note": "Updated from the crew dashboard. Manual daily family updates are active for this trip.",
-  "lastUpdated": "2026-06-12T12:00:00.000Z"
+  "lastUpdated": "2026-06-12T12:15:00.000Z"
 }
