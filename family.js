@@ -21,14 +21,14 @@ const DESTINATIONS = [
     url: "https://www.google.com/search?tbm=isch&q=Petit+St+Vincent+Grenadines"
   },
   {
-    name: "Canouan",
-    dates: "June 9–10",
-    url: "https://www.google.com/search?tbm=isch&q=Canouan+Saint+Vincent+and+the+Grenadines"
+    name: "Mayreau",
+    dates: "June 10–12",
+    url: "https://www.google.com/search?tbm=isch&q=Mayreau+Saint+Vincent+and+the+Grenadines"
   },
   {
-    name: "Mayreau",
-    dates: "June 11–13 flexible",
-    url: "https://www.google.com/search?tbm=isch&q=Mayreau+Saint+Vincent+and+the+Grenadines"
+    name: "Canouan",
+    dates: "June 12–13",
+    url: "https://www.google.com/search?tbm=isch&q=Canouan+Saint+Vincent+and+the+Grenadines"
   },
   {
     name: "Bequia",
