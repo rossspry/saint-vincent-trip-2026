@@ -5,7 +5,7 @@
   "latitude": 12.70865,
   "longitude": -61.3271167,
   "mapZoom": 15,
-  "weather": "26.9°C, wind 28.8 km/h from 77°",
+  "weather": "27.0°C, wind 27.2 km/h from 81°",
   "tonight": "Canouan — home of our favorite restaurant, Scruffy's, and the newest stop for the Inconceivable crew.",
   "tomorrow": "A fun-filled Canouan day of fishing, exploring, and snorkeling.",
   "meals": {
@@ -28,7 +28,7 @@
   "funnyNote": "Crew morale is high. Everyone is having a blast. The captain is officially threatening to never leave Canouan.",
   "locationNote": "Manual crew update active for this trip. Current position: 12°42.519′N, 061°19.627′W off Canouan.",
   "note": "Updated from the crew dashboard. Manual daily family updates are active for this trip.",
-  "lastUpdated": "2026-06-27 22:06:33 UTC",
+  "lastUpdated": "2026-06-27 23:36:19 UTC",
   "automationStatus": "No AIS position received for MMSI 368392220 within 120 seconds. Using manual-status.json because no real AIS position exists.",
   "ais": {
     "mmsi": "368392220",
